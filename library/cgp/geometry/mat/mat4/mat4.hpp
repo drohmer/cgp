@@ -67,6 +67,11 @@ namespace cgp
 
         // Build the identity matrix
         static mat4 build_identity();
+        // Build a zero matrix (similar to default constructor)
+        static mat4 build_zero();
+
+        // Build a matrix filled with a single value
+        static mat4 build_constant(float value);
 
         // Build a diagonal matrix from a constant value or 4 floats
         static mat4 build_diagonal(float value);

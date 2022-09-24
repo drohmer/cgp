@@ -125,11 +125,25 @@ namespace cgp
 
 	affine_rts operator*(float s, affine_rt const& T)
 	{
-		return affine_rts(T.rotation, T.translation, s);
+		return affine_rts(T.rotation, s*T.translation, s);
 	}
 	affine_rts operator*(affine_rt const& T, float s)
 	{
-		return affine_rts(T.rotation, T.translation, s);
+		return affine_rts(T.rotation, s*T.translation, s);
+	}
+
+
+	affine_rts operator*(affine_rts const& T1, affine_rt const& T2)
+	{
+		/** (s1 R1 | t1) ( R2 | t2) = (s1 R1 R2 | s1 R1 t2 + t1)
+		*   (  0   | 1 ) (  0 | 1 )   (     0   |     1        ) */
+		return affine_rts(T1.rotation*T2.rotation, T1.scaling * T1.rotation * T2.translation + T1.translation, T1.scaling);
+	}
+	affine_rts operator*(affine_rt const& T1, affine_rts const& T2)
+	{
+		/** (  R1 | t1) ( s2 R2 | t2) = (s2 R1 R2 | R1 t2 + t1)
+		*   (  0  | 1 ) (    0  | 1 )   (     0   |    1      ) */
+		return affine_rts(T1.rotation * T2.rotation, T1.rotation * T2.translation + T1.translation, T2.scaling);
 	}
 
 }

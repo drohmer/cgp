@@ -68,6 +68,8 @@ namespace cgp
 
         // Build the identity matrix
         static mat3 build_identity();
+        // Build a zero matrix (similar to default constructor)
+        static mat3 build_zero();
 
         // Build a matrix filled with a single value
         static mat3 build_constant(float value);

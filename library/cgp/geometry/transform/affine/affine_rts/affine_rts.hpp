@@ -6,6 +6,8 @@ namespace cgp
 {
 	struct affine_rt;
 
+	// ( scaling * rotation | translation )
+	// (         0          |      1      )
 	struct affine_rts
 	{
 		rotation_transform rotation;
@@ -41,6 +43,9 @@ namespace cgp
 
 	affine_rts operator*(float s, affine_rt const& T);
 	affine_rts operator*(affine_rt const& T, float s);
+
+	affine_rts operator*(affine_rts const& T1, affine_rt const& T2);
+	affine_rts operator*(affine_rt const& T1, affine_rts const& T2);
 
 
 	affine_rts inverse(affine_rts const& T);

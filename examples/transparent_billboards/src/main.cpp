@@ -115,9 +115,11 @@ void initialize_default_shaders()
 
 	// Set standard mesh shader for mesh_drawable
 	mesh_drawable::default_shader.load("shaders/mesh/vert.glsl", "shaders/mesh/frag.glsl");
+	triangles_drawable::default_shader.load("shaders/mesh/vert.glsl", "shaders/mesh/frag.glsl");
 	// Set default white texture
 	image_structure const white_image = image_structure{ 1,1,image_color_type::rgba,{255,255,255,255} };
 	mesh_drawable::default_texture.initialize_texture_2d_on_gpu(white_image);
+	triangles_drawable::default_texture.initialize_texture_2d_on_gpu(white_image);
 
 	// Set standard uniform color for curve/segment_drawable
 	curve_drawable::default_shader.load("shaders/single_color/vert.glsl", "shaders/single_color/frag.glsl");

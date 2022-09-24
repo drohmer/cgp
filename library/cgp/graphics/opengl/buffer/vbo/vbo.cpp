@@ -47,20 +47,38 @@ namespace cgp
 		details.type_element = GL_FLOAT;
 	}
 
-	void opengl_vbo_structure::update(numarray<vec2> const& data)
+	void opengl_vbo_structure::update(numarray<vec2> const& data, int size_elements_update)
 	{
+		assert_cgp(size_elements_update <= data.size(), "Cannot update VBO with more elements than data");
 		glBindBuffer(GL_ARRAY_BUFFER, id); opengl_check;
-		glBufferSubData(GL_ARRAY_BUFFER, 0, size_in_memory(data), ptr(data));  opengl_check;
+		if (size_elements_update == -1) {
+			glBufferSubData(GL_ARRAY_BUFFER, 0, size_in_memory(data), ptr(data));  opengl_check;
+		}
+		else {
+			glBufferSubData(GL_ARRAY_BUFFER, 0, 2 * sizeof(float) * size_elements_update, ptr(data));  opengl_check;
+		}
 	}
-	void opengl_vbo_structure::update(numarray<vec3> const& data)
+	void opengl_vbo_structure::update(numarray<vec3> const& data, int size_elements_update)
 	{
+		assert_cgp(size_elements_update <= data.size(), "Cannot update VBO with more elements than data");
 		glBindBuffer(GL_ARRAY_BUFFER, id); opengl_check;
-		glBufferSubData(GL_ARRAY_BUFFER, 0, size_in_memory(data), ptr(data));  opengl_check;
+		if (size_elements_update == -1) {
+			glBufferSubData(GL_ARRAY_BUFFER, 0, size_in_memory(data), ptr(data));  opengl_check;
+		}
+		else {
+			glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * size_elements_update, ptr(data));  opengl_check;
+		}
 	}
-	void opengl_vbo_structure::update(numarray<vec4> const& data)
+	void opengl_vbo_structure::update(numarray<vec4> const& data, int size_elements_update)
 	{
+		assert_cgp(size_elements_update <= data.size(), "Cannot update VBO with more elements than data");
 		glBindBuffer(GL_ARRAY_BUFFER, id); opengl_check;
-		glBufferSubData(GL_ARRAY_BUFFER, 0, size_in_memory(data), ptr(data));  opengl_check;
+		if (size_elements_update == -1) {
+			glBufferSubData(GL_ARRAY_BUFFER, 0, size_in_memory(data), ptr(data));  opengl_check;
+		}
+		else {
+			glBufferSubData(GL_ARRAY_BUFFER, 0, 4 * sizeof(float) * size_elements_update, ptr(data));  opengl_check;
+		}
 	}
 
 

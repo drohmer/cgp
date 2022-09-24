@@ -24,6 +24,10 @@ namespace cgp {
 		vec3 corner_min() const;
 		vec3 corner_max() const;
 		vec3 voxel_length() const;
+
+		// Export segments for curve drawable
+		numarray<vec3> export_segments_for_drawable_border() const;
+		numarray<vec3> export_segments_for_drawable_voxel() const;
 	};
 
 }

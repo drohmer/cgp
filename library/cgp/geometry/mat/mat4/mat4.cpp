@@ -84,6 +84,23 @@ namespace cgp
             0.0f, 0.0f, 1.0f, 0.0f,
             0.0f, 0.0f, 0.0f, 1.0f};
     }
+    mat4 matrix_stack<float, 4, 4>::build_zero()
+    {
+        return matrix_stack<float, 4, 4>{
+            0.0f, 0.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 0.0f, 0.0f};
+    }
+
+    mat4 matrix_stack<float, 4, 4>::build_constant(float value)
+    {
+        return matrix_stack<float, 4, 4>{
+            value, value, value, value,
+            value, value, value, value,
+            value, value, value, value,
+            value, value, value, value};
+    }
 
     int matrix_stack<float, 4, 4>::size() const { return 16; }
     int2 matrix_stack<float, 4, 4>::dimension() const { return { 4,4 }; }

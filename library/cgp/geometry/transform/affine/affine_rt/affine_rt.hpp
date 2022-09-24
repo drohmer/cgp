@@ -6,7 +6,8 @@
 
 namespace cgp
 {
-
+	// ( rotation | translation )
+	// (    0     |      1      )
 	struct affine_rt
 	{
 		rotation_transform rotation;

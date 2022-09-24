@@ -99,6 +99,7 @@ namespace cgp
 
     
     mat3 mat3::build_identity() {return mat3(1,0,0, 0,1,0, 0,0,1); }
+    mat3 mat3::build_zero() { return mat3(0,0,0, 0,0,0, 0,0,0); }
     mat3 mat3::build_constant(float value) { return mat3(value,value,value, value,value,value, value,value,value); }
 
     
