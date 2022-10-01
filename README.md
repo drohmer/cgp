@@ -67,13 +67,13 @@ make -j$(nproc)
 
 ### Windows
 
-**_Method 1**._ Create a Visual Studio project using CMake
-* You may use the following batch script: __examples/00_empty_3D_scene/scripts/windows_cmake_visual.bat__
+**Method 1**. Create a Visual Studio project using CMake
+* You may use the following batch script: examples/00_empty_3D_scene/scripts/__windows_cmake_visual.bat__
 
 _Once opened by Visual Studio, the project should be configured to compile and be executed directly without further setup. Make sure your Windows version is updated for Visual Studio to be able to compile correctly C++14._
 
-**_Method 2**._ Install MinGW from [https://www.msys2.org/](MSYS2). 
-* You may use the following batch script: __examples/00_empty_3D_scene/scripts/windows_compile_mingw.bat__
+**Method 2**._ Install MinGW from [MSYS2](https://www.msys2.org/). 
+* You may use the following batch script: examples/00_empty_3D_scene/scripts/__windows_compile_mingw.bat__
 * You may build/edit the project using VS Code.
 
 
@@ -100,7 +100,7 @@ A detailed tutorial on how to install and compile C++ code is available here if 
 
 ## Export result as a Website
 
-CGP is set to be compatible with [https://emscripten.org/](Emscripten) compilation. A website template and compilation script is provided for Linux system (emscripten must be installed).
+CGP is set to be compatible with [Emscripten](https://emscripten.org/) compilation. A website template and compilation script is provided for Linux system (emscripten must be installed).
 
 Generating a website for examples/00_empty_3D_scene/
 ```c++
