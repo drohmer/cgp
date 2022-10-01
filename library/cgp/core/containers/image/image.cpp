@@ -8,7 +8,7 @@
 
 #include "cgp/graphics/opengl/opengl.hpp"
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__EMSCRIPTEN__)
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 

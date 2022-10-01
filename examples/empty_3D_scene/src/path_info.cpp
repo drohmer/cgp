@@ -42,7 +42,7 @@ void split_executable_path(std::string const& executable_path, std::string& exec
 #if defined(_WIN32)
 	character_dir_split = '\\';
 #endif
-	std::cout << executable_path << std::endl;
+
 	// look for the last '/'
 	size_t pos_last_slash = executable_path.find_last_of(character_dir_split);
 	if (pos_last_slash < executable_path.size()) {

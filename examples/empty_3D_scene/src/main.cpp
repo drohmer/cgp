@@ -52,7 +52,6 @@ int main(int, char* argv[])
 
 	// Custom scene initialization
 	std::cout << "Initialize data of the scene ..." << std::endl;
-	std::cout << "Path to shader: " << path_info::shaders << std::endl;
 	scene.initialize();
 	std::cout << "Initialization finished\n" << std::endl;
 

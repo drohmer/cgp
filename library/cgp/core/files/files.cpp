@@ -6,7 +6,7 @@
 #include <iostream>
 #include <sys/stat.h>
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__EMSCRIPTEN__)
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 

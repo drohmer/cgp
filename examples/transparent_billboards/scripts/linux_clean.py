@@ -17,6 +17,4 @@ run_cmd('rm -rf build2/')
 
 run_cmd('rm -rf index.*')
 
-if os.path.isfile(basedir+'/../pgm'):
-    run_cmd('make clean')
-    run_cmd('rm -rf pgm')
+run_cmd('make clean')
