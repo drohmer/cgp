@@ -34,10 +34,12 @@ namespace cgp
             return "GL_INVALID_FRAMEBUFFER_OPERATION";
         case GL_OUT_OF_MEMORY:
             return "GL_OUT_OF_MEMORY";
+    #ifndef __EMSCRIPTEN__
         case GL_STACK_UNDERFLOW:
             return "GL_STACK_UNDERFLOW";
         case GL_STACK_OVERFLOW:
             return "GL_STACK_OVERFLOW";
+    #endif
         default:
             return "UNKNOWN";
         }

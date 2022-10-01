@@ -8,6 +8,10 @@
 
 #include "cgp/graphics/opengl/opengl.hpp"
 
+#ifdef __linux__
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
+
 namespace cgp
 {
     static int size_of_component(image_color_type const& type)

@@ -1,9 +1,10 @@
 #include "string.hpp"
+#include <algorithm>
 
 namespace cgp
 {
 
-std::string zero_fill(const std::string& input, size_t number_of_zero)
+std::string str_zero_fill(const std::string& input, size_t number_of_zero)
 {
     std::string new_string = "";
     const size_t N = input.size();
@@ -39,6 +40,23 @@ bool is_equal(char const* a, std::string const& b)
 std::string type_str(std::string const& )
 {
     return "string";
+}
+
+std::string str_lower(std::string const& s)
+{
+    std::string data = s;
+    std::transform(data.begin(), data.end(), data.begin(),
+        [](unsigned char c) { return std::tolower(c); });
+
+    return data;
+}
+std::string str_upper(std::string const& s)
+{
+    std::string data = s;
+    std::transform(data.begin(), data.end(), data.begin(),
+        [](unsigned char c) { return std::toupper(c); });
+
+    return data;
 }
 
 }

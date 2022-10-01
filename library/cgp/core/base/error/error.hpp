@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cgp/cgp_debug.hpp"
+#include "cgp/cgp_parameters.hpp"
 #include <string>
 #include <map>
 

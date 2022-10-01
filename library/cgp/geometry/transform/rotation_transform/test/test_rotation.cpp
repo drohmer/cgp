@@ -6,6 +6,10 @@
 #include <iostream>
 using namespace cgp;
 
+#if defined(__linux__) || defined(__EMSCRIPTEN__)
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
+
 namespace cgp_test
 {
 	void test_rotation()

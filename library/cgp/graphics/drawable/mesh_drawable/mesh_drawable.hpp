@@ -48,7 +48,7 @@ namespace cgp
 		std::map<std::string, opengl_texture_image_structure> supplementary_texture; // optional supplementary texture (can be used for multi-texturing)
 	};
 
-	void draw(mesh_drawable const& drawable, environment_generic_structure const& environment = environment_generic_structure(), uniform_generic_structure const& additional_uniforms = uniform_generic_structure());
+	void draw(mesh_drawable const& drawable, environment_generic_structure const& environment = environment_generic_structure(), uniform_generic_structure const& additional_uniforms = uniform_generic_structure(), GLenum draw_mode=GL_TRIANGLES);
 
 	void draw_wireframe(mesh_drawable const& drawable, environment_generic_structure const& environment = environment_generic_structure(), vec3 const& color = {0,0,1}, uniform_generic_structure const& additional_uniforms = uniform_generic_structure());
 

@@ -2,6 +2,10 @@
 
 #include "cgp/core/base/base.hpp"
 
+#if defined(__linux__) || defined(__EMSCRIPTEN__)
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
+
 namespace cgp
 {
 	opengl_shader_structure triangles_drawable::default_shader;
@@ -199,6 +203,7 @@ namespace cgp
 
 	void draw_wireframe(triangles_drawable const& drawable, environment_generic_structure const& environment, vec3 const& color, uniform_generic_structure const& additional_uniforms)
 	{
+		#ifndef __EMSCRIPTEN__
 		triangles_drawable wireframe = drawable;
 		wireframe.material.phong = { 1.0f,0.0f,0.0f,64.0f };
 		wireframe.material.color = color;
@@ -209,6 +214,7 @@ namespace cgp
 		draw(wireframe, environment, additional_uniforms);
 		glDisable(GL_POLYGON_OFFSET_LINE); opengl_check;
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		#endif
 	}
 
 

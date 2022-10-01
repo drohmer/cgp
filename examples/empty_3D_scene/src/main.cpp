@@ -1,10 +1,15 @@
 
 
 #include "cgp/cgp.hpp" // Give access to the complete CGP library
+#include "path_info.hpp"  // Additional info on the system to help setup a scene
 #include <iostream> 
+
+
 
 // Custom scene of this code
 #include "scene.hpp"
+
+
 
 
 // *************************** //
@@ -21,10 +26,15 @@ scene_structure scene;
 
 window_structure standard_window_initialization(int width = 0, int height = 0);
 void initialize_default_shaders();
+void animation_loop();
+
+timer_fps fps_record;
 
 int main(int, char* argv[])
 {
 	std::cout << "Run " << argv[0] << std::endl;
+
+
 
 	// ************************ //
 	//     INITIALISATION
@@ -33,7 +43,8 @@ int main(int, char* argv[])
 	// Standard Initialization of an OpenGL ready window
 	scene.window = standard_window_initialization();
 
-
+	// Initialize System Info
+	path_info::initialize(argv[0]);
 
 	// Initialize default shaders
 	initialize_default_shaders();
@@ -41,6 +52,7 @@ int main(int, char* argv[])
 
 	// Custom scene initialization
 	std::cout << "Initialize data of the scene ..." << std::endl;
+	std::cout << "Path to shader: " << path_info::shaders << std::endl;
 	scene.initialize();
 	std::cout << "Initialization finished\n" << std::endl;
 
@@ -49,49 +61,18 @@ int main(int, char* argv[])
 	//     Animation Loop
 	// ************************ //
 	std::cout << "Start animation loop ..." << std::endl;
-	timer_fps fps_record;
 	fps_record.start();
-	while (!glfwWindowShouldClose(scene.window.glfw_window))
-	{
-		scene.camera_projection.aspect_ratio = scene.window.aspect_ratio();
-		scene.environment.camera_projection = scene.camera_projection.matrix();
-		glViewport(0, 0, scene.window.width, scene.window.height);
 
-		vec3 const& background_color = scene.environment.background_color;
-		glClearColor(background_color.x, background_color.y, background_color.z, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-		glClear(GL_DEPTH_BUFFER_BIT);
-		glEnable(GL_DEPTH_TEST);
-
-		float const time_interval = fps_record.update();
-		if (fps_record.event) {
-			std::string const title = "CGP Display - " + str(fps_record.fps) + " fps";
-			glfwSetWindowTitle(scene.window.glfw_window, title.c_str());
-		}
-
-		imgui_create_frame();
-		ImGui::Begin("GUI", NULL, ImGuiWindowFlags_AlwaysAutoResize);
-		scene.inputs.mouse.on_gui = ImGui::GetIO().WantCaptureMouse;
-		scene.inputs.time_interval = time_interval;
-
-
-
-		// Display the ImGUI interface (button, sliders, etc)
-		scene.display_gui();
-
-		// Handle camera behavior in standard frame
-		scene.idle_frame();
-
-		// Call the display of the scene
-		scene.display_frame();
-
-
-		// End of ImGui display and handle GLFW events
-		ImGui::End();
-		imgui_render_frame(scene.window.glfw_window);
-		glfwSwapBuffers(scene.window.glfw_window);
-		glfwPollEvents();
+#ifndef __EMSCRIPTEN__
+	// Default mode to run the animation/display loop with GLFW in C++
+	while (!glfwWindowShouldClose(scene.window.glfw_window)) {
+		animation_loop();
 	}
+#else
+	// Specific loop if compiled for EMScripten
+	emscripten_set_main_loop(animation_loop, 0, 1);
+#endif
+
 	std::cout << "\nAnimation loop stopped" << std::endl;
 
 	// Cleanup
@@ -102,37 +83,72 @@ int main(int, char* argv[])
 	return 0;
 }
 
-static void display_error_file_access();
-void initialize_default_shaders()
+void animation_loop()
 {
-	// Load default shader and initialize default frame
-	// ***************************************************** //
-	// Assume that the default shader file will be accessible in shaders/mesh/ and shaders/single_color/ directories
-	if (check_file_exist("shaders/mesh/vert.glsl") == false) {
-		display_error_file_access();
-		exit(1);
+
+	emscripten_update_window_size(scene.window.width, scene.window.height); // update window size in case of use of emscripten (not used by default)
+
+	scene.camera_projection.aspect_ratio = scene.window.aspect_ratio();
+	scene.environment.camera_projection = scene.camera_projection.matrix();
+	glViewport(0, 0, scene.window.width, scene.window.height);
+
+	vec3 const& background_color = scene.environment.background_color;
+	glClearColor(background_color.x, background_color.y, background_color.z, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
+
+	float const time_interval = fps_record.update();
+	if (fps_record.event) {
+		std::string const title = "CGP Display - " + str(fps_record.fps) + " fps";
+		glfwSetWindowTitle(scene.window.glfw_window, title.c_str());
 	}
 
+	imgui_create_frame();
+	ImGui::Begin("GUI", NULL, ImGuiWindowFlags_AlwaysAutoResize);
+	scene.inputs.mouse.on_gui = ImGui::GetIO().WantCaptureMouse;
+	scene.inputs.time_interval = time_interval;
+
+
+	// Display the ImGUI interface (button, sliders, etc)
+	scene.display_gui();
+
+	// Handle camera behavior in standard frame
+	scene.idle_frame();
+
+	// Call the display of the scene
+	scene.display_frame();
+
+
+	// End of ImGui display and handle GLFW events
+	ImGui::End();
+	imgui_render_frame(scene.window.glfw_window);
+	glfwSwapBuffers(scene.window.glfw_window);
+	glfwPollEvents();
+}
+
+
+void initialize_default_shaders()
+{
+	// Generate the default directory from which the shaders are found
+	//  By default, it should be "shaders/opengl3/"
+	std::string default_path_shaders = path_info::shaders;
+
 	// Set standard mesh shader for mesh_drawable
-	mesh_drawable::default_shader.load("shaders/mesh/vert.glsl", "shaders/mesh/frag.glsl");
-	triangles_drawable::default_shader.load("shaders/mesh/vert.glsl", "shaders/mesh/frag.glsl");
+	mesh_drawable::default_shader.load(default_path_shaders +"mesh/vert.glsl", default_path_shaders +"mesh/frag.glsl");
+	triangles_drawable::default_shader.load(default_path_shaders +"mesh/vert.glsl", default_path_shaders +"mesh/frag.glsl");
+
 	// Set default white texture
 	image_structure const white_image = image_structure{ 1,1,image_color_type::rgba,{255,255,255,255} };
 	mesh_drawable::default_texture.initialize_texture_2d_on_gpu(white_image);
 	triangles_drawable::default_texture.initialize_texture_2d_on_gpu(white_image);
 
 	// Set standard uniform color for curve/segment_drawable
-	curve_drawable::default_shader.load("shaders/single_color/vert.glsl", "shaders/single_color/frag.glsl");
+	curve_drawable::default_shader.load(default_path_shaders +"single_color/vert.glsl", default_path_shaders+"single_color/frag.glsl");
 }
 
 
-static void display_error_file_access()
-{
-	std::cout << "[ERROR File Access] The default initialization from helper_common_scene tried to load the shader file shaders/mesh/vert.glsl but cannot not find it" << std::endl;
-	std::cout << "  => In most situation, the problem is the following: Your executable is not run from the root directory of this scene, and the directory shaders/ is therefore not accessible. " << std::endl;
-	std::cout << "  => To solve this problem, you may need to adjust your IDE settings (or your placement in command line) such that your executable is run from the parent directory of shaders/. Then run again the program. " << std::endl;
-	std::cout << "\n\nThe program will now exit" << std::endl;
-}
+
 
 
 //Callback functions
@@ -148,7 +164,7 @@ window_structure standard_window_initialization(int width_target, int height_tar
 	// Create the window using GLFW
 	// ***************************************************** //
 	window_structure window;
-	window.initialize(width_target, height_target);
+	window.initialize(width_target, height_target, "CGP Display", CGP_OPENGL_VERSION_MAJOR, CGP_OPENGL_VERSION_MINOR);
 
 	// Display information
 	// ***************************************************** //

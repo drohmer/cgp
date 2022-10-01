@@ -1,7 +1,9 @@
 #include "cgp/geometry/vec/vec.hpp"
 #include "cgp/geometry/mat/mat.hpp"
 
-
+#ifdef __linux__
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
 
 #include <iostream>
 

@@ -25,10 +25,6 @@ namespace cgp
 
     void opengl_shader_structure::load(std::string const& vertex_shader_path, std::string const& fragment_shader_path)
     {
-        if (id != 0) {
-            std::cout << " Warning: try to load a shader (" << vertex_shader_path << "," << fragment_shader_path << ") on a non empty shader_structure" << std::endl;
-        }
-
         id = opengl_load_shader(vertex_shader_path, fragment_shader_path);
     }
 

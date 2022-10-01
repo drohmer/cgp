@@ -82,7 +82,7 @@
 #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLEW)
 #include <GL/glew.h>
 #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLAD)
-#include "../glad/include/glad/glad.hpp"
+#include "../glad/opengl33/glad.hpp"
 #else
 #include IMGUI_IMPL_OPENGL_LOADER_CUSTOM
 #endif

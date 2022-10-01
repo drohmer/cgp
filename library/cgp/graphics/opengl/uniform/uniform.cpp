@@ -29,76 +29,88 @@ namespace cgp
 	void opengl_uniform(opengl_shader_structure const& shader, std::string const& name, int value, bool expected)
 	{
 		GLint const location = shader.query_uniform_location(name);
-		if (check_location(location, name, shader.id, expected))
+		if (check_location(location, name, shader.id, expected)) {
 			glUniform1i(location, value); opengl_check;
+		}
 	}
 
 	void opengl_uniform(opengl_shader_structure const& shader, std::string const& name, GLuint value, bool expected)
 	{
 		GLint const location = shader.query_uniform_location(name);
-		if (check_location(location, name, shader.id, expected))
+		if (check_location(location, name, shader.id, expected)) {
 			glUniform1i(location, value); opengl_check;
+		}
 
 	}
 	void opengl_uniform(opengl_shader_structure const& shader, std::string const& name, float value, bool expected)
 	{
 		GLint const location = shader.query_uniform_location(name);
-		if (check_location(location, name, shader.id, expected))
+		if (check_location(location, name, shader.id, expected)) {
 			glUniform1f(location, value); opengl_check;
+		}
 	}
 	void opengl_uniform(opengl_shader_structure const& shader, std::string const& name, vec2 const& value, bool expected)
 	{
 		GLint const location = shader.query_uniform_location(name);
-		if (check_location(location, name, shader.id, expected))
+		if (check_location(location, name, shader.id, expected)) {
 			glUniform2f(location, value.x, value.y); opengl_check;
+		}
 	}
 	void opengl_uniform(opengl_shader_structure const& shader, std::string const& name, vec3 const& value, bool expected)
 	{
 		GLint const location = shader.query_uniform_location(name);
-		if (check_location(location, name, shader.id, expected))
+		if (check_location(location, name, shader.id, expected)) {
 			glUniform3f(location, value.x, value.y, value.z); opengl_check;
+		}
 	}
 	void opengl_uniform(opengl_shader_structure const& shader, std::string const& name, vec4 const& value, bool expected)
 	{
 		GLint const location = shader.query_uniform_location(name);
-		if (check_location(location, name, shader.id, expected))
+		if (check_location(location, name, shader.id, expected)) {
 			glUniform4f(location, value.x, value.y, value.z, value.w); opengl_check;
+		}
 	}
 	void opengl_uniform(opengl_shader_structure const& shader, std::string const& name, float x, float y, bool expected)
 	{
 		GLint const location = shader.query_uniform_location(name);
-		if (check_location(location, name, shader.id, expected))
+		if (check_location(location, name, shader.id, expected)) {
 			glUniform2f(location, x, y);  opengl_check;
+		}
 	}
 	void opengl_uniform(opengl_shader_structure const& shader, std::string const& name, float x, float y, float z, bool expected)
 	{
 		GLint const location = shader.query_uniform_location(name);
-		if (check_location(location, name, shader.id, expected))
+		if (check_location(location, name, shader.id, expected)) {
 			glUniform3f(location, x, y, z);  opengl_check;
+		}
 	}
 	void opengl_uniform(opengl_shader_structure const& shader, std::string const& name, float x, float y, float z, float w, bool expected)
 	{
 		GLint const location = shader.query_uniform_location(name);
-		if (check_location(location, name, shader.id, expected))
+		if (check_location(location, name, shader.id, expected)) {
 			glUniform4f(location, x, y, z, w);  opengl_check;
+		}
 	}
 	void opengl_uniform(opengl_shader_structure const& shader, std::string const& name, mat4 const& m, bool expected)
 	{
 		GLint const location = shader.query_uniform_location(name);
-		if (check_location(location, name, shader.id, expected))
+		if (check_location(location, name, shader.id, expected)) {
 			glUniformMatrix4fv(location, 1, GL_TRUE, ptr(m));  opengl_check;
+		}
 	}
 	void opengl_uniform(opengl_shader_structure const& shader, std::string const& name, mat3 const& m, bool expected)
 	{
 		GLint const location = shader.query_uniform_location(name);
-		if (check_location(location, name, shader.id, expected))
+		if (check_location(location, name, shader.id, expected)) {
 			glUniformMatrix3fv(location, 1, GL_TRUE, ptr(m)); opengl_check;
+		}
 	}
 	void opengl_uniform(opengl_shader_structure const& shader, std::string const& name, mat2 const& m, bool expected)
 	{
 		GLint const location = shader.query_uniform_location(name);
-		if (check_location(location, name, shader.id, expected))
+		if (check_location(location, name, shader.id, expected)) {
 			glUniformMatrix2fv(location, 1, GL_TRUE, ptr(m)); opengl_check;
+		}
 	}
 
 

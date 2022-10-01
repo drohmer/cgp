@@ -14,6 +14,9 @@ else()
    message(STATUS "The absolute path to the library is set to ${ABS_PATH_TO_CGP}")
 endif()
 
+# Compile for Release with Debug Info
+set(CMAKE_BUILD_TYPE RelWithDebInfo) 
+
 # List the files of the current local project 
 #    Default behavior: Automatically add all hpp and cpp files from src/ directory, and .glsl from shaders/
 #    You may want to change this definition in case of specific file structure
@@ -40,11 +43,6 @@ add_definitions(-DSOLUTION)
 
 # Uncomment the following line to remove assertion checks from CGP library (for full efficiency)
 # add_definitions(-DCGP_NO_DEBUG)
-
-# Uncomment the following line to generate an error (instead of a warning) when uniform values cannot be found in the shader
-# add_definitions(-DCHECK_OPENGL_UNIFORM_STRICT)
-
-
 
 
 # Add all files to create executable

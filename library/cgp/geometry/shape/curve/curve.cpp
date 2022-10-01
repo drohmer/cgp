@@ -20,4 +20,17 @@ namespace cgp
 
 		return curve;
 	}
+
+	numarray<vec3> curve_to_segments(numarray<vec3> const& curve_in)
+	{
+		assert_cgp(curve_in.size() >= 2, "Curve should have N_sample>=2");
+
+		numarray<vec3> segments;
+		for (int k = 1; k < curve_in.size(); ++k) {
+			segments.push_back(curve_in[k - 1]);
+			segments.push_back(curve_in[k]);
+		}
+
+		return segments;
+	}
 }

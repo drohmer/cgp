@@ -2,6 +2,10 @@
 
 #include "cgp/core/base/base.hpp"
 
+#if defined(__linux__) || defined(__EMSCRIPTEN__)
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
+
 namespace cgp
 {
 	opengl_shader_structure mesh_drawable::default_shader;
@@ -93,7 +97,7 @@ namespace cgp
 	}
 
 
-	void draw(mesh_drawable const& drawable, environment_generic_structure const& environment, uniform_generic_structure const& additional_uniforms)
+	void draw(mesh_drawable const& drawable, environment_generic_structure const& environment, uniform_generic_structure const& additional_uniforms, GLenum draw_mode)
 	{
 		// Initial clean check
 		// ********************************** //
@@ -152,7 +156,7 @@ namespace cgp
 
 		// Draw call
 		// ********************************** //
-		glDrawElements(GL_TRIANGLES, GLsizei(drawable.ebo_connectivity.size * 3), GL_UNSIGNED_INT, nullptr); opengl_check;
+		glDrawElements(draw_mode, GLsizei(drawable.ebo_connectivity.size * 3), GL_UNSIGNED_INT, nullptr); opengl_check;
 
 
 		// Clean state
@@ -164,16 +168,20 @@ namespace cgp
 
 	void draw_wireframe(mesh_drawable const& drawable, environment_generic_structure const& environment, vec3 const& color, uniform_generic_structure const& additional_uniforms)
 	{
+#ifndef __EMSCRIPTEN__ 		// Polygon Mode not available in WebGL
 		mesh_drawable wireframe = drawable;
 		wireframe.material.phong = { 1.0f,0.0f,0.0f,64.0f };
 		wireframe.material.color = color;
 		wireframe.material.texture_settings.active = false;
+	
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glEnable(GL_POLYGON_OFFSET_LINE);
 		glPolygonOffset(-1.0, 1.0);        opengl_check;
 		draw(wireframe, environment, additional_uniforms);
 		glDisable(GL_POLYGON_OFFSET_LINE); opengl_check;
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+#endif
+
 	}
 
 

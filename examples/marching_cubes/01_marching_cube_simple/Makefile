@@ -1,10 +1,10 @@
-# This Makefile will generate an executable file named pgm
+# This Makefile will generate an executable file named 01_marching_cube_simple
 
 # This path should point to the CGP library depending on the current directory
 ## You may need to it in case you move the position of your directory
 PATH_TO_CGP = ../../../library/
 
-TARGET ?= pgm #name of the executable
+TARGET ?= 01_marching_cube_simple #name of the executable
 SRC_DIRS ?= src/ $(PATH_TO_CGP)
 CXX = g++ #Or clang++
 

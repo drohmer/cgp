@@ -1,8 +1,7 @@
 #include "scene.hpp"
-
+#include "path_info.hpp"
 
 using namespace cgp;
-
 
 
 
@@ -13,16 +12,16 @@ void scene_structure::initialize()
 	camera_control.look_at({ 3.0f, 2.0f, 2.0f }, {0,0,0}, {0,0,1});
 	global_frame.initialize_data_on_gpu(mesh_primitive_frame());
 
-	trunk.initialize_data_on_gpu(mesh_load_file_obj("assets/trunk.obj"));
-	trunk.texture.load_and_initialize_texture_2d_on_gpu("assets/trunk.png");
+	trunk.initialize_data_on_gpu(mesh_load_file_obj(path_info::assets+"trunk.obj"));
+	trunk.texture.load_and_initialize_texture_2d_on_gpu(path_info::assets+"trunk.png");
 
-	branches.initialize_data_on_gpu(mesh_load_file_obj("assets/branches.obj"));
+	branches.initialize_data_on_gpu(mesh_load_file_obj(path_info::assets + "branches.obj"));
 	branches.material.color = { 0.45f, 0.41f, 0.34f }; // no textures on branches
 
-	foliage.initialize_data_on_gpu(mesh_load_file_obj("assets/foliage.obj"));
-	foliage.texture.load_and_initialize_texture_2d_on_gpu("assets/pine.png");
+	foliage.initialize_data_on_gpu(mesh_load_file_obj(path_info::assets + "foliage.obj"));
+	foliage.texture.load_and_initialize_texture_2d_on_gpu(path_info::assets + "pine.png");
 
-	foliage.shader.load("shaders/mesh_transparency/vert.glsl", "shaders/mesh_transparency/frag.glsl"); // set the shader handling transparency for the foliage
+	foliage.shader.load(path_info::shaders+"mesh_transparency/vert.glsl", path_info::shaders + +"mesh_transparency/frag.glsl"); // set the shader handling transparency for the foliage
 	foliage.material.phong = { 0.4f, 0.6f, 0, 1 };  // remove specular effect for the billboard
 
 }

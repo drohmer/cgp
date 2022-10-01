@@ -4,6 +4,10 @@
 
 #include <iostream>
 
+#if defined(__linux__) || defined(__EMSCRIPTEN__)
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
+
 namespace cgp_test 
 {
 

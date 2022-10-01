@@ -10,19 +10,45 @@ file(
 # Enable IMGUI to work with GLAD
 add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GLAD)
 
-# Include GLFW lib for Unix
-if(UNIX)
-    #expect GLFW3 already installed on the system
-    find_package(glfw3 REQUIRED) 
-    find_package(PkgConfig REQUIRED)
-    pkg_search_module(GLFW REQUIRED glfw3)
-    include_directories(${GLFW_INCLUDE_DIRS})
+
+
+# GLFW
+#
+#  - On Linux: expect user to install GLFW3 by its package manager
+#     ex. on Ubuntu: apt install libgflw3-dev
+#  - On MacOS: Provide pre-compiled library (otherwise can install glfw3 via brew)
+#  - On Windows: Provide pre-compiled library for
+#     - Visual Studio (compatible VS 2019 and VS 2022)
+#     - MinGW64
+
+if(UNIX) 
+    if(APPLE) # Precompiled library for Apple (comment these lines and use the generic UNIX package if you prefer to use your own version of GLFW3)
+        set(GLFW_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/precompiled/glfw/macos/include")
+        include_directories(${GLFW_INCLUDE_DIRS})
+        set(GLFW_LIBRARIES "${CMAKE_CURRENT_LIST_DIR}/precompiled/glfw/macos/lib/libglfw3.a")
+
+    else()
+        # Generic UNIX/Linux - install GLFW3 from your package manager
+        #expect GLFW3 already installed on the system
+        find_package(glfw3 REQUIRED) 
+        find_package(PkgConfig REQUIRED)
+        pkg_search_module(GLFW REQUIRED glfw3)
+        include_directories(${GLFW_INCLUDE_DIRS})
+
+    endif()
+
 endif()
 
 # Include GLFW precompiled lib for Windows/Visual Studio
-if(MSVC)
-    set(GLFW_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/precompiled/windows/glfw/include")
+if(WIN32)
+    set(GLFW_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/precompiled/glfw/windows/include")
     include_directories(${GLFW_INCLUDE_DIRS})
-    set(GLFW_LIBRARIES "${CMAKE_CURRENT_LIST_DIR}/precompiled/windows/glfw/lib/glfw3.lib")
+
+    if(MSVC) # Lib for Visual Studio
+        set(GLFW_LIBRARIES "${CMAKE_CURRENT_LIST_DIR}/precompiled/glfw/windows/lib-visual/glfw3.lib")
+    else() # Otherwise assume you are using MinGW with Windows
+        set(GLFW_LIBRARIES "${CMAKE_CURRENT_LIST_DIR}/precompiled/glfw/windows/lib-mingw-w64/libglfw3.a")
+    endif()
+
 endif()
 

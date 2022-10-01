@@ -6,6 +6,10 @@
 #include <iostream>
 #include <sys/stat.h>
 
+#ifdef __linux__
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
+
 namespace cgp
 {
     bool check_file_exist(std::string const& filename)
@@ -19,6 +23,12 @@ namespace cgp
             stream.close();
             return true;
         }
+    }
+
+    bool check_path_exist(std::string const& pathname)
+    {
+        struct stat buffer;
+        return (stat(pathname.c_str(), &buffer) == 0);
     }
 
     void assert_file_exist(std::string const& filename)

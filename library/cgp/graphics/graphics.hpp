@@ -9,6 +9,6 @@
 #include "picking/picking.hpp"
 #include "time/time.hpp"
 #include "window/window.hpp"
-
+#include "emscripten/emscripten.hpp"
 
 

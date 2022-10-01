@@ -2,6 +2,7 @@
 #include "window.hpp"
 
 #include "cgp/core/base/base.hpp"
+#include "cgp/graphics/emscripten/emscripten.hpp"
 #include <iostream>
 
 #ifndef GLFW_TRUE
@@ -65,8 +66,8 @@ namespace cgp
             abort();
         }
 
-        // Set GLFW parameter before creating the window
-		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API); // change to GLFW_OPENGL_ES_API for WebGL
+         // Set GLFW parameter before creating the window
+		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API); 
         glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE); // Use only modern OpenGL
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, opengl_version_major); // Expect OpenGL 3.3 or greater
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, opengl_version_minor); 
@@ -82,13 +83,24 @@ namespace cgp
         glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE); // To avoid HiDPI issues with pixel size on Mac
 #endif 
 
-        
+        // specific case when compiling with EMScripten for WebGL Output: Force the use of OpenGL ES
+#ifdef __EMSCRIPTEN__
+        emscripten_set_glfw_window_hint(); // re-write on top of the previous hints
+        if (width == 0 || height == 0)
+            emscripten_update_window_size(width, height); // Use the canvas size
+#endif
 
         if (width == 0 || height == 0) {
             // Set width/height automatically from monitor resolution
             const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
             width = mode->width / 2;
             height = mode->height / 2;
+        }
+
+        // In case of weird size
+        if (width==0 || height==0 || width > 10000 || height > 10000) {
+            std::cout<<"[Warning] Force Window to be 500x500 pixels"<<std::endl;
+            width = 500; height = 500;
         }
 
 
@@ -105,12 +117,14 @@ namespace cgp
         glfwMakeContextCurrent(window);
 
 
+#ifndef __EMSCRIPTEN__
         // Initialize GLAD to get access to OpenGL functions
         const int glad_init_value = gladLoadGL();
         if( glad_init_value == 0 ) {
             std::cout<<"Failed to Init GLAD"<<std::endl;
             abort();
         }
+#endif
 
         // Allows RGB texture in simple format
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -135,7 +149,19 @@ namespace cgp
         glfwGetWindowPos(glfw_window, &x_pos, &y_pos);
         glfwGetWindowSize(glfw_window, &width, &height);
 
+#ifdef __EMSCRIPTEN__
+    // For Emscripten targets we will invoke some Javascript
+    // to find out the dimensions of the canvas in the HTML
+    // document. Note that the 'width' and 'height' attributes
+    // need to be set on the <canvas /> HTML element, like so:
+    // <canvas id="canvas" width="600", height="360"></canvas>
+    int displayWidth = static_cast<int>(EM_ASM_INT({
+        return document.getElementById('canvas').width;
+    }));
 
+    std::cout<<"EM_ASM: "<<displayWidth<<std::endl;
+    
+#endif
     }
 
     float window_structure::aspect_ratio() const

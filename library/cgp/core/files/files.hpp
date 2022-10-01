@@ -16,6 +16,9 @@ namespace cgp
 	/** Return true if the file can be accessed, false otherwise */
 	bool check_file_exist(std::string const& filename);
 
+	/** Return true if a path (file or directory) exists, false otherwise */
+	bool check_path_exist(std::string const& pathname);
+
 	/** Return the size in octets of a file*/
 	size_t file_get_size(std::string const& filename);
 

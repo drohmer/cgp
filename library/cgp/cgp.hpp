@@ -13,7 +13,7 @@
  */
 
 
-#include "cgp_debug.hpp"
+#include "cgp_parameters.hpp"
 #include "core/core.hpp"
 #include "geometry/geometry.hpp"
 #include "graphics/graphics.hpp"

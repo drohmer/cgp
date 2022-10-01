@@ -11,13 +11,9 @@
 namespace cgp
 {
 
-/** Convert a generic type to a string */
-//template <typename T> std::string str(const T& x);
-/** Convert a generic type to a string */
-//template <typename T> std::string to_string(const T& x);
 
 /** add zeros in from of the string */
-std::string zero_fill(const std::string& input, size_t number_of_zero);
+std::string str_zero_fill(const std::string& input, size_t number_of_zero);
 
 
 ///** Allows to call to_string on itself */
@@ -25,7 +21,10 @@ std::string const& str(std::string const& s);
 ///** Allows to call to_string a C-string */
 std::string str(char const* s);
 
-
+// Convert a string to lowercase
+std::string str_lower(std::string const& s);
+// Convert a string to uppercase
+std::string str_upper(std::string const& s);
 
 /** Check equality between string (using ==) */
 bool is_equal(std::string const& a, std::string const& b);

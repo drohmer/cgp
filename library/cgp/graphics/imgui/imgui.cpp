@@ -9,7 +9,11 @@ void imgui_init(GLFWwindow* window)
     ImGui::CreateContext();
 
     ImGui_ImplGlfw_InitForOpenGL(window, true);
+#ifndef __EMSCRIPTEN__
     ImGui_ImplOpenGL3_Init("#version 150");
+#else
+    ImGui_ImplOpenGL3_Init("#version 300 es");
+#endif
     ImGui::StyleColorsClassic();
 }
 
