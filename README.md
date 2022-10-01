@@ -13,6 +13,7 @@
 ## Introduction
 
 [CGP - Computer Graphics Programming -](https://imagecomputing.net/cgp/index.html) is a lightweight and minimalist C++ library using OpenGL to represent, animate, and interact with 3D scenes. 
+
 It features a set of simple structures and functions (vectors, matrices, mesh structures, transforms, camera, etc) that are simple to use and read. The objective is to save time compared to raw OpenGL coding, while preserving the fundamental logic and comprehension of high-performance Graphics. The 3D scene can be exported as a Webpage via Emscripten scripts.
 
 The main objective of CGP is to provide
@@ -22,7 +23,9 @@ The main objective of CGP is to provide
 * **Easy to read and understand source code**. 
 * **Secured and easy to debug code**. 
 
-[See CGP Documentation](https://imagecomputing.net/cgp/index.html)
+### Additional documentation
+
+[CGP Webpage](https://imagecomputing.net/cgp/index.html)
 
 Examples of CGP-based codes can be found in [examples/](examples/)
 
@@ -72,7 +75,7 @@ make -j$(nproc)
 
 _Once opened by Visual Studio, the project should be configured to compile and be executed directly without further setup. Make sure your Windows version is updated for Visual Studio to be able to compile correctly C++14._
 
-**Method 2**._ Install MinGW from [MSYS2](https://www.msys2.org/). 
+**Method 2**. Install MinGW from [MSYS2](https://www.msys2.org/). 
 * You may use the following batch script: examples/00_empty_3D_scene/scripts/__windows_compile_mingw.bat__
 * You may build/edit the project using VS Code.
 
