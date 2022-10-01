@@ -1,4 +1,6 @@
-#version 330 core // OpenGL 3.3 shader
+#version 300 es // OpenGL ES 3 - Compatible WebGL
+
+precision mediump float;
 
 // Fragment shader - this code is executed for every pixel/fragment that belongs to a displayed shape
 //

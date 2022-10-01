@@ -42,7 +42,6 @@ Rename this file to lodepng.cpp to use it for C++, or to lodepng.c to use it for
 #endif /*_MSC_VER */
 
 #if defined(__GNUC__)
-#pragma GCC diagnostic ignored "-Wunknown-warning-option"
 #pragma GCC diagnostic ignored "-Wstringop-overflow"
 #endif
 

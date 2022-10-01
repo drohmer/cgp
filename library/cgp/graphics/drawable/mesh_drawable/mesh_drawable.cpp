@@ -35,9 +35,10 @@ namespace cgp
 
 		// Variable initialization
 		// *********************************************************************** //
-
-		shader = shader_arg;
-		texture = texture_arg;
+		if(!(shader_arg.id==default_shader.id && shader.id!=0))
+			shader = shader_arg;
+		if(!(texture_arg.id==default_texture.id && texture.id!=0))
+			texture = texture_arg;
 		model = affine();
 		material = material_mesh_drawable_phong();
 

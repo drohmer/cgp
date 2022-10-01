@@ -26,7 +26,7 @@ namespace cgp
 
 		void send_opengl_uniform(opengl_shader_structure const& shader, bool expected = true) const;
 	};
-	//void opengl_uniform(opengl_shader_structure const& shader, uniform_generic_structure const& uniforms, bool expected = true);
+
 
 
 	void opengl_uniform(opengl_shader_structure const& shader, std::string const& name, int value, bool expected = true);
