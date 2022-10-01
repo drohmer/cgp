@@ -44,39 +44,37 @@ CGP requires
 System setup
 
 ```c++
-$ apt install build-essential pkg-config cmake
-$ apt install libglfw3-dev
-$ ./[executable-name]
+apt install build-essential pkg-config cmake
+apt install libglfw3-dev
 ```
 
 Building examples/00_empty_3D_scene/ (via CMake)
 ```c++
-$ cd examples/00_empty_3D_scene/
-$ cmake -B build/
-$ cd build/
-$ make -j$(nproc)
-$ ./00_empty_3D_scene
+cd examples/00_empty_3D_scene/
+cmake -B build/
+cd build/
+make -j$(nproc)
+./00_empty_3D_scene
 ```
 
-Alernative: Building examples/00_empty_3D_scene/ (via Makefile)
+_Alternative_: Building examples/00_empty_3D_scene/ (via Makefile)
 ```c++
-$ cd examples/00_empty_3D_scene/
-$ make -j$(nproc)
-$ ./00_empty_3D_scene
+cd examples/00_empty_3D_scene/
+make -j$(nproc)
+./00_empty_3D_scene
 ```
 
 
 ### Windows
 
-* _Method 1._ Create a Visual Studio project using CMake
+**_Method 1**._ Create a Visual Studio project using CMake
 * You may use the following batch script: __examples/00_empty_3D_scene/scripts/windows_cmake_visual.bat__
 
 _Once opened by Visual Studio, the project should be configured to compile and be executed directly without further setup. Make sure your Windows version is updated for Visual Studio to be able to compile correctly C++14._
 
-* _Method 2._ Install MinGW from [https://www.msys2.org/](MSYS2). 
+**_Method 2**._ Install MinGW from [https://www.msys2.org/](MSYS2). 
 * You may use the following batch script: __examples/00_empty_3D_scene/scripts/windows_compile_mingw.bat__
 * You may build/edit the project using VS Code.
-
 
 
 
@@ -84,11 +82,11 @@ _Once opened by Visual Studio, the project should be configured to compile and b
 
 Building examples/00_empty_3D_scene/ (via CMake)
 ```c++
-$ cd examples/00_empty_3D_scene/
-$ cmake -B build/
-$ cd build/
-$ make -j$(nproc)
-$ ./00_empty_3D_scene
+cd examples/00_empty_3D_scene/
+cmake -B build/
+cd build/
+make -j$(nproc)
+./00_empty_3D_scene
 ```
 
 
