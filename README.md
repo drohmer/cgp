@@ -44,8 +44,8 @@ CGP requires
 System setup
 
 ```c++
-apt install build-essential pkg-config cmake
-apt install libglfw3-dev
+sudo apt install build-essential pkg-config cmake
+sudo apt install libglfw3-dev
 ```
 
 Building examples/00_empty_3D_scene/ (via CMake)
