@@ -59,4 +59,4 @@ jobs:
       run: cmake -B build/ -DCMAKE_BUILD_TYPE=RelWithDebInfo
     - name: Build
       working-directory: examples/empty_3D_scene/build
-      run: make -j4
+      run: make

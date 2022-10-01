@@ -25,7 +25,7 @@ if(UNIX)
     if(APPLE) # Precompiled library for Apple (comment these lines and use the generic UNIX package if you prefer to use your own version of GLFW3)
         set(GLFW_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/precompiled/glfw/macos/include")
         include_directories(${GLFW_INCLUDE_DIRS})
-        set(GLFW_LIBRARIES "${CMAKE_CURRENT_LIST_DIR}/precompiled/glfw/macos/lib/libglfw3.a")
+        set(GLFW_LIBRARIES "${CMAKE_CURRENT_LIST_DIR}/precompiled/glfw/macos/lib/libglfw.3.dylib")
 
     else()
         # Generic UNIX/Linux - install GLFW3 from your package manager
