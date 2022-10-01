@@ -12,12 +12,10 @@
 
 ## Introduction
 
-[CGP - Computer Graphics Programming -](https://imagecomputing.net/cgp/index.html) is a lightweight and minimalist C++ library using OpenGL to represent, animate, and interact with 3D scenes. The library is primarily thought to be used for practice teaching Computer Graphics and 3D Animation. 
+[CGP - Computer Graphics Programming -](https://imagecomputing.net/cgp/index.html) is a lightweight and minimalist C++ library using OpenGL to represent, animate, and interact with 3D scenes. 
+It features a set of simple structures and functions (vectors, matrices, mesh structures, transforms, camera, etc) that are simple to use and read. The objective is to save time compared to raw OpenGL coding, while preserving the fundamental logic and comprehension of high-performance Graphics. The 3D scene can be exported as a Webpage via Emscripten scripts.
 
-It provides a set of simple structures and functions (vectors, matrices, mesh structures, etc) that are simple to use and read. The objective is to save time compared to raw OpenGL coding, while remaining in the spirit and fully compatible with direct OpenGL calls.
-
-
-The main spirit of CGP is to provide
+The main objective of CGP is to provide
 * **Easy to use CG basic tools**. 
 * **Data and structure ready for simple interaction and animation**. 
 * **Helping structures and functions that do not impose a framework**.
@@ -26,55 +24,89 @@ The main spirit of CGP is to provide
 
 [See CGP Documentation](https://imagecomputing.net/cgp/index.html)
 
-Various examples of CGP use can be found in [scenes/examples/](scenes/examples/)
+Examples of CGP-based codes can be found in [examples/](examples/)
 
 <a name="Compilation"></a>
 
 ## Compile the library
 
 The directory _library/_ contains the source code of CGP, while the directory _examples/_ contains a set of example scenes.
-Each example is an independant program with its own Makefile and/or CMakeLists.txt. 
-
-The examples should be run from their root path where _shaders/_ (and possibly _assets/_) directories are accessible.
-
-### Dependencies
+Each example is an independent program with its own CMakeLists.txt and/or Makefile. 
 
 CGP requires
 * A C++14 (or greater) compatible compiler (GCC/CLang, or a recent Visual Studio).
 * An OpenGL 3.3 (or greater) compatible system.
-* [libGLFW](https://www.glfw.org/) and [pkgconfig](https://www.freedesktop.org/wiki/Software/pkg-config/) installed for Linux/MacOS system.
-
-### Linux/MacOS
-
-Assuming a command line opened in one of the example scene.
-* ex. scenes/examples/01_cgp_usage/01_basic_usage/03_mesh_load_file_obj/
+* [libGLFW](https://www.glfw.org/) and [pkgconfig](https://www.freedesktop.org/wiki/Software/pkg-config/) installed on Linux system.
 
 
-* _Method 1._ Using the provided Makefile:
+### Linux
+
+System setup
+
 ```c++
-$ make -j$(nproc)
+$ apt install build-essential pkg-config cmake
+$ apt install libglfw3-dev
 $ ./[executable-name]
 ```
 
-* _Method 2._ Using the provided CMakeLists.txt:
+Building examples/00_empty_3D_scene/ (via CMake)
 ```c++
-$ mkdir build
-$ cd build
-$ cmake ..
-$ make
-$ cd ..
-$ build/[executable-name]
+$ cd examples/00_empty_3D_scene/
+$ cmake -B build/
+$ cd build/
+$ make -j$(nproc)
+$ ./00_empty_3D_scene
 ```
+
+Alernative: Building examples/00_empty_3D_scene/ (via Makefile)
+```c++
+$ cd examples/00_empty_3D_scene/
+$ make -j$(nproc)
+$ ./00_empty_3D_scene
+```
+
 
 ### Windows
 
-
 * _Method 1._ Create a Visual Studio project using CMake
-* _Method 2._ Open the CMakeLists.txt using the internal CMake tool from Visual.
+* You may use the following batch script: __examples/00_empty_3D_scene/scripts/windows_cmake_visual.bat__
 
 _Once opened by Visual Studio, the project should be configured to compile and be executed directly without further setup. Make sure your Windows version is updated for Visual Studio to be able to compile correctly C++14._
+
+* _Method 2._ Install MinGW from [https://www.msys2.org/](MSYS2). 
+* You may use the following batch script: __examples/00_empty_3D_scene/scripts/windows_compile_mingw.bat__
+* You may build/edit the project using VS Code.
+
+
+
+
+### MacOS
+
+Building examples/00_empty_3D_scene/ (via CMake)
+```c++
+$ cd examples/00_empty_3D_scene/
+$ cmake -B build/
+$ cd build/
+$ make -j$(nproc)
+$ ./00_empty_3D_scene
+```
+
+
 
 
 ### Detailed system set-up and compilation
 
 A detailed tutorial on how to install and compile C++ code is available here if needed: [Detailed installation and compilation for CGP](https://imagecomputing.net/cgp/compilation).
+
+
+
+## Export result as a Website
+
+CGP is set to be compatible with [https://emscripten.org/](Emscripten) compilation. A website template and compilation script is provided for Linux system (emscripten must be installed).
+
+Generating a website for examples/00_empty_3D_scene/
+```c++
+$ cd examples/00_empty_3D_scene/
+$ python scripts/linux_compile_emscripten.py
+$ emrun index.html
+```
