@@ -16,8 +16,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Configure CMake
-      working-directory: examples/empty_3D_scene
+      working-directory: examples/00_empty_3D_scene
       run: cmake -B build/ -DCMAKE_BUILD_TYPE=RelWithDebInfo
     - name: Build
-      working-directory: examples/empty_3D_scene
+      working-directory: examples/00_empty_3D_scene
       run: cmake --build build/ --config RelWithDebInfo

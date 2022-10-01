@@ -20,8 +20,8 @@ jobs:
         sudo apt-get update;
         sudo apt-get install libglfw3-dev;
     - name: Configure CMake
-      working-directory: examples/empty_3D_scene
+      working-directory: examples/00_empty_3D_scene
       run: cmake -B build/ -DCMAKE_BUILD_TYPE=RelWithDebInfo
     - name: Build
-      working-directory: examples/empty_3D_scene/build
+      working-directory: examples/00_empty_3D_scene/build
       run: make -j$(nproc)
