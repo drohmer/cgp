@@ -11,7 +11,7 @@ env:
   BUILD_TYPE: Release
 
 jobs:
-  buildWindows:
+  build-Windows:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
@@ -31,7 +31,7 @@ jobs:
       working-directory: examples/empty_3D_scene
       run: cmake --build build/ --config RelWithDebInfo
 
-  buildUbuntu:
+  build-Ubuntu:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -39,6 +39,21 @@ jobs:
       run:
         sudo apt-get update;
         sudo apt-get install libglfw3-dev;
+    - name: Configure CMake
+      working-directory: examples/empty_3D_scene
+      run: cmake -B build/ -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    - name: Build
+      working-directory: examples/empty_3D_scene/build
+      run: make -j4
+  build-MacOS:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup
+      run:
+        brew update;
+        brew install glfw;
+        brew install pkg-config;
     - name: Configure CMake
       working-directory: examples/empty_3D_scene
       run: cmake -B build/ -DCMAKE_BUILD_TYPE=RelWithDebInfo
