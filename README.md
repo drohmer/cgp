@@ -1,6 +1,9 @@
 # CGP - Computer Graphics Programming Library
 
 ![BuildTest](https://github.com/drohmer/CGP/actions/workflows/Build.yml/badge.svg)
+![BuildWindows](https://github.com/drohmer/CGP/actions/workflows/Windows.yml/badge.svg)
+![BuildLinux](https://github.com/drohmer/CGP/actions/workflows/Linux.yml/badge.svg)
+![BuildMacOS](https://github.com/drohmer/CGP/actions/workflows/MacOS.yml/badge.svg)
 
 - [Introduction](#Introduction)
 - [Compile the library](#Compilation)
