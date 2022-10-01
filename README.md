@@ -1,6 +1,6 @@
 # CGP - Computer Graphics Programming Library
 
-https://github.com/drohmer/CGP/actions/workflows/cmake.yml/badge.svg
+![BuildTest](https://github.com/drohmer/CGP/actions/workflows/Build.yml/badge.svg)
 
 - [Introduction](#Introduction)
 - [Compile the library](#Compilation)
