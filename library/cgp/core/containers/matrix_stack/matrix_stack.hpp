@@ -635,10 +635,12 @@ namespace cgp
     template <typename T, int N1, int N2> matrix_stack<T, N1, N2>& operator-=(matrix_stack<T, N1, N2>& a, matrix_stack<T, N1, N2> const& b)
     {
         a.data += b.data;
+        return a;
     }
     template <typename T, int N1, int N2> matrix_stack<T, N1, N2>& operator-=(matrix_stack<T, N1, N2>& a, T const& b)
     {
         a.data -= b;
+        return a;
     }
     template <typename T, int N1, int N2> matrix_stack<T, N1, N2>  operator-(matrix_stack<T, N1, N2> const& a, matrix_stack<T, N1, N2> const& b)
     {
@@ -703,6 +705,7 @@ namespace cgp
     template <typename T, int N1, int N2> matrix_stack<T, N1, N2>& operator/=(matrix_stack<T, N1, N2>& a, float b)
     {
         a.data /= b;
+        return a;
     }
     template <typename T, int N1, int N2> matrix_stack<T, N1, N2>  operator/(matrix_stack<T, N1, N2> const& a, float b)
     {
