@@ -67,7 +67,7 @@ namespace cgp
 	}
 
 
-	void draw(curve_drawable const& drawable, environment_generic_structure const& environment)
+	void draw(curve_drawable const& drawable, environment_generic_structure const& environment, int N_points)
 	{
 		// Initial clean check
 		// ********************************** //
@@ -92,12 +92,13 @@ namespace cgp
 
 		// Prepare for draw call
 		// ********************************** //
+		int const N_points_display = N_points < 0 ? drawable.vbo_position.size : N_points;
 		glBindVertexArray(drawable.vao); opengl_check;
 		if (drawable.display_type == curve_drawable_display_type::Curve) {
-			glDrawArrays(GL_LINE_STRIP, 0, drawable.vbo_position.size); opengl_check;
+			glDrawArrays(GL_LINE_STRIP, 0, N_points_display); opengl_check;
 		}
 		else {
-			glDrawArrays(GL_LINES, 0, drawable.vbo_position.size); opengl_check;
+			glDrawArrays(GL_LINES, 0, N_points_display); opengl_check;
 		}
 
 

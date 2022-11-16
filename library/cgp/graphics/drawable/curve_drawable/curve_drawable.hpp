@@ -39,7 +39,9 @@ namespace cgp
 
 	};
 
-	void draw(curve_drawable const& drawable, environment_generic_structure const& environment);
+	/** Draw the curve_drawable
+	*	N_points (default=-1), indicates the number of points displayed. If N_points=-1, display all the points stored in the VBO.*/
+	void draw(curve_drawable const& drawable, environment_generic_structure const& environment, int N_points=-1);
 
 }
 

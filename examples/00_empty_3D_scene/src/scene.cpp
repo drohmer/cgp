@@ -1,5 +1,5 @@
 #include "scene.hpp"
-
+#include "path_info.hpp"
 
 using namespace cgp;
 
