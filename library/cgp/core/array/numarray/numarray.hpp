@@ -117,16 +117,10 @@ template <typename T> T average(numarray<T> const& a);
 template <typename T> numarray<T>  operator-(numarray<T> const& a);
 
 template <typename T> numarray<T>& operator+=(numarray<T>& a, numarray<T> const& b);
-template <typename T> numarray<T>& operator+=(numarray<T>& a, T const& b);
 template <typename T> numarray<T>  operator+(numarray<T> const& a, numarray<T> const& b);
-template <typename T> numarray<T>  operator+(numarray<T> const& a, T const& b); // Componentwise sum: a[i]+b 
-template <typename T> numarray<T>  operator+(T const& a, numarray<T> const& b); // Componentwise sum: a+b[i]
 
 template <typename T> numarray<T>& operator-=(numarray<T>& a, numarray<T> const& b);
-template <typename T> numarray<T>& operator-=(numarray<T>& a, T const& b);
 template <typename T> numarray<T>  operator-(numarray<T> const& a, numarray<T> const& b);
-template <typename T> numarray<T>  operator-(numarray<T> const& a, T const& b); // Componentwise substraction: a[i]-b 
-template <typename T> numarray<T>  operator-(T const& a, numarray<T> const& b); // Componentwise substraction: a-b[i] 
 
 template <typename T> numarray<T>& operator*=(numarray<T>& a, numarray<T> const& b);
 template <typename T> numarray<T>  operator*(numarray<T> const& a, numarray<T> const& b);
@@ -451,15 +445,7 @@ numarray<T>& operator+=(numarray<T>& a, numarray<T> const& b)
     return a;
 }
 
-template <typename T>
-numarray<T>& operator+=(numarray<T>& a, T const& b)
-{
-    assert_cgp(a.size()>0, "Size must be >0");
-    const int N = a.size();
-    for(int k=0; k<N; ++k)
-        a[k] += b;
-    return a;
-}
+
 
 template <typename T>
 numarray<T>  operator+(numarray<T> const& a, numarray<T> const& b)
@@ -507,32 +493,11 @@ template <typename T> numarray<T>& operator-=(numarray<T>& a, numarray<T> const&
         a[k] -= b[k];
     return a;
 }
-template <typename T> numarray<T>& operator-=(numarray<T>& a, T const& b)
-{
-    assert_cgp(a.size()>0, "Size must be >0");
-    const int N = a.size();
-    for(int k=0; k<N; ++k)
-        a[k] -= b;
-    return a;
-}
+
 template <typename T> numarray<T>  operator-(numarray<T> const& a, numarray<T> const& b)
 {
     numarray<T> res = a;
     res -= b;
-    return res;
-}
-template <typename T> numarray<T>  operator-(numarray<T> const& a, T const& b)
-{
-    numarray<T> res = a;
-    res -= b;
-    return res;
-}
-template <typename T> numarray<T>  operator-(T const& a, numarray<T> const& b)
-{
-    int const N = b.size();
-    numarray<T> res(N);
-    for(int k=0; k<N; ++k)
-        res[k] = a-b[k];
     return res;
 }
 

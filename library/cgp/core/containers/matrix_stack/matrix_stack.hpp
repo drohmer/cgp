@@ -150,17 +150,11 @@ namespace cgp
     /** Math operators
      * Common mathematical operations between buffers, and scalar or element values. */
     template <typename T, int N1, int N2> matrix_stack<T, N1, N2>& operator+=(matrix_stack<T, N1, N2>& a, matrix_stack<T, N1, N2> const& b);
-
-    template <typename T, int N1, int N2> matrix_stack<T, N1, N2>& operator+=(matrix_stack<T, N1, N2>& a, T const& b);
     template <typename T, int N1, int N2> matrix_stack<T, N1, N2>  operator+(matrix_stack<T, N1, N2> const& a, matrix_stack<T, N1, N2> const& b);
-    template <typename T, int N1, int N2> matrix_stack<T, N1, N2>  operator+(matrix_stack<T, N1, N2> const& a, T const& b);
-    template <typename T, int N1, int N2> matrix_stack<T, N1, N2>  operator+(T const& a, matrix_stack<T, N1, N2> const& b);
 
     template <typename T, int N1, int N2> matrix_stack<T, N1, N2>& operator-=(matrix_stack<T, N1, N2>& a, matrix_stack<T, N1, N2> const& b);
-    template <typename T, int N1, int N2> matrix_stack<T, N1, N2>& operator-=(matrix_stack<T, N1, N2>& a, T const& b);
     template <typename T, int N1, int N2> matrix_stack<T, N1, N2>  operator-(matrix_stack<T, N1, N2> const& a, matrix_stack<T, N1, N2> const& b);
-    template <typename T, int N1, int N2> matrix_stack<T, N1, N2>  operator-(matrix_stack<T, N1, N2> const& a, T const& b);
-    template <typename T, int N1, int N2> matrix_stack<T, N1, N2>  operator-(T const& a, matrix_stack<T, N1, N2> const& b);
+
 
     template <typename T, int N> matrix_stack<T, N, N>& operator*=(matrix_stack<T, N, N>& a, matrix_stack<T, N, N> const& b);
     template <typename T, int N1, int N2> matrix_stack<T, N1, N2>& operator*=(matrix_stack<T, N1, N2>& a, float b);
@@ -634,32 +628,17 @@ namespace cgp
 
     template <typename T, int N1, int N2> matrix_stack<T, N1, N2>& operator-=(matrix_stack<T, N1, N2>& a, matrix_stack<T, N1, N2> const& b)
     {
-        a.data += b.data;
+        a.data -= b.data;
         return a;
     }
-    template <typename T, int N1, int N2> matrix_stack<T, N1, N2>& operator-=(matrix_stack<T, N1, N2>& a, T const& b)
-    {
-        a.data -= b;
-        return a;
-    }
+
     template <typename T, int N1, int N2> matrix_stack<T, N1, N2>  operator-(matrix_stack<T, N1, N2> const& a, matrix_stack<T, N1, N2> const& b)
     {
         matrix_stack<T, N1, N2> res;
         res.data = a.data - b.data;
         return res;
     }
-    template <typename T, int N1, int N2> matrix_stack<T, N1, N2> operator-(matrix_stack<T, N1, N2> const& a, T const& b)
-    {
-        matrix_stack<T, N1, N2> res;
-        res.data = a.data - b;
-        return res;
-    }
-    template <typename T, int N1, int N2> matrix_stack<T, N1, N2>  operator-(T const& a, matrix_stack<T, N1, N2> const& b)
-    {
-        matrix_stack<T, N1, N2> res;
-        res.data = a - b.data;
-        return res;
-    }
+
 
     template <typename T, int N> matrix_stack<T, N, N>& operator*=(matrix_stack<T, N, N>& a, matrix_stack<T, N, N> const& b)
     {

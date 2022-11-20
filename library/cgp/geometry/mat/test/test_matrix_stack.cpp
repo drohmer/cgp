@@ -146,6 +146,35 @@ namespace cgp_test
 			}
 		}
 
+		// Operators
+		{
+			using namespace cgp;
+			{
+				cgp::matrix_stack<int, 3, 2> A = {2,4, 5,1, 0,1};
+				cgp::matrix_stack<int, 3, 2> B = {4,1, 1,2, 3,2};
+
+				A -= B;
+				assert_cgp_no_msg(is_equal(A, cgp::matrix_stack<int, 3, 2>{-2,3, 4,-1, -3,-1}));
+				A += B;
+				assert_cgp_no_msg(is_equal(A, cgp::matrix_stack<int, 3, 2>{2, 4, 5, 1, 0, 1}));
+			}
+
+			{
+				cgp::matrix_stack<int, 2, 3> A = { 2,4,5, 1,0,1 };
+				int b=2;
+				A *= b;
+				assert_cgp_no_msg(is_equal(A, cgp::matrix_stack<int, 2, 3>{4,8,10, 2,0,2}));
+			}
+
+			{
+				cgp::matrix_stack<float, 2, 3> A = { 2,4,5, 1,0,1 };
+				float b = 2;
+				A /= b;
+				assert_cgp_no_msg(is_equal(A, cgp::matrix_stack<float, 2, 3>{1,2, 2.5,0.5, 0,0.5}));
+			}
+
+		}
+
 
 		{
 			using namespace cgp;
@@ -215,6 +244,8 @@ namespace cgp_test
 				assert_cgp_no_msg(is_equal(res, { -38/6.0f, -21/6.0f, -32/6.0f }));
 			}
 		}
+
+
 
 	}
 }

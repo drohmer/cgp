@@ -25,3 +25,8 @@ jobs:
     - name: Build
       working-directory: examples/00_empty_3D_scene/build
       run: make -j$(nproc)
+    - name: Unit test
+      working-directory: examples/test_cgp/build
+      run: 
+        make -j$(nproc)
+        ./test_cgp
