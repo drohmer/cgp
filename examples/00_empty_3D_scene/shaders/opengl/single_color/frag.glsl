@@ -1,4 +1,5 @@
-#version 330 core
+#version 300 es // Compatible with OpenGL ES
+precision mediump float;
 
 layout(location=0) out vec4 FragColor;
 uniform vec3 color; // Uniform color of the object

@@ -14,7 +14,7 @@ namespace cgp
     /** Load and compile shaders from glsl file sources
     * Display warnings and errors if the file cannot be accessed.
     * Display debug info when the shader is succesfully compiled. */
-    GLuint opengl_load_shader(std::string const& vertex_shader_path, std::string const& fragment_shader_path);
+    GLuint opengl_load_shader(std::string const& vertex_shader_path, std::string const& fragment_shader_path, bool adapt_opengles = true);
 
     /** Compile shaders from direct text input.
     * Display no debug information in case of success */
@@ -23,9 +23,9 @@ namespace cgp
 
 
 
-    void opengl_shader_structure::load(std::string const& vertex_shader_path, std::string const& fragment_shader_path)
+    void opengl_shader_structure::load(std::string const& vertex_shader_path, std::string const& fragment_shader_path, bool adapt_opengles)
     {
-        id = opengl_load_shader(vertex_shader_path, fragment_shader_path);
+        id = opengl_load_shader(vertex_shader_path, fragment_shader_path, adapt_opengles);
     }
 
     void opengl_shader_structure::load_from_inline_text(std::string const& vertex_shader_text, std::string const& fragment_shader_text)
@@ -124,6 +124,8 @@ namespace cgp
         return valid;
     }
 
+
+    
 	GLuint opengl_load_shader_from_text(std::string const& vertex_shader_txt, std::string const& fragment_shader_txt)
 	{
         GLuint vertex_shader_id; 
@@ -154,7 +156,28 @@ namespace cgp
         return program_id;
 	}
 
-    GLuint opengl_load_shader(std::string const& vertex_shader_path, std::string const& fragment_shader_path)
+#ifdef __EMSCRIPTEN__
+    static void replace_header_for_opengles(std::string& shader_txt)
+    {
+        std::string const target_string = "#version 330 core";
+
+        std::size_t const pos = shader_txt.find(target_string);
+        if (pos == std::string::npos) {
+            std::cout << "Warning, could not find [" << target_string << "] in the shader to compile for OpenGL ES" << std::endl;
+            return;
+        }
+
+        std::string const replacement_string = "#version 300 es\nprecision mediump float;";
+        shader_txt.replace(pos, target_string.size(), replacement_string);
+
+    }
+#endif
+
+#ifdef __EMSCRIPTEN__
+    GLuint opengl_load_shader(std::string const& vertex_shader_path, std::string const& fragment_shader_path, bool adapt_opengles)
+#else
+    GLuint opengl_load_shader(std::string const& vertex_shader_path, std::string const& fragment_shader_path, bool )
+#endif
     {
         // Check the file are accessible
         if (check_file_exist(vertex_shader_path) == 0) {
@@ -171,8 +194,21 @@ namespace cgp
         assert_file_exist(fragment_shader_path);
 
         // Read the files
-        std::string const vertex_shader_text   = read_text_file(vertex_shader_path);
-        std::string const fragment_shader_text = read_text_file(fragment_shader_path);
+        std::string vertex_shader_text = read_text_file(vertex_shader_path);
+        std::string fragment_shader_text = read_text_file(fragment_shader_path);
+
+
+#ifdef __EMSCRIPTEN__
+        if (adapt_opengles) {
+            // Replace the header line of openGL version in the shader for become OpenGL ES
+            // #version 330 core => #version 300 es + precision mediump float;
+            replace_header_for_opengles(vertex_shader_text);
+            replace_header_for_opengles(fragment_shader_text);
+
+            std::cout << vertex_shader_text << std::endl;
+        }
+#endif
+        
 
 
         // Compile the programs
@@ -226,4 +262,6 @@ namespace cgp
 
         return program_id;
     }
+
+
 }

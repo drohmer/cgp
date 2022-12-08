@@ -1,7 +1,7 @@
 
 
 #include "cgp/cgp.hpp" // Give access to the complete CGP library
-#include "path_info.hpp"  // Additional info on the system to help setup a scene
+#include "environment.hpp" // The general scene environment + project variable
 #include <iostream> 
 
 
@@ -34,7 +34,7 @@ int main(int, char* argv[])
 {
 	std::cout << "Run " << argv[0] << std::endl;
 
-
+	
 
 	// ************************ //
 	//     INITIALISATION
@@ -44,7 +44,7 @@ int main(int, char* argv[])
 	scene.window = standard_window_initialization();
 
 	// Initialize System Info
-	path_info::initialize(argv[0]);
+	project::path = cgp::project_path_find(argv[0], "shaders/");
 
 	// Initialize default shaders
 	initialize_default_shaders();
@@ -130,8 +130,8 @@ void animation_loop()
 void initialize_default_shaders()
 {
 	// Generate the default directory from which the shaders are found
-	//  By default, it should be "shaders/opengl3/"
-	std::string default_path_shaders = path_info::shaders;
+	//  By default, it should be "shaders/"
+	std::string default_path_shaders = project::path +"shaders/";
 
 	// Set standard mesh shader for mesh_drawable
 	mesh_drawable::default_shader.load(default_path_shaders +"mesh/vert.glsl", default_path_shaders +"mesh/frag.glsl");

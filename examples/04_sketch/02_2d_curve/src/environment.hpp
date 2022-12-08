@@ -5,6 +5,7 @@
 using namespace cgp;
 
 
+
 struct environment_structure : environment_generic_structure
 {
 	// Color of the background of the scene
@@ -24,5 +25,15 @@ struct environment_structure : environment_generic_structure
 
 	environment_structure();
 	void send_opengl_uniform(opengl_shader_structure const& shader, bool expected = true) const override;
+
+};
+
+
+
+// Global variables about your project
+struct project {
+
+	// Global variable storing the relative path to the root of the project (access to shaders/, assets/, etc)
+	static std::string path;
 
 };

@@ -1,6 +1,6 @@
 #include "environment.hpp"
 
-
+std::string project::path = "";
 
 environment_structure::environment_structure()
 {

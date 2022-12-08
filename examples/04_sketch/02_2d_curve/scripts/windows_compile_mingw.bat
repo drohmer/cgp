@@ -1,6 +1,7 @@
 @ECHO OFF
 
 Rem Assume MinGW installed and configured via MSYS2 https://www.msys2.org/
+Rem mingw32-make.exe must be in the windows path (you may follow this tutorial https://code.visualstudio.com/docs/languages/cpp for installation)
 
 Rem Make sure we are in the directory containing the .bat script
 cd %~dp0

@@ -25,15 +25,48 @@ uniform mat4 projection; // Projection (perspective or orthogonal) matrix of the
 
 uniform mat4 modelNormal; // Model without scaling used for the normal. modelNormal = transpose(inverse(model))
 
+// Additional uniform variable representing the time for the deformation
+uniform float time;
 
+
+// Deformer function
+//  Computes the procedural deformation z = 0.05*cos( (x^2+y^2)^0.5 - 3*t );
+vec3 deformer(vec3 p0)
+{
+	float d = sqrt(p0.x*p0.x+p0.y*p0.y);
+	float omega = 20.0*d - 3.0*time;
+
+	vec3 p = vec3(p0.x, p0.y, 0.05*cos(omega) );
+
+	return p;
+}
+
+// Deformer function for the normal
+//  Compute the partial derivative of the function
+vec3 deformer_normal(vec3 p0)
+{
+	float d = sqrt(p0.x*p0.x+p0.y*p0.y);
+	float omega = 20.0*d - 3.0*time;
+
+	// Compute exact normals after deformation
+	vec3 dpdx = vec3(1.0, 0.0, -20.0*p0.x/d*0.05*sin(omega) );
+	vec3 dpdy = vec3(0.0, 1.0, -20.0*p0.y/d*0.05*sin(omega) );
+	vec3 n = normalize(cross(dpdx,dpdy));
+
+	return n;
+}
 
 void main()
 {
+	// Apply deformation
+	vec3 p_deformed = deformer(vertex_position);
+	vec3 n_deformed = deformer_normal(vertex_position);
+
 	// The position of the vertex in the world space
-	vec4 position = model * vec4(vertex_position, 1.0);
+	vec4 position = model * vec4(p_deformed, 1.0);
 
 	// The normal of the vertex in the world space
-	vec4 normal = modelNormal * vec4(vertex_normal, 0.0);
+	vec4 normal = modelNormal * vec4(n_deformed, 0.0);
 
 	// The projected position of the vertex in the normalized device coordinates:
 	vec4 position_projected = projection * view * position;

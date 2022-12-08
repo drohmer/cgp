@@ -1,10 +1,6 @@
 #include "scene.hpp"
-#include "path_info.hpp"
 
 using namespace cgp;
-
-
-
 
 void scene_structure::initialize()
 {
@@ -14,14 +10,13 @@ void scene_structure::initialize()
 	global_frame.initialize_data_on_gpu(mesh_primitive_frame());
 
 	mesh mesh_grid = mesh_primitive_grid({ -1,-1,0 }, { 1,-1,0 }, { 1,1,0 }, { -1,1,0 }, 200, 200);
-
-	
+		
 	surface.initialize_data_on_gpu(mesh_grid);	
 	surface.material.color = { 0.8f, 0.95f, 1.0f };
 	surface.material.texture_settings.two_sided=true;
 
 	// Set the shader with animated deformation
-	surface.shader.load(path_info::shaders + "mesh_deformation/vert.glsl", path_info::shaders + "mesh_deformation/frag.glsl");
+	surface.shader.load(project::path + "shaders/mesh_deformation/vert.glsl", project::path + "shaders/mesh_deformation/frag.glsl");
 }
 
 

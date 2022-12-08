@@ -16,7 +16,13 @@ namespace cgp
 
 		// Load a new shader from filepath
 		//  Expect to load a new shader on an empty structure (otherwise the previous shader is not automatically destroyed from memory)
-		void load(std::string const& vertex_shader_path, std::string const& fragment_shader_path);
+		//   If adapt_opengles is true, then the function will attempt to automatically adapt the shader header to be compatible with OpenGL ES
+		//    In practice, it will convert the line
+		//      # opengl 330 core
+		//    into
+		//      # opengl 300 es
+		//      # precision mediump float;
+		void load(std::string const& vertex_shader_path, std::string const& fragment_shader_path, bool adapt_opengles=true);
 
 		// Load a new shader from inline text
 		void load_from_inline_text(std::string const& vertex_shader_text, std::string const& fragment_shader_text);

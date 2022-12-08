@@ -4,9 +4,7 @@
 #include "cgp/cgp.hpp"
 #include "environment.hpp"
 
-
 using cgp::mesh_drawable;
-
 
 struct gui_parameters {
 	bool display_frame = true;

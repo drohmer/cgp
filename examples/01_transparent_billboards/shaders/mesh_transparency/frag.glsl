@@ -112,6 +112,11 @@ void main()
 	if(material.texture_settings.use_texture == false) {
 		color_image_texture=vec4(1.0,1.0,1.0,1.0);
 	}
+
+	// Fully discard the pixel if the alpha value is less than a given threshold.
+	if(color_image_texture.a < 0.5){
+		discard;
+	}
 	
 	// Compute Shading
 	// *************************************** //
