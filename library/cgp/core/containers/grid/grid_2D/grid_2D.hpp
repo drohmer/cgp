@@ -17,6 +17,7 @@ namespace cgp
 /** Container for 2D-grid like structure storing numerical element
  *
  * The grid_2D structure provide convenient access for 2D-grid organization where an element can be queried as grid_2D(i,j).
+ * The indexing is obtained as grid_2D(k1,k2) = k1 + N1*k2
  * Elements of grid_2D are stored contiguously in heap memory and remain fully compatible with std::vector and pointers.
  **/
 template <typename T>
@@ -75,6 +76,9 @@ struct grid_2D
     typename std::vector<T>::const_iterator cbegin() const;
     typename std::vector<T>::const_iterator cend() const;
 
+    /** Direct access to the value - doesn't check index bounds*/
+    inline T const& at(int index) const { return data.at(index); }
+    inline T& at(int index) { return data.at(index); }
 
 
 };

@@ -76,6 +76,7 @@ struct numarray
     typename std::vector<T>::const_iterator cend() const;
 
     /** Direct access to the value - doesn't check index bounds*/
+    // Depreciated function - use at() instead
     T const& at_unsafe(int index) const;
     T& at_unsafe(int index);
 };
