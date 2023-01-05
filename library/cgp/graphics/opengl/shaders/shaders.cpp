@@ -18,7 +18,7 @@ namespace cgp
 
     /** Compile shaders from direct text input.
     * Display no debug information in case of success */
-    GLuint opengl_load_shader_from_text(std::string const& vertex_shader, std::string const& fragment_shader);
+    GLuint opengl_load_shader_from_text(std::string const& vertex_shader, std::string const& fragment_shader, bool* load_shader_ok=nullptr);
 
 
 
@@ -28,13 +28,13 @@ namespace cgp
         id = opengl_load_shader(vertex_shader_path, fragment_shader_path, adapt_opengles);
     }
 
-    void opengl_shader_structure::load_from_inline_text(std::string const& vertex_shader_text, std::string const& fragment_shader_text)
+    void opengl_shader_structure::load_from_inline_text(std::string const& vertex_shader_text, std::string const& fragment_shader_text, bool* load_shader_ok)
     {
         if (id != 0) {
             std::cout << " Warning: try to load a shader (" << vertex_shader_text << "," << fragment_shader_text << ") on a non empty shader_structure" << std::endl;
         }
 
-        id = opengl_load_shader_from_text(vertex_shader_text, fragment_shader_text);
+        id = opengl_load_shader_from_text(vertex_shader_text, fragment_shader_text, load_shader_ok);
     }
 
 
@@ -126,12 +126,19 @@ namespace cgp
 
 
     
-	GLuint opengl_load_shader_from_text(std::string const& vertex_shader_txt, std::string const& fragment_shader_txt)
+	GLuint opengl_load_shader_from_text(std::string const& vertex_shader_txt, std::string const& fragment_shader_txt, bool* load_shader_ok)
 	{
         GLuint vertex_shader_id; 
         GLuint fragment_shader_id; 
-        compile_shader(GL_VERTEX_SHADER, vertex_shader_txt, vertex_shader_id);
-        compile_shader(GL_FRAGMENT_SHADER, fragment_shader_txt, fragment_shader_id);
+        bool vertex_ok = compile_shader(GL_VERTEX_SHADER, vertex_shader_txt, vertex_shader_id);
+        bool fragment_ok = compile_shader(GL_FRAGMENT_SHADER, fragment_shader_txt, fragment_shader_id);
+
+        if (!vertex_ok || !fragment_ok) {
+            std::cout << "Error compiling shader" << std::endl;
+            if(load_shader_ok!=nullptr)
+                *load_shader_ok = false;
+            return 0;
+        }
 
         assert_cgp_no_msg( glIsShader(vertex_shader_id) );
         assert_cgp_no_msg( glIsShader(fragment_shader_id) );
@@ -147,11 +154,20 @@ namespace cgp
         // Link Program
         glLinkProgram( program_id );
 
-        check_link(vertex_shader_id, fragment_shader_id, program_id);
+        bool link_ok = check_link(vertex_shader_id, fragment_shader_id, program_id);
+        if (link_ok == false) {
+            std::cout << "Error linking shader" << std::endl;
+            if (load_shader_ok != nullptr)
+                *load_shader_ok = false;
+            return 0;
+        }
 
         // Shader can be detached.
         glDetachShader( program_id, vertex_shader_id);
         glDetachShader( program_id, fragment_shader_id);
+
+        if (load_shader_ok != nullptr)
+            *load_shader_ok = true;
 
         return program_id;
 	}

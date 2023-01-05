@@ -100,6 +100,7 @@ namespace cgp
 
 	void draw(mesh_drawable const& drawable, environment_generic_structure const& environment, uniform_generic_structure const& additional_uniforms, GLenum draw_mode)
 	{
+		opengl_check;
 		// Initial clean check
 		// ********************************** //
 		// If there is not vertices or not triangles, returns

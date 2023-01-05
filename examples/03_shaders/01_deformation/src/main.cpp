@@ -62,6 +62,10 @@ int main(int, char* argv[])
 	std::cout << "Start animation loop ..." << std::endl;
 	fps_record.start();
 
+
+	// Call the main display loop in the function animation_loop
+	//  The following part is simply a loop that call the function "animation_loop"
+	//  (This call is different when we compile in standard mode with GLFW, than when we compile with emscripten to output the result in a webpage.)
 #ifndef __EMSCRIPTEN__
 	// Default mode to run the animation/display loop with GLFW in C++
 	while (!glfwWindowShouldClose(scene.window.glfw_window)) {
@@ -209,42 +213,51 @@ void mouse_move_callback(GLFWwindow* /*window*/, double xpos, double ypos)
 }
 
 // This function is called everytime a mouse button is clicked/released
-void mouse_click_callback(GLFWwindow* /*window*/, int button, int action, int /*mods*/)
+void mouse_click_callback(GLFWwindow* window, int button, int action, int mods)
 {
+	ImGui_ImplGlfw_MouseButtonCallback(window, button, action, mods);
+	
 	scene.inputs.mouse.click.update_from_glfw_click(button, action);
 	scene.mouse_click_event();
 }
 
 // This function is called everytime the mouse is scrolled
-void mouse_scroll_callback(GLFWwindow* /*window*/, double /*xoffset*/, double yoffset)
+void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
+	ImGui_ImplGlfw_ScrollCallback(window, xoffset, yoffset);
+
 	scene.inputs.mouse.scroll = yoffset;
 	scene.mouse_scroll_event();
 }
 
 // This function is called everytime a keyboard touch is pressed/released
-void keyboard_callback(GLFWwindow* /*window*/, int key, int, int action, int /*mods*/)
+void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	scene.inputs.keyboard.update_from_glfw_key(key, action);
-	scene.keyboard_event();
+	ImGui_ImplGlfw_KeyCallback(window, key, scancode, action, mods);
+	bool imgui_capture_keyboard = ImGui::GetIO().WantCaptureKeyboard;
+	
+	if(!imgui_capture_keyboard){
+		scene.inputs.keyboard.update_from_glfw_key(key, action);
+		scene.keyboard_event();
 
-	// Press 'F' for full screen mode
-	if (key == GLFW_KEY_F && action == GLFW_PRESS && scene.inputs.keyboard.shift) {
-		scene.window.is_full_screen = !scene.window.is_full_screen;
-		if (scene.window.is_full_screen)
-			scene.window.set_full_screen();
-		else
-			scene.window.set_windowed_screen();
-	}
-	// Press 'V' for camera frame/view matrix debug
-	if (key == GLFW_KEY_V && action == GLFW_PRESS && scene.inputs.keyboard.shift) {
-		auto const camera_model = scene.camera_control.camera_model;
-		std::cout << "\nDebug camera (position = " << str(camera_model.position()) << "):\n" << std::endl;
-		std::cout << "  Frame matrix:" << std::endl;
-		std::cout << str_pretty(camera_model.matrix_frame()) << std::endl;
-		std::cout << "  View matrix:" << std::endl;
-		std::cout << str_pretty(camera_model.matrix_view()) << std::endl;
+		// Press 'F' for full screen mode
+		if (key == GLFW_KEY_F && action == GLFW_PRESS && scene.inputs.keyboard.shift) {
+			scene.window.is_full_screen = !scene.window.is_full_screen;
+			if (scene.window.is_full_screen)
+				scene.window.set_full_screen();
+			else
+				scene.window.set_windowed_screen();
+		}
+		// Press 'V' for camera frame/view matrix debug
+		if (key == GLFW_KEY_V && action == GLFW_PRESS && scene.inputs.keyboard.shift) {
+			auto const camera_model = scene.camera_control.camera_model;
+			std::cout << "\nDebug camera (position = " << str(camera_model.position()) << "):\n" << std::endl;
+			std::cout << "  Frame matrix:" << std::endl;
+			std::cout << str_pretty(camera_model.matrix_frame()) << std::endl;
+			std::cout << "  View matrix:" << std::endl;
+			std::cout << str_pretty(camera_model.matrix_view()) << std::endl;
 
+		}
 	}
 
 }

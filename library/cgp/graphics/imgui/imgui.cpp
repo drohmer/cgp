@@ -15,6 +15,7 @@ void imgui_init(GLFWwindow* window)
     ImGui_ImplOpenGL3_Init("#version 300 es");
 #endif
     ImGui::StyleColorsClassic();
+
 }
 
 void imgui_create_frame()

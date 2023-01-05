@@ -22,10 +22,13 @@ namespace cgp
 		//    into
 		//      # opengl 300 es
 		//      # precision mediump float;
+		// This function raises an error if the shader cannot be loaded succesfully and the program stop indicating an error.
 		void load(std::string const& vertex_shader_path, std::string const& fragment_shader_path, bool adapt_opengles=true);
 
 		// Load a new shader from inline text
-		void load_from_inline_text(std::string const& vertex_shader_text, std::string const& fragment_shader_text);
+		// If the shader is loaded successfully, the value load_shader_ok is set to true (if it is not nullptr).
+		// If the shader fails to load, the value load_shader_ok is set to false (if it is not nullptr). The program doesn't crash if the shader cannot be loaded.
+		void load_from_inline_text(std::string const& vertex_shader_text, std::string const& fragment_shader_text, bool *load_shader_ok=nullptr);
 
 		// Query the location of a uniform variable using the cache system
 		GLint query_uniform_location(std::string const& uniform_name) const;
