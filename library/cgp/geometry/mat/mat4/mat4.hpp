@@ -180,6 +180,15 @@ namespace cgp
         float& at_offset(int offset);
 
 
+        // Apply mat4 to a vec3 representing a 3D position:
+        //  Similar to q = M*vec4(p,1.0); return q.xyz()/q.w()
+        vec3 apply_to_vec3_position(vec3 const& pos);
+
+        // Apply mat4 to a vec3 representing a spatial vector:
+        //  Similar to q = (M*vec4(p,0.0)).xyz();
+        vec3 apply_to_vec3_vector(vec3 const& vec);
+
+
         matrix_stack<float, 3, 3> remove_row_column(int k1, int k2) const;
 
         /** Set a block within the matrix from a specific offset

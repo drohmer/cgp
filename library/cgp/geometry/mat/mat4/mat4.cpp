@@ -359,6 +359,28 @@ namespace cgp
     }
 
 
+
+    vec3 mat4::apply_to_vec3_position(vec3 const& pos)
+    {
+        float const x = data.x.x * pos.x + data.x.y * pos.y + data.x.z * pos.z + data.x.w;
+        float const y = data.y.x * pos.x + data.y.y * pos.y + data.y.z * pos.z + data.y.w;
+        float const z = data.z.x * pos.x + data.z.y * pos.y + data.z.z * pos.z + data.z.w;
+        float const w = data.w.x * pos.x + data.w.y * pos.y + data.w.z * pos.z + data.w.w;
+        
+        return vec3{ x / w, y / w, z / w };
+    }
+
+
+    vec3 mat4::apply_to_vec3_vector(vec3 const& v)
+    {
+        return {
+            data.x.x * v.x + data.x.y * v.y + data.x.z * v.z,
+            data.y.x * v.x + data.y.y * v.y + data.y.z * v.z,
+            data.z.x * v.x + data.z.y * v.y + data.z.z * v.z
+        };
+    }
+
+
     vec4 mat4::col_x() const
     {
         return vec4(data.x.x, data.y.x, data.z.x, data.w.x);

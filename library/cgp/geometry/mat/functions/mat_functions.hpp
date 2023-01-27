@@ -22,9 +22,6 @@ namespace cgp
 	mat3 inverse(mat3 const& m);
 	mat4 inverse(mat4 const& m);
 
-	// Transformation in homogeneous coordinates applied to a vec3 using a mat4 (special case of mat4 and vec3)
-	//  Assume p=(x,y,z,1); 
-	//  Compute p' = M*p, and returns the normalized vector (x'/w', y'/w', z'/w')
-	vec3 operator*(matrix_stack<float, 4, 4> const& M, vec3 const& p);
+
 }
 

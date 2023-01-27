@@ -125,15 +125,7 @@ namespace cgp
 	}
 
 
-	vec3 operator*(matrix_stack<float, 4, 4> const& M, vec3 const& p)
-	{
-		float const x = M.data.x.x * p.x + M.data.x.y * p.y + M.data.x.z * p.z + M.data.x.w;
-		float const y = M.data.y.x * p.x + M.data.y.y * p.y + M.data.y.z * p.z + M.data.y.w;
-		float const z = M.data.z.x * p.x + M.data.z.y * p.y + M.data.z.z * p.z + M.data.z.w;
-		float const w = M.data.w.x * p.x + M.data.w.y * p.y + M.data.w.z * p.z + M.data.w.w;
 
-		return vec3(x / w, y / w, z / w);
-	}
 
 
 

@@ -22,7 +22,7 @@ namespace cgp
         numarray_stack<T, 3>(T const& x, numarray_stack<T, 2> const& yz);
         template<typename T1,typename T2, typename T3>
         numarray_stack<T,3>(T1 const& x, T2 const& y, T3 const& z);
-        numarray_stack<T,3>(numarray_stack<T,4> const& v);
+
 
 
         /** Size of the buffer = 3 */
@@ -89,10 +89,6 @@ namespace cgp
         :x(T(x_arg)), y(T(y_arg)), z(T(z_arg))
     {}
 
-    template <typename T>
-    numarray_stack<T, 3>::numarray_stack(numarray_stack<T, 4> const& v)
-        : x(v.x), y(v.y), z(v.z)
-    {}
 
     template <typename T> int numarray_stack<T, 3>::size() const
     {
