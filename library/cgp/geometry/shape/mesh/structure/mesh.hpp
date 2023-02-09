@@ -3,6 +3,7 @@
 
 #include "cgp/core/containers/containers.hpp"
 #include "cgp/geometry/vec/vec.hpp"
+#include "cgp/geometry/transform/transform.hpp"
 
 namespace cgp
 {
@@ -25,6 +26,17 @@ namespace cgp
 		mesh& push_back(mesh const& to_add);
 		mesh& flip_connectivity();
 		mesh& normal_update();
+
+		/** Apply a translation to position. Shorthand for(vec3& p: position) { p += t; } */
+		mesh& apply_translation_to_position(vec3 const& t);
+		/** Apply a scaling to position. Shorthand for(vec3& p: position) { p *= s; } */
+		mesh& apply_scaling_to_position(float s);
+		/** Apply a rotation to position. Shorthand for(vec3& p: position) { p = R*p; }, with R the corresponding rotation.*/
+		mesh& apply_rotation_to_position(vec3 const& axis, float angle);
+
+		/** Apply transformation to position */
+		mesh& apply_to_position(mat3 const& M);
+		mesh& apply_to_position(mat4 const& M);
 	};
 
 	/** Compute automaticaly a per-vertex normal given a set of positions and their connectivity 

@@ -1,5 +1,7 @@
 #include "mesh.hpp"
 
+
+
 #include <set>
 
 namespace cgp
@@ -221,6 +223,40 @@ namespace cgp
 	mesh& mesh::normal_update()
 	{
 		normal_per_vertex(position, connectivity, normal);
+		return *this;
+	}
+
+	mesh& mesh::apply_translation_to_position(vec3 const& t)
+	{
+		for (vec3& p : position)
+			p += t;
+		return *this;
+	}
+	mesh& mesh::apply_scaling_to_position(float s)
+	{
+		for (vec3& p : position)
+			p *= s;
+		return *this;
+	}
+	mesh& mesh::apply_rotation_to_position(vec3 const& axis, float angle)
+	{
+		rotation_transform R = rotation_transform::from_axis_angle(axis, angle);
+		for (vec3& p : position)
+			p = R*p;
+		return *this;
+	}
+	mesh& mesh::apply_to_position(mat3 const& M)
+	{
+		for (vec3& p : position)
+			p = M * p;
+		return *this;
+	}
+	mesh& mesh::apply_to_position(mat4 const& M)
+	{
+		for (vec3& p : position) {
+			vec4 q = M * vec4(p, 1.0f);
+			p = q.xyz() / q.w;
+		}
 		return *this;
 	}
 

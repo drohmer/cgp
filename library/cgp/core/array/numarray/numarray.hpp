@@ -53,6 +53,7 @@ struct numarray
     /** Fill the container with the same element (from index 0 to size-1) */
     numarray<T>& fill(T const& value);
 
+
     /** Element access
      * Allows numarray[i], numarray(i), and numarray.at(i)
      * Bound checking is performed unless cgp_NO_DEBUG is defined. */
@@ -619,6 +620,7 @@ template <typename T> auto const* ptr(numarray<T> const& v)
     using cgp::ptr;
     return ptr(v[0]);
 }
+
 
 
 
