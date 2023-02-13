@@ -108,6 +108,7 @@ void animation_loop()
 	}
 
 	imgui_create_frame();
+	ImGui::GetIO().FontGlobalScale = project::gui_scale;
 	ImGui::Begin("GUI", NULL, ImGuiWindowFlags_AlwaysAutoResize);
 	scene.inputs.mouse.on_gui = ImGui::GetIO().WantCaptureMouse;
 	scene.inputs.time_interval = time_interval;

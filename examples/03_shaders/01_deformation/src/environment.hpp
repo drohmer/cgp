@@ -36,4 +36,7 @@ struct project {
 	// Global variable storing the relative path to the root of the project (access to shaders/, assets/, etc)
 	static std::string path;
 
+	// ImGui Scale: change this value (default=1) for larger/smaller gui
+	static float gui_scale;
+
 };

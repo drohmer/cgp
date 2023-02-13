@@ -21,6 +21,9 @@ namespace cgp
 [[noreturn]] void call_error(std::string const& error, std::string const& message, std::string const& filename, std::string const& function_name, int line);
 
 void call_warning(std::string const& message_id, std::string const& extra, std::string const& filename, std::string const& function_name, int line);
+struct cgp_warning {
+	static int max_warning; // change max_warning in your program to 0 to remove all warnings
+};
 }
 
 #ifndef CGP_NO_DEBUG
@@ -45,4 +48,9 @@ void call_warning(std::string const& message_id, std::string const& extra, std::
 //      - message_id: The content of the warning that is supposed to be unique. Similar message_id can only be displayed a limited number of time.
 //      - extra: Any extra information to this warning that doesn't count as a unique id.
 
-#define warning_cgp(MESSAGE_ID, EXTRA) { cgp::call_warning(MESSAGE_ID, EXTRA, __FILE__, __func__, __LINE__); }
+#ifndef CGP_NO_WARNING
+	#define warning_cgp(MESSAGE_ID, EXTRA) { cgp::call_warning(MESSAGE_ID, EXTRA, __FILE__, __func__, __LINE__); }
+#else
+	#define warning_cgp(MESSAGE_ID, EXTRA) {}
+#endif
+

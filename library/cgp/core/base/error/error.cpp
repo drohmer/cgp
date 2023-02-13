@@ -8,6 +8,7 @@ namespace cgp
 {
 
 static std::map<std::string, int> warning_storage;
+int cgp_warning::max_warning = 4;
 
 void call_error(std::string const& assert_arg, std::string const& message, std::string const& filename, std::string const& function_name, int line)
 {
@@ -52,16 +53,15 @@ void call_error(std::string const& assert_arg, std::string const& message, std::
 
 void call_warning(std::string const& message_id, std::string const& extra, std::string const& filename, std::string const& function_name, int line)
 {
-    int const max_warning = 4;
 
     cgp::warning_storage[message_id] = cgp::warning_storage[message_id] + 1;
 
-    if (cgp::warning_storage[message_id] > max_warning)
+    if (cgp::warning_storage[message_id] > cgp_warning::max_warning)
         return ;
     
     std::string output  = "[Warning cgp] "+message_id+" "+extra; 
     output += "\n  file:"+filename+", function:"+function_name+", "+std::to_string(line)+"\n";
-    if (cgp::warning_storage[message_id] == max_warning) {
+    if (cgp::warning_storage[message_id] == cgp_warning::max_warning) {
         output += "\n(The previous warning has been displayed several times and will not be displayed anymore)";
     }
 
