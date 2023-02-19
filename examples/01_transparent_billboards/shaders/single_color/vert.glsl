@@ -1,4 +1,4 @@
-#version 330 core // Header for OpenGL 3.3
+#version 330 core
 
 layout (location = 0) in vec3 position;
 

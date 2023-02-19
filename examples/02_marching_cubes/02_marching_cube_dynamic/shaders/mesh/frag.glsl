@@ -1,4 +1,4 @@
-#version 330 core // Header for OpenGL 3.3
+#version 330 core 
 
 // Fragment shader - this code is executed for every pixel/fragment that belongs to a displayed shape
 //
@@ -92,7 +92,7 @@ void main()
 	// Specular coefficient
 	float specular_component = 0.0;
 	if(diffuse_component>0.0){
-		vec3 R = reflect(-L,N); // symetric of light-direction with respect to the normal
+		vec3 R = reflect(-L,N); // reflection of light vector relative to the normal.
 		vec3 V = normalize(camera_position-fragment.position);
 		specular_component = pow( max(dot(R,V),0.0), material.phong.specular_exponent );
 	}

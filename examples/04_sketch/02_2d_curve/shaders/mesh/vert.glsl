@@ -1,4 +1,4 @@
-#version 330 core // Header for OpenGL 3.3
+#version 330 core
 
 // Vertex shader - this code is executed for every vertex of the shape
 
