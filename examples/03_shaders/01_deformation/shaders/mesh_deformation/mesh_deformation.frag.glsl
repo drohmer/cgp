@@ -1,5 +1,4 @@
-#version 300 es // Compatible with OpenGL ES
-precision mediump float;
+#version 330 core
 
 // Fragment shader - this code is executed for every pixel/fragment that belongs to a displayed shape
 //

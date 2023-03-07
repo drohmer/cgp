@@ -16,7 +16,7 @@ void scene_structure::initialize()
 	surface.material.texture_settings.two_sided=true;
 
 	// Set the shader with animated deformation
-	surface.shader.load(project::path + "shaders/mesh_deformation/vert.glsl", project::path + "shaders/mesh_deformation/frag.glsl");
+	surface.shader.load(project::path + "shaders/mesh_deformation/mesh_deformation.vert.glsl", project::path + "shaders/mesh_deformation/mesh_deformation.frag.glsl");
 }
 
 

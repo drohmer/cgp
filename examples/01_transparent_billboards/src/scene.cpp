@@ -20,7 +20,7 @@ void scene_structure::initialize()
 	foliage.initialize_data_on_gpu(mesh_load_file_obj(project::path + "assets/foliage.obj"));
 	foliage.texture.load_and_initialize_texture_2d_on_gpu(project::path + "assets/pine.png");
 
-	foliage.shader.load(project::path + "shaders/mesh_transparency/vert.glsl", project::path + "shaders/mesh_transparency/frag.glsl"); // set the shader handling transparency for the foliage
+	foliage.shader.load(project::path + "shaders/mesh_transparency/mesh_transparency.vert.glsl", project::path + "shaders/mesh_transparency/mesh_transparency.frag.glsl"); // set the shader handling transparency for the foliage
 	foliage.material.phong = { 0.4f, 0.6f, 0, 1 };  // remove specular effect for the billboard
 
 }

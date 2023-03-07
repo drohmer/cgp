@@ -1,4 +1,4 @@
-#version 330 core // Header for OpenGL 3.3
+#version 330 core
 
 // Fragment shader - this code is executed for every pixel/fragment that belongs to a displayed shape
 //
@@ -110,6 +110,11 @@ void main()
 	vec4 color_image_texture = texture(image_texture, uv_image);
 	if(material.texture_settings.use_texture == false) {
 		color_image_texture=vec4(1.0,1.0,1.0,1.0);
+	}
+
+	// Fully discard the pixel if the alpha value is less than a given threshold.
+	if(color_image_texture.a < 0.5){
+		discard;
 	}
 	
 	// Compute Shading

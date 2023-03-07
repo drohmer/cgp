@@ -1,5 +1,4 @@
-#version 300 es // OpenGL ES 3 - Compatible WebGL
-precision mediump float;
+#version 330 core
 
 // Vertex shader - this code is executed for every vertex of the shape
 
