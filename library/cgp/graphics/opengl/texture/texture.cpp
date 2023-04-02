@@ -145,8 +145,6 @@ namespace cgp
         GLenum const gl_format = format_to_data_type(format);    // expect GL_RGB or GL_RGBA
         GLenum const gl_component = format_to_component(format); // expect GL_UNISNGED_BYTE
 
-        std::cout << (gl_format == GL_RGBA) << std::endl;
-        std::cout << (gl_component == GL_UNSIGNED_BYTE) << std::endl;
 
         glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, format, h, h, 0, gl_format, gl_component, ptr(x_neg.data));
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, format, h, h, 0, gl_format, gl_component, ptr(x_pos.data));
