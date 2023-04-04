@@ -11,7 +11,7 @@ namespace cgp
 
 		std::string s;
 		s += "[VENDOR]      : " + str((char*)(glGetString(GL_VENDOR))) + "\n";
-		s += "[RENDERDER]   : " + str((char*)(glGetString(GL_RENDERER))) + "\n";
+		s += "[RENDERER]    : " + str((char*)(glGetString(GL_RENDERER))) + "\n";
 		s += "[VERSION]     : " + str((char*)(glGetString(GL_VERSION))) + "\n";
 		s += "[GLSL VERSION]: " + str((char*)(glGetString(GL_SHADING_LANGUAGE_VERSION))) + "\n";
 
