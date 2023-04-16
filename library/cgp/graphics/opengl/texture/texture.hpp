@@ -1,8 +1,11 @@
 #pragma once
 
+#include "cgp/opengl_include.hpp"
+#include "../debug/debug.hpp"
+
 #include "cgp/core/containers/image/image.hpp"
 #include "cgp/core/containers/containers.hpp"
-#include "cgp/graphics/opengl/opengl.hpp"
+
 
 
 namespace cgp
@@ -31,6 +34,8 @@ namespace cgp
 		//  Similar to: initialize_texture_2d_on_gpu( image_load_file(filename), ...)
 		void load_and_initialize_texture_2d_on_gpu(std::string const& filename, GLint wrap_s = GL_CLAMP_TO_EDGE, GLint wrap_t = GL_CLAMP_TO_EDGE, bool is_mipmap = true, GLint texture_mag_filter = GL_LINEAR, GLint texture_min_filter = GL_LINEAR_MIPMAP_LINEAR);
 
+
+
 		// Initialize a GL_TEXTURE_2D from an image
 		void initialize_texture_2d_on_gpu(image_structure const& im, GLint wrap_s = GL_CLAMP_TO_EDGE, GLint wrap_t = GL_CLAMP_TO_EDGE, bool is_mipmap = true, GLint texture_mag_filter = GL_LINEAR, GLint texture_min_filter = GL_LINEAR_MIPMAP_LINEAR);
 
@@ -40,6 +45,8 @@ namespace cgp
 		// Initialize a CUBEMAP on GPU from 6 squared images
 		void initialize_cubemap_on_gpu(image_structure const& x_neg, image_structure const& x_pos, image_structure const& y_neg, image_structure const& y_pos, image_structure const& z_neg, image_structure const& z_pos);
 
+		// Initialize a generic GL_TEXTURE from empty data
+		void initialize_texture_2d_on_gpu(int width_arg, int height_arg, GLint format_arg=GL_RGB8, GLenum texture_type_arg= GL_TEXTURE_2D, GLint wrap_s= GL_CLAMP_TO_EDGE, GLint wrap_t= GL_CLAMP_TO_EDGE, GLint texture_mag_filter= GL_LINEAR, GLint texture_min_filter= GL_LINEAR);
 
 		// Update a 2D texture
 		void update(grid_2D<vec3> const& im);

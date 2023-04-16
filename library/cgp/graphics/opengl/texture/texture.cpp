@@ -51,10 +51,11 @@ namespace cgp
 
         if (is_mipmap) {
             glGenerateMipmap(texture_type); opengl_check;
-
-            glTexParameteri(texture_type, GL_TEXTURE_MAG_FILTER, texture_mag_filter); opengl_check;
-            glTexParameteri(texture_type, GL_TEXTURE_MIN_FILTER, texture_min_filter); opengl_check;
         }
+
+        glTexParameteri(texture_type, GL_TEXTURE_MAG_FILTER, texture_mag_filter); opengl_check;
+        glTexParameteri(texture_type, GL_TEXTURE_MIN_FILTER, texture_min_filter); opengl_check;
+        
 
         glBindTexture(texture_type, 0); opengl_check;
 
@@ -116,6 +117,21 @@ namespace cgp
         id = opengl_initialize_texture_2d_on_gpu(width, height, ptr(im.data),
             wrap_s, wrap_t, texture_type, format, format_to_data_type(format), format_to_component(format),
             is_mippmap, texture_mag_filter, texture_min_filter);
+
+    }
+
+    void opengl_texture_image_structure::initialize_texture_2d_on_gpu(int width_arg, int height_arg, GLint format_arg, GLenum texture_type_arg, GLint wrap_s, GLint wrap_t, GLint texture_mag_filter, GLint texture_min_filter)
+    {
+        // Store parameters
+        width = width_arg;
+        height = height_arg;
+        format = format_arg;
+        texture_type = texture_type_arg;
+
+        // Initialize texture data on GPU
+        id = opengl_initialize_texture_2d_on_gpu(width, height, (void*)NULL,
+            wrap_s, wrap_t, texture_type, format, format_to_data_type(format), format_to_component(format),
+            false, texture_mag_filter, texture_min_filter);
 
     }
 

@@ -98,7 +98,7 @@ namespace cgp
 	}
 
 
-	void draw(mesh_drawable const& drawable, environment_generic_structure const& environment, uniform_generic_structure const& additional_uniforms, GLenum draw_mode)
+	void draw(mesh_drawable const& drawable, environment_generic_structure const& environment, bool expected_uniforms, uniform_generic_structure const& additional_uniforms, GLenum draw_mode)
 	{
 		opengl_check;
 		// Initial clean check
@@ -120,13 +120,13 @@ namespace cgp
 		// ********************************** //
 
 		// send the uniform values for the model and material of the mesh_drawable
-		drawable.send_opengl_uniform();
+		drawable.send_opengl_uniform(expected_uniforms);
 
 		// send the uniform values for the environment
-		environment.send_opengl_uniform(drawable.shader);
+		environment.send_opengl_uniform(drawable.shader, expected_uniforms);
 
 		// [Optionnal] send any additional uniform for this specidic draw call
-		additional_uniforms.send_opengl_uniform(drawable.shader);
+		additional_uniforms.send_opengl_uniform(drawable.shader, expected_uniforms);
 
 
 		// Set textures
@@ -144,7 +144,7 @@ namespace cgp
 
 			glActiveTexture(GL_TEXTURE0 + texture_count); opengl_check;
 			additional_texture.bind();
-			opengl_uniform(drawable.shader, additional_texture_name, texture_count);
+			opengl_uniform(drawable.shader, additional_texture_name, texture_count, expected_uniforms);
 
 			texture_count++;
 		}
@@ -168,7 +168,7 @@ namespace cgp
 		glUseProgram(0);
 	}
 
-	void draw_wireframe(mesh_drawable const& drawable, environment_generic_structure const& environment, vec3 const& color, uniform_generic_structure const& additional_uniforms)
+	void draw_wireframe(mesh_drawable const& drawable, environment_generic_structure const& environment, vec3 const& color, bool expected_uniforms, uniform_generic_structure const& additional_uniforms)
 	{
 #ifndef __EMSCRIPTEN__ 		// Polygon Mode not available in WebGL
 		mesh_drawable wireframe = drawable;
@@ -179,7 +179,7 @@ namespace cgp
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glEnable(GL_POLYGON_OFFSET_LINE);
 		glPolygonOffset(-1.0, 1.0);        opengl_check;
-		draw(wireframe, environment, additional_uniforms);
+		draw(wireframe, environment, expected_uniforms, additional_uniforms);
 		glDisable(GL_POLYGON_OFFSET_LINE); opengl_check;
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 #endif
@@ -201,6 +201,6 @@ namespace cgp
 		opengl_uniform(shader, "modelNormal", model_normal_shader, expected);
 
 		// set the material
-		material.send_opengl_uniform(shader);
+		material.send_opengl_uniform(shader, expected);
 	}
 }
