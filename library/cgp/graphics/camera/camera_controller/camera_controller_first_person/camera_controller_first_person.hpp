@@ -21,7 +21,9 @@ namespace cgp
 		//void idle_frame(camera_orbit_spherical_coord& camera);
 		void idle_frame(mat4& camera_matrix_view);
 
-	private:
+		void update(mat4& camera_matrix_view);
+
+	protected:
 		bool is_cursor_trapped = false; // true = cursor captured (/infinite motion), false = cursor free
 	};
 }

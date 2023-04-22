@@ -8,7 +8,7 @@ static void deform_terrain(mesh& m);
 void scene_elements_structure::initialize() {
 
 	camel.initialize_data_on_gpu(mesh_load_file_obj(project::path + "assets/camel.obj"));
-	camel.model.translation = { -1.0f, -2.0f, 0.5f };
+	camel.model.translation = { -1.5f, -2.5f, 0.1f };
 	camel.model.scaling = 0.5f;
 
 	float L = 5.0f;

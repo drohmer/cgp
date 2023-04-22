@@ -74,9 +74,9 @@ namespace cgp
 		if (inputs->keyboard.is_pressed(GLFW_KEY_D))
 			camera_model.manipulator_translate_in_plane({ -magnitude ,0 });
 		if (inputs->keyboard.is_pressed(GLFW_KEY_W))
-			camera_model.manipulator_translate_front(-magnitude);
-		if (inputs->keyboard.is_pressed(GLFW_KEY_S))
 			camera_model.manipulator_translate_front(magnitude);
+		if (inputs->keyboard.is_pressed(GLFW_KEY_S))
+			camera_model.manipulator_translate_front(-magnitude);
 
 		// with arrows:
 		if (inputs->keyboard.ctrl == false) {
@@ -91,12 +91,29 @@ namespace cgp
 		}
 		else {
 			if (inputs->keyboard.up)
-				camera_model.manipulator_translate_front(-magnitude);
-			if (inputs->keyboard.down)
 				camera_model.manipulator_translate_front(magnitude);
+			if (inputs->keyboard.down)
+				camera_model.manipulator_translate_front(-magnitude);
 		}
 
 
 		update(camera_matrix_view);
+	}
+
+	void camera_controller_first_person_euler::set_rotation_axis(vec3 const& rotation_axis)
+	{
+		camera_model.set_rotation_axis(rotation_axis);
+	}
+	void camera_controller_first_person_euler::set_rotation_axis_x()
+	{
+		camera_model.set_rotation_axis({ 1,0,0 });
+	}
+	void camera_controller_first_person_euler::set_rotation_axis_y()
+	{
+		camera_model.set_rotation_axis({ 0,1,0 });
+	}
+	void camera_controller_first_person_euler::set_rotation_axis_z()
+	{
+		camera_model.set_rotation_axis({ 0,0,1 });
 	}
 }

@@ -112,4 +112,10 @@ namespace cgp
 
 		camera_matrix_view = camera_model.matrix_view();
 	}
+
+
+	void camera_controller_first_person::update(mat4& camera_matrix_view)
+	{
+		camera_matrix_view = camera_model.matrix_view();
+	}
 }
