@@ -30,33 +30,17 @@ namespace cgp{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	void opengl_fbo_structure::start(vec3 const& background_color) const {
-
+	void opengl_fbo_structure::bind() const {
 		glBindFramebuffer(GL_FRAMEBUFFER, id);
-		glViewport(0, 0, width, height);
 		texture.bind();
-
-
-		glClearColor(background_color.x, background_color.y, background_color.z, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glEnable(GL_DEPTH_TEST);
-
 	}
 	
-	void opengl_fbo_structure::stop(vec3 const& background_color) const {
-
-		// quit the framebuffer
+	void opengl_fbo_structure::unbind() const {
 		texture.unbind();
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		
-
-		// Goes to standard rendering setup
-		glViewport(0, 0, width, height);
-		glClearColor(background_color.x, background_color.y, background_color.z, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-		glEnable(GL_DEPTH_TEST);
-
 	}
+
+
 
 	void opengl_fbo_structure::update_screen_size(int new_width, int new_height) {
 

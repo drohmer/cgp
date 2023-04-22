@@ -17,9 +17,17 @@ void scene_structure::initialize()
 	camel.model.scaling = 0.5f;
 
 	cube.initialize_data_on_gpu(mesh_primitive_cube());
-	cube.model.translation = {-1.0f, 1.5f, 0.0f},
+	cube.model.translation = { -1.0f, 1.5f, 0.0f };
 
-	multipass_rendering.initialize(project::path + "shaders/screen_effect_convolution/screen_effect_convolution.vert.glsl", project::path + "shaders/screen_effect_convolution/screen_effect_convolution.frag.glsl");
+	// Load shader effect
+	opengl_shader_structure shader_effect;
+	shader_effect.load(project::path + "shaders/screen_effect_convolution/screen_effect_convolution.vert.glsl", 
+		project::path + "shaders/screen_effect_convolution/screen_effect_convolution.frag.glsl");
+
+	// Initialize multipass renderer
+	multipass_rendering.initialize();
+	multipass_rendering.set_shader_pass_2(shader_effect);
+
 }
 
 
@@ -56,7 +64,10 @@ void scene_structure::display_frame()
 	// Display the result on a quad taking all the size of the screen
 	//  The quad is associated to a shader with a screen-based effect (ex. image gradient)
 	//  The texture used by the quad is the output texture of the FBO
-	draw(multipass_rendering, environment); // display the quad with expected_uniform=false to avoid warning about non-used uniforms for standard rendering
+
+	multipass_rendering.start_pass_2();
+	multipass_rendering.draw_pass_2(environment); // Apply the screen effect at that time
+	multipass_rendering.end_pass_2();
 
 	// Can display any shape in the scene (displayed on top of the quad)
 	if (gui.display_frame)

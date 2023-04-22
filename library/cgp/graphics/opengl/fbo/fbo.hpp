@@ -20,12 +20,11 @@ namespace cgp {
 	//  | fbo.initialize();
 	//  | ...
 	//  // Drawing pass
-	//  | fbo.start();
+	//  | fbo.bind();
 	//  | draw(myShape, environement);
-	//  | fbo.stop();
+	//  | fbo.unbind();
 	// 
-	//  // At this stage fbo.texture stores the render of draw
-	//     Rendering are back to the default Color buffer
+	//  The result image is stored in the texture variable
 
 
 	struct opengl_fbo_structure {
@@ -48,12 +47,13 @@ namespace cgp {
 		void initialize();
 
 		// Start the rendering pass where the output will be stored on the FBO
-		void start(vec3 const& background_color = { 1,1,1 }) const;
-		// Stop the rendering pass on the FBO, re-initialize the Color Buffer
-		void stop(vec3 const& background_color = { 1,1,1 }) const;
+		void bind() const;
+		// Stop the rendering pass on the FBO
+		void unbind() const;
 
 		// Update the screen size (resize the texture if needed)
 		void update_screen_size(int window_width, int windows_height);
+
 
 		// Max size for the depth-map
 		static const int max_width = 3840;
