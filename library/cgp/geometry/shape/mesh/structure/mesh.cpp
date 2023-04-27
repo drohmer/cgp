@@ -286,4 +286,40 @@ namespace cgp
 				one_ring_buffer[k].push_back(idx);
 		return one_ring_buffer;
 	}
+
+	void mesh::get_bounding_box_position(vec3& p_min, vec3& p_max) const
+	{
+		assert_cgp(position.size() > 0, "Mesh must have more than 1 position");
+
+		p_min = position[0];
+		p_max = position[0];
+		for (int k = 1; k < position.size(); ++k) {
+			vec3 const& p = position[k];
+			p_min = vec3(std::min(p_min.x, p.x), std::min(p_min.y, p.y), std::min(p_min.z, p.z));
+			p_max = vec3(std::max(p_max.x, p.x), std::max(p_max.y, p.y), std::max(p_max.z, p.z));
+		}
+	}
+
+	mesh& mesh::apply_centering_to_position()
+	{
+		vec3 p_min, p_max;
+		get_bounding_box_position(p_min, p_max);
+		vec3 const center = (p_min + p_max) / 2.0f;
+		apply_translation_to_position(-center);
+
+		return *this;
+	}
+	
+	mesh& mesh::apply_normalize_size_to_position()
+	{
+		vec3 p_min, p_max;
+		get_bounding_box_position(p_min, p_max);
+		vec3 L = p_max - p_min;
+		float L_max = std::max(std::max(L.x, L.y), L.z);
+
+		assert_cgp( std::abs(L_max) > 1e-5f, "Mesh has a length that seems to be zero");
+
+		apply_scaling_to_position(1.0f / L_max);
+		return *this;
+	}
 }

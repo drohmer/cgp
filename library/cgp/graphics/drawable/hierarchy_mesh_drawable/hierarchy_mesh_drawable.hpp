@@ -49,9 +49,9 @@ namespace cgp
 		std::string hierarchy_display() const;
 	};
 
-	void draw(hierarchy_mesh_drawable const& drawable, environment_generic_structure const& environment = environment_generic_structure(), bool expected_uniforms=true, uniform_generic_structure const& additional_uniforms = uniform_generic_structure());
+	void draw(hierarchy_mesh_drawable const& drawable, environment_generic_structure const& environment = environment_generic_structure(), int instance_count=1, bool expected_uniforms=true, uniform_generic_structure const& additional_uniforms = uniform_generic_structure());
 
-	void draw_wireframe(hierarchy_mesh_drawable const& drawable, environment_generic_structure const& environment = environment_generic_structure(), vec3 const& color = { 0,0,1 }, bool expected_uniforms=true, uniform_generic_structure const& additional_uniforms = uniform_generic_structure());
+	void draw_wireframe(hierarchy_mesh_drawable const& drawable, environment_generic_structure const& environment = environment_generic_structure(), vec3 const& color = { 0,0,1 }, int instance_count = 1, bool expected_uniforms=true, uniform_generic_structure const& additional_uniforms = uniform_generic_structure());
 
 
 }

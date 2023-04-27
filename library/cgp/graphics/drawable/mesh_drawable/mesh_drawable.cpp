@@ -98,7 +98,7 @@ namespace cgp
 	}
 
 
-	void draw(mesh_drawable const& drawable, environment_generic_structure const& environment, bool expected_uniforms, uniform_generic_structure const& additional_uniforms, GLenum draw_mode)
+	void draw(mesh_drawable const& drawable, environment_generic_structure const& environment, int instance_count, bool expected_uniforms, uniform_generic_structure const& additional_uniforms, GLenum draw_mode)
 	{
 		opengl_check;
 		// Initial clean check
@@ -158,7 +158,12 @@ namespace cgp
 
 		// Draw call
 		// ********************************** //
-		glDrawElements(draw_mode, GLsizei(drawable.ebo_connectivity.size * 3), GL_UNSIGNED_INT, nullptr); opengl_check;
+		if (instance_count <= 1) {
+			glDrawElements(draw_mode, GLsizei(drawable.ebo_connectivity.size * 3), GL_UNSIGNED_INT, nullptr); opengl_check;
+		}
+		else {
+			glDrawElementsInstanced(draw_mode, GLsizei(drawable.ebo_connectivity.size * 3), GL_UNSIGNED_INT, nullptr, instance_count); opengl_check;
+		}
 
 
 		// Clean state
@@ -168,7 +173,7 @@ namespace cgp
 		glUseProgram(0);
 	}
 
-	void draw_wireframe(mesh_drawable const& drawable, environment_generic_structure const& environment, vec3 const& color, bool expected_uniforms, uniform_generic_structure const& additional_uniforms)
+	void draw_wireframe(mesh_drawable const& drawable, environment_generic_structure const& environment, vec3 const& color, int instance_count, bool expected_uniforms, uniform_generic_structure const& additional_uniforms)
 	{
 #ifndef __EMSCRIPTEN__ 		// Polygon Mode not available in WebGL
 		mesh_drawable wireframe = drawable;
@@ -179,7 +184,7 @@ namespace cgp
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glEnable(GL_POLYGON_OFFSET_LINE);
 		glPolygonOffset(-1.0, 1.0);        opengl_check;
-		draw(wireframe, environment, expected_uniforms, additional_uniforms);
+		draw(wireframe, environment, instance_count, expected_uniforms, additional_uniforms);
 		glDisable(GL_POLYGON_OFFSET_LINE); opengl_check;
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 #endif

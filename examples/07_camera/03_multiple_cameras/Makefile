@@ -1,10 +1,10 @@
-# This Makefile will generate an executable file named 01_camera_fly_mode
+# This Makefile will generate an executable file named 03_multiple_cameras
 
 # This path should point to the CGP library depending on the current directory
 ## You may need to it in case you move the position of your directory
 PATH_TO_CGP = ../../../library/
 
-TARGET ?= 01_camera_fly_mode #name of the executable
+TARGET ?= 03_multiple_cameras #name of the executable
 SRC_DIRS ?= src/ $(PATH_TO_CGP)
 CXX = g++ #Or clang++
 

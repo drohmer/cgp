@@ -178,18 +178,18 @@ namespace cgp
     }
 
 
-    void draw(hierarchy_mesh_drawable const& hierarchy, environment_generic_structure const& environment, bool expected_uniforms, uniform_generic_structure const& additional_uniforms)
+    void draw(hierarchy_mesh_drawable const& hierarchy, environment_generic_structure const& environment, int instance_count, bool expected_uniforms, uniform_generic_structure const& additional_uniforms)
     {
         int const N = hierarchy.elements.size();
         for (int k = 0; k < N; ++k)
-            draw(hierarchy.elements[k].drawable, environment, expected_uniforms, additional_uniforms);
+            draw(hierarchy.elements[k].drawable, environment, instance_count, expected_uniforms, additional_uniforms);
     }
 
-    void draw_wireframe(hierarchy_mesh_drawable const& hierarchy, environment_generic_structure const& environment, vec3 const& color, bool expected_uniforms, uniform_generic_structure const& additional_uniforms)
+    void draw_wireframe(hierarchy_mesh_drawable const& hierarchy, environment_generic_structure const& environment, vec3 const& color, int instance_count, bool expected_uniforms, uniform_generic_structure const& additional_uniforms)
     {
         int const N = hierarchy.elements.size();
         for (int k = 0; k < N; ++k)
-            draw_wireframe(hierarchy.elements[k].drawable, environment, color, expected_uniforms, additional_uniforms);
+            draw_wireframe(hierarchy.elements[k].drawable, environment, color, instance_count, expected_uniforms, additional_uniforms);
     }
 
 }

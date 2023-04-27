@@ -37,6 +37,13 @@ namespace cgp
 		/** Apply transformation to position */
 		mesh& apply_to_position(mat3 const& M);
 		mesh& apply_to_position(mat4 const& M);
+
+		/** Center the mesh positions around 0*/
+		mesh& apply_centering_to_position();
+		/** Normalize the bounding box of the mesh element to fit in a unit cube*/
+		mesh& apply_normalize_size_to_position();
+
+		void get_bounding_box_position(vec3& p_min, vec3& p_max) const;
 	};
 
 	/** Compute automaticaly a per-vertex normal given a set of positions and their connectivity 

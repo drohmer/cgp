@@ -7,11 +7,11 @@ set(PATH_TO_CGP "../../library/" CACHE PATH "Relative path to CGP library locati
 
 # Check that the path to the library is correct
 get_filename_component(ABS_PATH_TO_CGP ${PATH_TO_CGP} ABSOLUTE)
+message(STATUS "The relative path to the library is set to ${PATH_TO_CGP}")
+message(STATUS "The absolute path to the library is set to ${ABS_PATH_TO_CGP}")
 if(NOT EXISTS ${ABS_PATH_TO_CGP})
-   message(ERROR " Could not import the CGP library using the relative path ${directory_to_library} - please adjust this path in the CMakeLists.txt")
-else()
-   message(STATUS "The relative path to the library is set to ${PATH_TO_CGP}")
-   message(STATUS "The absolute path to the library is set to ${ABS_PATH_TO_CGP}")
+   message(FATAL_ERROR "\nError: Could not import the CGP library using the relative path \"${PATH_TO_CGP}\".\n Please adjust this path in the CMakeLists.txt=>PATH_TO_CGP or via the cmake-gui\n Note that this relative path should point to the directory cgp/library/ ")
+   return()
 endif()
 
 # Compile for Release with Debug Info
