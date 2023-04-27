@@ -41,7 +41,7 @@ namespace cgp
 	{
 		frame F = camera_frame_look_at(eye, center, up);
 		orientation_camera = F.orientation;
-		position_camera = center;
+		position_camera = eye;
 	}
 
 }

@@ -47,10 +47,10 @@ namespace cgp
 		if (!is_active) return;
 
 		float const angle_magnitude = inputs->time_interval;
-		if (inputs->keyboard.left) {
+		if (inputs->keyboard.left || inputs->keyboard.is_pressed(GLFW_KEY_R)) {
 			camera_model.manipulator_rotate_roll_pitch_yaw(angle_magnitude,0,0);
 		}
-		if (inputs->keyboard.right) {
+		if (inputs->keyboard.right || inputs->keyboard.is_pressed(GLFW_KEY_F)) {
 			camera_model.manipulator_rotate_roll_pitch_yaw(-angle_magnitude, 0, 0);
 		}
 
@@ -62,7 +62,19 @@ namespace cgp
 		camera_model.look_at(eye, center, up);
 	}
 
-
+	std::string camera_controller_orbit::doc_usage() const
+	{
+		std::string doc;
+		doc += "Info Camera Controller: Orbit - Camera that rotates around a central focus point.\n";
+		doc += "Camera control: \n";
+		doc += "   - Mouse left click + drag: ArcBall rotation.\n";
+		doc += "   - Mouse right click + drag: Camera move close/far from its central focus point (the focus point remains unchanged).\n";
+		doc += "   - Ctrl + Mouse left click + drag: Translate/Pan the camera and its central focus point in the viewspace plane.\n";
+		doc += "   - Ctrl + Mouse right click + drag: Translate the camera and its central focus point in front/back direction.\n";
+		doc += "   - Key left/right: Twist/Roll the camera angle around the view direction.\n";
+			
+		return doc;
+	}
 
 	
 }

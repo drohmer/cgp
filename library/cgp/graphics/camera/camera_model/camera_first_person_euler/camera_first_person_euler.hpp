@@ -32,7 +32,10 @@ namespace cgp
 		void manipulator_twist_rotation_axis(float magnitude);
 
 		void manipulator_rotate_roll_pitch_yaw(float d_roll, float d_pitch, float d_yaw);
+
+		// Translate the camera in the (right,up) plane
 		void manipulator_translate_in_plane(vec2 const& tr);
+		// Translate the camera in the front direction
 		void manipulator_translate_front(float magnitude);
 
 		// Change the rotation axis

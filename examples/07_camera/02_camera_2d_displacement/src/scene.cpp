@@ -4,12 +4,13 @@
 using namespace cgp;
 
 
-static void display_info();
+
 
 void scene_structure::initialize()
 {
 	camera_control.initialize(inputs, window); // Give access to the inputs and window global state to the camera controler
 	camera_control.set_rotation_axis_y();
+	display_info();
 	
 
 	global_frame.initialize_data_on_gpu(mesh_primitive_frame());
@@ -24,18 +25,23 @@ void scene_structure::initialize()
 
 	gui.display_frame = false;
 
-	display_info();
+
 
 }
 
-static void display_info()
+void scene_structure::display_info()
 {
-	std::cout << "\nINFO:" << std::endl;
+	std::cout << "\nCAMERA CONTROL:" << std::endl;
 	std::cout << "-----------------------------------------------" << std::endl;
-	std::cout << "Displacement: use arrows or WSAD/ZSQD to move front/back and right/left" << std::endl;
-	std::cout << "Use mouse drag to change the camera orientation" << std::endl;
-	std::cout << "For game-like mode: Use 'F' for full screen; 'C' for mouse capture." << std::endl;
-	std::cout << "-----------------------------------------------" << std::endl << std::endl;;
+	std::cout << camera_control.doc_usage() << std::endl;
+	std::cout << "-----------------------------------------------\n" << std::endl;
+
+
+	std::cout << "\nSCENE INFO:" << std::endl;
+	std::cout << "-----------------------------------------------" << std::endl;
+	std::cout << "This scene allows the character to give the impression of being able to walk on the ground using the mouse and keyboard (keys or WSAD/ZSQD)." << std::endl;
+	std::cout << "For game-like mode: Use 'Shift+F' for full screen; 'Shift+C' for mouse capture." << std::endl;
+	std::cout << "-----------------------------------------------\n" << std::endl ;
 }
 
 void scene_structure::display_frame()

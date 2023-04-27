@@ -22,23 +22,30 @@ struct scene_structure : cgp::scene_inputs_generic {
 	// Elements and shapes of the scene
 	// ****************************** //
 	camera_projection_perspective camera_projection;
+	
 	window_structure window;
-
+	environment_structure environment;   // default environment
 	mesh_drawable global_frame;          // The standard global frame
-	environment_structure environment;   // Standard environment controler
 	input_devices inputs;                // Storage for inputs status (mouse, keyboard, window dimension)
 	gui_parameters gui;                  // Standard GUI element storage
 	
 
-	// Special camera mode adapted to a fly mode
-	camera_controller_fly_mode camera_control;
+	// ****************************** //
+	// A scene with two cameras is handled with two camera control and two environments
+	// ****************************** //
+
+	camera_controller_orbit_euler camera_control;  // default camera 
+	camera_controller_orbit_euler camera2_control; // camera for the environment 2
+	
+
 
 
 	// ****************************** //
 	// Elements and shapes of the scene
 	// ****************************** //
 
-	mesh_drawable terrain;
+	cgp::timer_basic timer;
+	mesh_drawable cube;
 
 
 	// ****************************** //
@@ -54,8 +61,6 @@ struct scene_structure : cgp::scene_inputs_generic {
 	void mouse_click_event();
 	void keyboard_event();
 	void idle_frame();
-
-	void display_info();
 
 };
 

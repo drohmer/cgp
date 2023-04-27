@@ -21,17 +21,19 @@ namespace cgp
 		bool const event_valid = !inputs->mouse.on_gui;
 		bool const click_left = inputs->mouse.click.left;
 		bool const click_right = inputs->mouse.click.right;
+		bool const ctrl = inputs->keyboard.ctrl;
 
 
 		if (event_valid) {
-			if (!is_cursor_trapped) {
-				if (click_left)
-					camera_model.manipulator_rotate_roll_pitch_yaw( 0, dp.y, -dp.x);
-				else if (click_right)
-					camera_model.manipulator_translate_front(-(p1 - p0).y);
+			if (click_left || (is_cursor_trapped && !click_right)) {
+				if (!ctrl)
+					camera_model.manipulator_rotate_roll_pitch_yaw(0, dp.y, -dp.x); // left drag => rotates
+				else
+					camera_model.manipulator_twist_rotation_axis(dp.x); // left drag + Ctrl => twist
+
 			}
-			else if (is_cursor_trapped)
-				camera_model.manipulator_rotate_roll_pitch_yaw( 0, dp.y, -dp.x);
+			else if (click_right)
+				camera_model.manipulator_translate_front((p1 - p0).y); // right draw => move front/back
 		}
 
 		update(camera_matrix_view);
@@ -66,38 +68,42 @@ namespace cgp
 
 		// displacement with WSAD
 		if (inputs->keyboard.is_pressed(GLFW_KEY_R))
-			camera_model.manipulator_translate_in_plane({ 0,-magnitude });
+			camera_model.manipulator_translate_in_plane({ 0, magnitude }); // up
 		if (inputs->keyboard.is_pressed(GLFW_KEY_F))
-			camera_model.manipulator_translate_in_plane({ 0, magnitude });
+			camera_model.manipulator_translate_in_plane({ 0,-magnitude }); // down
 		if (inputs->keyboard.is_pressed(GLFW_KEY_A))
-			camera_model.manipulator_translate_in_plane({ magnitude ,0 });
+			camera_model.manipulator_translate_in_plane({-magnitude ,0 }); // left
 		if (inputs->keyboard.is_pressed(GLFW_KEY_D))
-			camera_model.manipulator_translate_in_plane({ -magnitude ,0 });
+			camera_model.manipulator_translate_in_plane({magnitude ,0 }); // right
 		if (inputs->keyboard.is_pressed(GLFW_KEY_W))
-			camera_model.manipulator_translate_front(magnitude);
+			camera_model.manipulator_translate_front(magnitude); // forward
 		if (inputs->keyboard.is_pressed(GLFW_KEY_S))
-			camera_model.manipulator_translate_front(-magnitude);
+			camera_model.manipulator_translate_front(-magnitude); // backward
+		if(inputs->keyboard.is_pressed(GLFW_KEY_Q))
+			camera_model.manipulator_twist_rotation_axis( magnitude); // twist left
+		if (inputs->keyboard.is_pressed(GLFW_KEY_E))
+			camera_model.manipulator_twist_rotation_axis(-magnitude); // twist right
 
 		// with arrows:
 		if (inputs->keyboard.ctrl == false) {
 			if (inputs->keyboard.up)
-				camera_model.manipulator_translate_in_plane({ 0,-magnitude });
+				camera_model.manipulator_translate_front(magnitude); // forward
 			if (inputs->keyboard.down)
-				camera_model.manipulator_translate_in_plane({ 0, magnitude });
-			if (inputs->keyboard.left)
-				camera_model.manipulator_translate_in_plane({ magnitude ,0 });
-			if (inputs->keyboard.right)
-				camera_model.manipulator_translate_in_plane({ -magnitude ,0 });
+				camera_model.manipulator_translate_front(-magnitude); // backward
 		}
 		else {
 			if (inputs->keyboard.up)
-				camera_model.manipulator_translate_front(magnitude);
+				camera_model.manipulator_translate_in_plane({ 0,magnitude }); // up
 			if (inputs->keyboard.down)
-				camera_model.manipulator_translate_front(-magnitude);
+				camera_model.manipulator_translate_in_plane({ 0,-magnitude }); // down
 		}
-
+		if (inputs->keyboard.left)
+			camera_model.manipulator_translate_in_plane({-magnitude ,0 }); // left
+		if (inputs->keyboard.right)
+			camera_model.manipulator_translate_in_plane({magnitude ,0 }); // right
 
 		update(camera_matrix_view);
+
 	}
 
 	void camera_controller_first_person_euler::set_rotation_axis(vec3 const& rotation_axis)
@@ -115,5 +121,25 @@ namespace cgp
 	void camera_controller_first_person_euler::set_rotation_axis_z()
 	{
 		camera_model.set_rotation_axis({ 0,0,1 });
+	}
+
+	void camera_controller_first_person_euler::look_at(vec3 const& eye, vec3 const& center, vec3 const& )
+	{
+		camera_model.look_at(eye, center);
+	}
+
+	std::string camera_controller_first_person_euler::doc_usage() const
+	{
+		std::string doc;
+		doc += "First Person Euler - Camera that rotates around its own position using Euler angle (XYZ/rool-pitch-yaw Trait-Bryan convention).\n";
+		doc += "Control: \n";
+		doc += "   - Mouse left click + drag: Rotate the camera in its local left/right and up/down direction.\n";
+		doc += "   - Mouse right click + drag: Translate the camera foward/backward.\n";
+		doc += "   - Key arrows or WASD/ZQSD for translating forward/backward/left/right.\n";
+		doc += "   - A(/Q)/E for twisting the camera left/right.\n";
+		doc += "   - R/F for translating the camera up/down.\n";
+		doc += "   - Press \"Shift+C\" (Maj C)  to enter Mouse-Captured Mode: Enables infinite mouse tracking (quit the mode with \"Shift+C\" again or Esc).";
+
+		return doc;
 	}
 }

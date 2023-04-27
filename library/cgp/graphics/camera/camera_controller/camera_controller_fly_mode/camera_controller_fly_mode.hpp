@@ -16,6 +16,8 @@ struct camera_controller_fly_mode : cgp::camera_controller_first_person
 
 	void action_mouse_move(mat4& camera_matrix_view);
 	void idle_frame(mat4& camera_matrix_view);
+
+	std::string doc_usage() const;
 };
 
 }

@@ -23,7 +23,10 @@ namespace cgp
 
 		void update(mat4& camera_matrix_view);
 
-	private:
+		void look_at(vec3 const& eye, vec3 const& center, vec3 const& unused = vec3() /*Only for compatibility*/);
+		std::string doc_usage() const;
+
+	protected:
 		// true = cursor captured (/infinite motion), false = cursor free
 		bool is_cursor_trapped = false; 
 	};

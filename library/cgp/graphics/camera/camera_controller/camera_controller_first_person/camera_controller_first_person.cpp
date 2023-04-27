@@ -17,17 +17,20 @@ namespace cgp
 		bool const event_valid = !inputs->mouse.on_gui;
 		bool const click_left = inputs->mouse.click.left;
 		bool const click_right = inputs->mouse.click.right;
+		bool const ctrl = inputs->keyboard.ctrl;
 
 
 		if (event_valid) {
-			if (!is_cursor_trapped) {
-				if (click_left)
-					camera_model.manipulator_rotate_roll_pitch_yaw( 0, -dp.y, dp.x);
-				else if (click_right)
-					camera_model.manipulator_translate_front(-(p1 - p0).y);
+			if (click_left || (is_cursor_trapped && !click_right) ) {
+				if(!ctrl)
+					camera_model.manipulator_rotate_roll_pitch_yaw(0, -dp.y, dp.x); // left drag => rotates
+				else
+					camera_model.manipulator_rotate_roll_pitch_yaw(-dp.x, 0, 0); // left drag + Ctrl => twist
+
 			}
-			else if (is_cursor_trapped)
-				camera_model.manipulator_rotate_roll_pitch_yaw( 0, -dp.y, dp.x);
+			else if (click_right)
+				camera_model.manipulator_translate_front((p1 - p0).y); // right draw => move front/back
+
 		}
 
 		camera_matrix_view = camera_model.matrix_view();
@@ -64,58 +67,52 @@ namespace cgp
 		float const angle_magnitude = 2*inputs->time_interval;
 
 
-		// displacement with WSAD
-		//   up/down
+		if (inputs->keyboard.up || inputs->keyboard.is_pressed(GLFW_KEY_W))
+			camera_model.manipulator_translate_front(magnitude);           // move front
+		if (inputs->keyboard.down || inputs->keyboard.is_pressed(GLFW_KEY_S))
+			camera_model.manipulator_translate_front(-magnitude);          // move back
+		
+		if (inputs->keyboard.left || inputs->keyboard.is_pressed(GLFW_KEY_A))
+			camera_model.manipulator_translate_in_plane({ magnitude ,0 }); // move left
+		if (inputs->keyboard.right || inputs->keyboard.is_pressed(GLFW_KEY_D))
+			camera_model.manipulator_translate_in_plane({ -magnitude ,0 }); // move right
+
 		if (inputs->keyboard.is_pressed(GLFW_KEY_R))
-			camera_model.manipulator_translate_in_plane({ 0,-magnitude });
+			camera_model.manipulator_translate_in_plane({ 0 , -magnitude }); // up
 		if (inputs->keyboard.is_pressed(GLFW_KEY_F))
-			camera_model.manipulator_translate_in_plane({ 0, magnitude });
-		//   left/right
-		if (inputs->keyboard.is_pressed(GLFW_KEY_A))
-			camera_model.manipulator_translate_in_plane({ magnitude ,0 });
-		if (inputs->keyboard.is_pressed(GLFW_KEY_D))
-			camera_model.manipulator_translate_in_plane({ -magnitude ,0 });
-		//   front/back
-		if (inputs->keyboard.is_pressed(GLFW_KEY_W))
-			camera_model.manipulator_translate_front(-magnitude);
-		if (inputs->keyboard.is_pressed(GLFW_KEY_S))
-			camera_model.manipulator_translate_front(magnitude);
-		//   twist
+			camera_model.manipulator_translate_in_plane({ 0 , magnitude }); // down
+
 		if (inputs->keyboard.is_pressed(GLFW_KEY_Q))
-			camera_model.manipulator_rotate_roll_pitch_yaw(angle_magnitude, 0, 0);
+			camera_model.manipulator_rotate_roll_pitch_yaw(angle_magnitude, 0, 0);  // twist left
 		if (inputs->keyboard.is_pressed(GLFW_KEY_E))
-			camera_model.manipulator_rotate_roll_pitch_yaw(-angle_magnitude, 0, 0);
-
-
-		// With arrows
-		if (inputs->keyboard.ctrl == false) {
-			if (inputs->keyboard.up)
-				camera_model.manipulator_translate_front(-magnitude);
-			if (inputs->keyboard.down)
-				camera_model.manipulator_translate_front(magnitude);
-			if (inputs->keyboard.left)
-				camera_model.manipulator_rotate_roll_pitch_yaw(angle_magnitude, 0, 0);
-			if (inputs->keyboard.right)
-				camera_model.manipulator_rotate_roll_pitch_yaw(-angle_magnitude, 0, 0);
-		}
-		else {
-			if (inputs->keyboard.up)
-				camera_model.manipulator_translate_in_plane({ 0,-magnitude });
-			if (inputs->keyboard.down)
-				camera_model.manipulator_translate_in_plane({ 0, magnitude });
-			if (inputs->keyboard.left)
-				camera_model.manipulator_translate_in_plane({ magnitude ,0 });
-			if (inputs->keyboard.right)
-				camera_model.manipulator_translate_in_plane({ -magnitude ,0 });
-		}
+			camera_model.manipulator_rotate_roll_pitch_yaw(-angle_magnitude, 0, 0);  // twist right
 
 
 		camera_matrix_view = camera_model.matrix_view();
 	}
 
+	void camera_controller_first_person::look_at(vec3 const& eye, vec3 const& center, vec3 const& up)
+	{
+		camera_model.look_at(eye, center, up);
+	}
 
 	void camera_controller_first_person::update(mat4& camera_matrix_view)
 	{
 		camera_matrix_view = camera_model.matrix_view();
+	}
+
+	std::string camera_controller_first_person::doc_usage() const
+	{
+		std::string doc;
+		doc += "First Person - Camera that rotates around its own position.\n";
+		doc += "Control: \n";
+		doc += "   - Mouse left click + drag: Rotate the camera in its local left/right and up/down direction.\n";
+		doc += "   - Mouse right click + drag: Translate the camera foward/backward.\n";
+		doc += "   - Key arrows or WASD/ZQSD for translating forward/backward/left/right.\n";
+		doc += "   - A(/Q)/E for twisting the camera left/right.\n";
+		doc += "   - R/F for translating the camera up/down.\n";
+		doc += "   - Press \"Shift+C\" (Maj C)  to enter Mouse-Captured Mode: Enables infinite mouse tracking (quit the mode with \"Shift+C\" again or Esc).";
+
+		return doc;
 	}
 }

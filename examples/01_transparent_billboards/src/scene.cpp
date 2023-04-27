@@ -9,6 +9,8 @@ void scene_structure::initialize()
 	camera_control.initialize(inputs, window); // Give access to the inputs and window global state to the camera controler
 	camera_control.set_rotation_axis_y();
 	camera_control.look_at({ 3.0f, 2.0f, 2.0f }, {0,0,0}, {0,0,1});
+	display_info();
+
 	global_frame.initialize_data_on_gpu(mesh_primitive_frame());
 
 	trunk.initialize_data_on_gpu(mesh_load_file_obj(project::path + "assets/trunk.obj"));
@@ -23,6 +25,7 @@ void scene_structure::initialize()
 	foliage.shader.load(project::path + "shaders/mesh_transparency/mesh_transparency.vert.glsl", project::path + "shaders/mesh_transparency/mesh_transparency.frag.glsl"); // set the shader handling transparency for the foliage
 	foliage.material.phong = { 0.4f, 0.6f, 0, 1 };  // remove specular effect for the billboard
 
+	
 }
 
 
@@ -68,3 +71,16 @@ void scene_structure::idle_frame()
 	camera_control.idle_frame(environment.camera_view);
 }
 
+void scene_structure::display_info()
+{
+	std::cout << "\nCAMERA CONTROL:" << std::endl;
+	std::cout << "-----------------------------------------------" << std::endl;
+	std::cout << camera_control.doc_usage() << std::endl;
+	std::cout << "-----------------------------------------------\n" << std::endl;
+
+
+	std::cout << "\nSCENE INFO:" << std::endl;
+	std::cout << "-----------------------------------------------" << std::endl;
+	std::cout << "This scene displays a model where the leafs are impostors/billboards textures handled using discard in the shader." << std::endl;
+	std::cout << "-----------------------------------------------\n" << std::endl;
+}

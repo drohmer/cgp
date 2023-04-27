@@ -15,11 +15,12 @@ namespace cgp
 	//     - action_keyboard - called when a keyboard touch is pressed/released
 	//     - action_mouse_click - called when a mouse button is pressed/released
 	//     - idle_frame - called at any frame (ex. for camera animation)
-	//   This class and these functions can be specialized in derived controller class for specicif behavior.
+	//   This class and these functions can be specialized in derived controller class for specific behavior.
 	//
 	//  Technical details:
 	//    The camera controller has access to the global state of the user Inputs (keyboard/mouse), and to the Window via pointers.
-	//    The controller doesn't own the camera class, but dedicated camera classes can be passed to the action functions
+	//    The controller doesn't own the camera matrix but only modifies the one passed as parameter in the action functions.
+	//    Specialized camera controller can own a model of camera allowing to store intermediate states for internal computation.
 	struct camera_controller_generic_base
 	{
 		// Allow to activate/deactivate the camera
@@ -41,7 +42,8 @@ namespace cgp
 		// Pointer to the global state of the window
 		window_structure* window = nullptr;
 
-
+		// Function that should display a doc on how to use the camera controller
+		std::string doc_usage();
 	};
 
 

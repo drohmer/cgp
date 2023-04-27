@@ -10,6 +10,8 @@ using namespace cgp;
 void scene_structure::initialize()
 {
 	camera_control.initialize(inputs, window); // Give access to the inputs and window global state to the camera controler
+	display_info();
+
 	global_frame.initialize_data_on_gpu(mesh_primitive_frame());
 
 	terrain.initialize_data_on_gpu(mesh_load_file_obj(project::path+"assets/terrain.obj"));
@@ -57,5 +59,21 @@ void scene_structure::keyboard_event()
 void scene_structure::idle_frame()
 {
 	camera_control.idle_frame(environment.camera_view);
+}
+
+void scene_structure::display_info()
+{
+	std::cout << "\nCAMERA CONTROL:" << std::endl;
+	std::cout << "-----------------------------------------------" << std::endl;
+	std::cout << camera_control.doc_usage() << std::endl;
+	std::cout << "-----------------------------------------------\n" << std::endl;
+
+
+	std::cout << "\nSCENE INFO:" << std::endl;
+	std::cout << "-----------------------------------------------" << std::endl;
+	std::cout << "This scene allows the character to give the impression of being flying in a plane-like model." << std::endl;
+	std::cout << "The mouse and keyboard allows to control the way the model pulls up/down or roll around its forward axis." << std::endl;
+	std::cout << "For game-like mode: Use 'Shift+F' for full screen; 'Shift+C' for mouse capture." << std::endl;
+	std::cout << "-----------------------------------------------\n" << std::endl;
 }
 
