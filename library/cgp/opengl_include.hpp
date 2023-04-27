@@ -21,10 +21,22 @@
 	#include "third_party/src/glad/opengl33/glad.hpp" 
 #endif
 
-// OpenGL 4.6
+// OpenGL 4.6 Latest OpenGL
 #if CGP_OPENGL_VERSION_MAJOR==4 && CGP_OPENGL_VERSION_MINOR==6
-#include "third_party/src/glad/opengl46/glad.hpp" 
+	#include "third_party/src/glad/opengl46/glad.hpp" 
 #endif
+
+// OpenGL 4.1 (for MacOS who do not support OpenGL>=4.1)
+#if CGP_OPENGL_VERSION_MAJOR==4 && CGP_OPENGL_VERSION_MINOR==1
+#include "third_party/src/glad/opengl41/glad.hpp" 
+#endif
+
+// OpenGL 4.3 (for MacOS who do not support OpenGL>=4.3)
+#if CGP_OPENGL_VERSION_MAJOR==4 && CGP_OPENGL_VERSION_MINOR==3
+#include "third_party/src/glad/opengl43/glad.hpp" 
+#endif
+
+
 
 // Rem. More information on GLAD can be found at these address
 //	  GLAD website: https://github.com/Dav1dde/glad
