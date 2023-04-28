@@ -168,7 +168,7 @@ namespace cgp
             std::string const ext_4 = filename.substr(N - 4, 4);
             if (ext_4 == ".png")
                 return image_load_png(filename);
-            else if (ext_4 == ".jpg")
+            else if (ext_4 == ".jpg" || ext_4 == ".JPG")
                 return image_load_jpg(filename);
         }
         if (N > 5) {

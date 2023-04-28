@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cgp/graphics/opengl/opengl.hpp"
-#include "cgp/geometry/shape/mesh/mesh.hpp"
+#include "cgp/geometry/shape/mesh/structure/mesh.hpp"
 #include "cgp/graphics/drawable/material/material_mesh_drawable_phong/material_mesh_drawable_phong.hpp"
 #include "cgp/graphics/drawable/environment/environment.hpp"
 #include "cgp/geometry/transform/affine/affine.hpp"
