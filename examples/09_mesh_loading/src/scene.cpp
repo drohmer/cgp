@@ -21,9 +21,9 @@ void scene_structure::initialize()
 
 	
 	// Unzip the files in assets/ before runing the code
-	auto struct_shape = mesh_load_file_obj_advanced(project::path + "assets/f1/", "F1GenV3Backup.obj");
-	//auto struct_shape = mesh_load_file_obj_advanced(project::path + "assets/sponza/", "sponza.obj");
-	shapes = mesh_obj_advanced_loader::convert_to_mesh_drawable(s);
+	//auto struct_shape = mesh_load_file_obj_advanced(project::path + "assets/f1/", "F1GenV3Backup.obj");
+	auto struct_shape = mesh_load_file_obj_advanced(project::path + "assets/sponza/", "sponza.obj");
+	shapes = mesh_obj_advanced_loader::convert_to_mesh_drawable(struct_shape);
 
 }
 

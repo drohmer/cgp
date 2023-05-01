@@ -54,7 +54,8 @@ namespace cgp
 		ebo_connectivity.initialize_data_on_gpu(data.connectivity);
 
 
-		// Generate VAO
+		// Generate VAO 
+		//   - Preset shader location for default mesh shaders {position:0, normal:1, color:2, uv:3}
 		glGenVertexArrays(1, &vao); opengl_check;
 		glBindVertexArray(vao); opengl_check;
 		opengl_set_vao_location(vbo_position, 0);
@@ -64,12 +65,35 @@ namespace cgp
 		glBindVertexArray(0); opengl_check;
 	}
 
+	template<typename T>
+	void mesh_drawable::initialize_supplementary_data_on_gpu(numarray<T> const& data, GLuint location_index, GLuint divisor)
+	{
+		assert_cgp(location_index >= 4, "Supplementary data should have location >=4 for mesh_drawable.");
+		if (location_index < 4) return;
+
+		int k = location_index - 4;
+		if (k >= supplementary_vbo.size()) 
+			supplementary_vbo.resize(k+1);
+		supplementary_vbo[k].initialize_data_on_gpu(data, divisor);
+
+		// Update VAO (User responsability to not have conflicted location)
+		glBindVertexArray(vao); opengl_check;
+		opengl_set_vao_location(supplementary_vbo[k], location_index);
+		glBindVertexArray(0); opengl_check;
+	}
+
+	template void mesh_drawable::initialize_supplementary_data_on_gpu(numarray<vec2> const& data, GLuint location_index, GLuint divisor);
+	template void mesh_drawable::initialize_supplementary_data_on_gpu(numarray<vec3> const& data, GLuint location_index, GLuint divisor);
+	template void mesh_drawable::initialize_supplementary_data_on_gpu(numarray<vec4> const& data, GLuint location_index, GLuint divisor);
+
 	void mesh_drawable::clear()
 	{
 		vbo_position.clear();
 		vbo_normal.clear();
 		vbo_color.clear();
 		vbo_uv.clear();
+		for(int k=0; k<supplementary_vbo.size(); ++k)
+			supplementary_vbo[k].clear();
 		ebo_connectivity.clear();
 		
 		if(vao!=0)

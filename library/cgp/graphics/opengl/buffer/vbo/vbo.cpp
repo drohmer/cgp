@@ -16,8 +16,9 @@ namespace cgp
 		return vbo_index;
 	}
 
-	void opengl_vbo_structure::initialize_data_on_gpu(numarray<vec3> const& data)
+	void opengl_vbo_structure::initialize_data_on_gpu(numarray<vec3> const& data, GLuint div)
 	{
+		divisor = div;
 		id = opengl_buffer_data_initialize_generic(data, GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW);
 		size = data.size();
 		type = GL_ARRAY_BUFFER;
@@ -26,8 +27,9 @@ namespace cgp
 		details.size_element = 3;
 		details.type_element = GL_FLOAT;
 	}
-	void opengl_vbo_structure::initialize_data_on_gpu(numarray<vec2> const& data)
+	void opengl_vbo_structure::initialize_data_on_gpu(numarray<vec2> const& data, GLuint div)
 	{
+		divisor = div;
 		id = opengl_buffer_data_initialize_generic(data, GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW);
 		size = data.size();
 		type = GL_ARRAY_BUFFER;
@@ -36,8 +38,9 @@ namespace cgp
 		details.size_element = 2;
 		details.type_element = GL_FLOAT;
 	}
-	void opengl_vbo_structure::initialize_data_on_gpu(numarray<vec4> const& data)
+	void opengl_vbo_structure::initialize_data_on_gpu(numarray<vec4> const& data, GLuint div)
 	{
+		divisor = div;
 		id = opengl_buffer_data_initialize_generic(data, GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW);
 		size = data.size();
 		type = GL_ARRAY_BUFFER;
@@ -46,7 +49,6 @@ namespace cgp
 		details.size_element = 4;
 		details.type_element = GL_FLOAT;
 	}
-
 	void opengl_vbo_structure::update(numarray<vec2> const& data, int size_elements_update)
 	{
 		assert_cgp(size_elements_update <= data.size(), "Cannot update VBO with more elements than data");
@@ -88,6 +90,7 @@ namespace cgp
 		glEnableVertexAttribArray(location_index); opengl_check
 		glVertexAttribPointer(location_index, vbo.details.size_element, vbo.details.type_element, GL_FALSE, 0, nullptr); opengl_check
 		vbo.unbind();
+		if (vbo.divisor>0) { glVertexAttribDivisor(location_index, vbo.divisor);                                         opengl_check; }
 	}
 
 }
