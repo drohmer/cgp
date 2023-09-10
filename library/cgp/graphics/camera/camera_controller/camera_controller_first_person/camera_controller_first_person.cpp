@@ -87,7 +87,6 @@ namespace cgp
 		if (inputs->keyboard.is_pressed(GLFW_KEY_E))
 			camera_model.manipulator_rotate_roll_pitch_yaw(-angle_magnitude, 0, 0);  // twist right
 
-
 		camera_matrix_view = camera_model.matrix_view();
 	}
 
