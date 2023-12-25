@@ -25,6 +25,6 @@ $(TARGET): $(OBJS)
 
 .PHONY: clean
 clean:
-	$(RM) $(TARGET) $(OBJS) $(DEPS)
+	$(RM) $(TARGET) $(OBJS) $(DEPS) imgui.ini
 
 -include $(DEPS)

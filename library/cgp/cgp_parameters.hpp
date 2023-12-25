@@ -26,5 +26,3 @@
 //   This should be only removed for final code  */
 // *************************************************************** //
 // #define CGP_NO_DEBUG
-
-// #test submodule

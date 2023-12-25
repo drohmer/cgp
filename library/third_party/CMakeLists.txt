@@ -22,11 +22,11 @@ add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GLAD)
 #     - MinGW64
 
 if(UNIX) 
-    if(APPLE) # Precompiled library for Apple (comment these lines and use the generic UNIX package if you prefer to use your own version of GLFW3)
+    if(APPLE AND MACOS_GLFW_PRECOMPILED) # Precompiled library for Apple (comment these lines and use the generic UNIX package if you prefer to use your own version of GLFW3)
+        message(STATUS "USE PRECOMPILED GLFW for MACOS")
         set(GLFW_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/precompiled/glfw/macos/include")
         include_directories(${GLFW_INCLUDE_DIRS})
         set(GLFW_LIBRARIES "${CMAKE_CURRENT_LIST_DIR}/precompiled/glfw/macos/lib/libglfw.3.dylib")
-
     else()
         # Generic UNIX/Linux - install GLFW3 from your package manager
         #expect GLFW3 already installed on the system

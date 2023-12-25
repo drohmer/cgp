@@ -5,6 +5,10 @@ cmake_minimum_required(VERSION 3.8)
 # => You may need to adapt this directory to your relative path in the case you move your directory
 set(PATH_TO_CGP "../../../library/" CACHE PATH "Relative path to CGP library location") 
 
+# Set this value to ON if you want to use the precompiled GLFW Library
+OPTION(MACOS_GLFW_PRECOMPILED "Use precompiled library for GLFW on MacOS" OFF)
+
+
 # Check that the path to the library is correct
 get_filename_component(ABS_PATH_TO_CGP ${PATH_TO_CGP} ABSOLUTE)
 message(STATUS "The relative path to the library is set to ${PATH_TO_CGP}")
@@ -55,7 +59,7 @@ add_executable(${executable_name} ${src_files_cgp} ${src_files_third_party} ${sr
 # Set Compiler for Unix system
 if(UNIX)
    set(CMAKE_CXX_COMPILER g++)                      # Can switch to clang++ if prefered
-   add_definitions(-g -O2 -std=c++14 -Wall -Wextra -Wfatal-errors -Wno-pragmas) # Can adapt compiler flags if needed
+   add_definitions(-g -O2 -std=c++14 -Wall -Wextra -Wfatal-errors -Wno-pragmas -Wno-unknown-warning-option) # Can adapt compiler flags if needed
    add_definitions(-Wno-sign-compare -Wno-type-limits) # Remove some warnings
 endif()
 

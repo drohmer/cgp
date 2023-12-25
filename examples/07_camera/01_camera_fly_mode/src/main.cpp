@@ -27,6 +27,7 @@ scene_structure scene;
 window_structure standard_window_initialization(int width = 0, int height = 0);
 void initialize_default_shaders();
 void animation_loop();
+void display_gui_default(scene_structure& scene);
 
 timer_fps fps_record;
 
@@ -115,6 +116,7 @@ void animation_loop()
 
 
 	// Display the ImGUI interface (button, sliders, etc)
+	display_gui_default(scene);
 	scene.display_gui();
 
 	// Handle camera behavior in standard frame
@@ -263,5 +265,17 @@ void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, in
 
 }
 
+void display_gui_default(scene_structure &scene)
+{
+	if(ImGui::CollapsingHeader("Window")) {
+		ImGui::Checkbox("Full Screen", &scene.window.is_full_screen);
+		ImGui::SliderFloat("Gui Scale", &project::gui_scale, 0.5f, 2.5f);
+	}
+
+	if (scene.window.is_full_screen)
+		scene.window.set_full_screen();
+	else
+		scene.window.set_windowed_screen();
+}
 
 

@@ -17,4 +17,3 @@
 #include "core/core.hpp"
 #include "geometry/geometry.hpp"
 #include "graphics/graphics.hpp"
-
