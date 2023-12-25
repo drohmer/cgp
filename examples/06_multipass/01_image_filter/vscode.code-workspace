@@ -1,0 +1,8 @@
+// Configuration file for VSCode workspace to load the current path and the cgp library in the explorer
+// To use it: open your vscode workspace using this file
+{
+	"folders": [
+		{"path": "."},
+		{"path": "../../../library/"}
+	]
+}
