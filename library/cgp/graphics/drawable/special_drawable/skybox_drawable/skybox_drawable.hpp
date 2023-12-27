@@ -26,9 +26,16 @@ namespace cgp {
 		// VAO indicating the VBO organization
 		GLuint vao;
 
-		// Uniform
+		// Uniform model matrix
 		affine model;
 
+		// Unifom rotation of the skybox
+		mat3 skybox_rotation;
+
+		// Uniform alpha value for a color blending
+		float alpha_color_blending = 0.0f;
+		// Uniform color blending
+		vec3 color_blending = vec3(1.0f, 1.0f, 1.0f);
 
 		void initialize_data_on_gpu();
 

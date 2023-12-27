@@ -14,14 +14,16 @@ namespace cgp {
 		layout(location=0) out vec4 FragColor;
 
 		uniform samplerCube image_skybox;
+		uniform mat3 skybox_rotation;
+		uniform float alpha_color_blending;
+		uniform vec3 color_blending;
 
 		void main()
 		{
-			// Apply a symetry on x to preserve the orientation of the image
-			//   (left handed convention system on skybox)
-			vec3 p = fragment.position * vec3(1.0, 1.0, -1.0);
-
-			FragColor = texture(image_skybox, p);
+			vec3 p = fragment.position;
+			vec4 texture_color = texture(image_skybox, skybox_rotation * p);
+			vec3 color_blend = (1-alpha_color_blending)*texture_color.rgb+alpha_color_blending*color_blending;
+			FragColor = vec4(color_blend, texture_color.a);
 		}
 		)";
 
@@ -69,6 +71,7 @@ namespace cgp {
 		}
 
 		model = affine();
+		skybox_rotation = mat3::build_identity();
 
 
 		// Send the data to the GPU
@@ -110,6 +113,9 @@ namespace cgp {
 
 		// send the uniform values for the model and material of the mesh_drawable
 		opengl_uniform(drawable.shader, "model", drawable.model.matrix());
+		opengl_uniform(drawable.shader, "skybox_rotation", drawable.skybox_rotation);
+		opengl_uniform(drawable.shader, "alpha_color_blending", drawable.alpha_color_blending);
+		opengl_uniform(drawable.shader, "color_blending", drawable.color_blending);
 
 		// send the uniform values for the environment
 		environment.send_opengl_uniform(drawable.shader);

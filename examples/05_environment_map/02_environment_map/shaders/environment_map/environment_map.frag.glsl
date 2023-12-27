@@ -64,6 +64,7 @@ uniform material_structure material;
 
 // Image of the skybox
 uniform samplerCube image_skybox;
+uniform mat3 skybox_rotation = mat3(1.0);
 
 
 void main()
@@ -117,7 +118,7 @@ void main()
 
 	// Get the color of the environment map
 	vec3 R_skybox = reflect(-V, N);
-	vec4 color_environment_map = texture(image_skybox, R_skybox);
+	vec4 color_environment_map = texture(image_skybox, skybox_rotation*R_skybox);
 
 	
 	// Compute Shading

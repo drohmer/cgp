@@ -11,4 +11,8 @@ namespace cgp
 	* default call rand_normal() is set with average=0, stddev=1*/
 	float rand_normal(float const average = 0.0f, float const stddev = 1.0f);
 
+	/** Reset the generator to an arbitrary number using the clock 
+	 * Use this function if you want a different behavior of random at every new run */
+	void rand_initialize_generator();
+
 }

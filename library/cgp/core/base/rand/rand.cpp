@@ -19,4 +19,10 @@ float rand_normal(float const average, float const stddev)
     return stddev * distribution_normal(generator) + average;
 }
 
+void rand_initialize_generator()
+{
+    unsigned seed = std::chrono::steady_clock::now().time_since_epoch().count();
+    generator = std::default_random_engine(seed);
+}
+
 }

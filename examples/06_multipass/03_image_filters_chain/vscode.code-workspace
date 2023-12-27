@@ -2,7 +2,39 @@
 // To use it: open your vscode workspace using this file
 {
 	"folders": [
-		{"path": "."},
-		{"path": "../../../library/"}
-	]
+		{
+			"name": "Scene-03_image_filters_chain",
+			"path": "."
+		},
+		{
+			"name": "cgp",
+			"path": "../../../library/",
+		}
+	],
+
+	"extensions": {
+	"recommendations": ["twxs.cmake","raczzalan.webgl-glsl-editor"]
+	},
+
+	"launch": {
+		"configurations": [{
+			"type": "cppdbg",
+			"request": "launch",
+			"name": "C++ Run",
+			"program": "${workspaceFolder:Scene-03_image_filters_chain}/build/03_image_filters_chain",
+			"cwd": "${workspaceFolder:Scene-03_image_filters_chain}",
+			"linux": {
+				"MIMode": "gdb"
+			},
+			"osx": {
+				"MIMode": "lldb"
+			},
+			"externalConsole": false, // common output on external console (default false)
+			"logging": {
+				"moduleLoad": false, // display all library load (default false)
+				"trace": true
+			}
+		}]
+	  }
+
 }

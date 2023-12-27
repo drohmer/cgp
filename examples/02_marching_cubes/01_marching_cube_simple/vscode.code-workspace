@@ -2,7 +2,39 @@
 // To use it: open your vscode workspace using this file
 {
 	"folders": [
-		{"path": "."},
-		{"path": "../../../library/"}
-	]
+		{
+			"name": "Scene-01_marching_cube_simple",
+			"path": "."
+		},
+		{
+			"name": "cgp",
+			"path": "../../../library/",
+		}
+	],
+
+	"extensions": {
+	"recommendations": ["twxs.cmake","raczzalan.webgl-glsl-editor"]
+	},
+
+	"launch": {
+		"configurations": [{
+			"type": "cppdbg",
+			"request": "launch",
+			"name": "C++ Run",
+			"program": "${workspaceFolder:Scene-01_marching_cube_simple}/build/01_marching_cube_simple",
+			"cwd": "${workspaceFolder:Scene-01_marching_cube_simple}",
+			"linux": {
+				"MIMode": "gdb"
+			},
+			"osx": {
+				"MIMode": "lldb"
+			},
+			"externalConsole": false, // common output on external console (default false)
+			"logging": {
+				"moduleLoad": false, // display all library load (default false)
+				"trace": true
+			}
+		}]
+	  }
+
 }
