@@ -135,6 +135,16 @@ template <typename T> numarray<T>& operator/=(numarray<T>& a, float b);
 template <typename T> numarray<T>  operator/(numarray<T> const& a, numarray<T> const& b);
 template <typename T> numarray<T>  operator/(numarray<T> const& a, float b);
 
+// Allow componentwise operations
+template <typename T> numarray<T>  sub(numarray<T> const& a, T const& b);
+template <typename T> numarray<T>  add(numarray<T> const& a, T const& b);
+template <typename T> numarray<T>  mul(numarray<T> const& a, T const& b);
+template <typename T> numarray<T>  div(numarray<T> const& a, T const& b);
+
+template <typename T> numarray<T>  sub(T const& a, numarray<T> const& b);
+template <typename T> numarray<T>  add(T const& a, numarray<T> const& b);
+template <typename T> numarray<T>  mul(T const& a, numarray<T> const& b);
+template <typename T> numarray<T>  div(T const& a, numarray<T> const& b);
 
 }
 
@@ -621,7 +631,103 @@ template <typename T> auto const* ptr(numarray<T> const& v)
     return ptr(v[0]);
 }
 
+template <typename T> numarray<T> sub(numarray<T> const& a, T const& b)
+{
+    int N= a.size();
+    numarray<T> res;
+    res.resize(N);
 
+    for(int k=0; k<N; ++k){
+        res[k] = a[k]-b;
+    }
+
+    return res;
+}
+template <typename T> numarray<T> add(numarray<T> const& a, T const& b)
+{
+    int N= a.size();
+    numarray<T> res;
+    res.resize(N);
+
+    for(int k=0; k<N; ++k){
+        res[k] = a[k]+b;
+    }
+
+    return res;
+}
+template <typename T> numarray<T> mul(numarray<T> const& a, T const& b)
+{
+    int N= a.size();
+    numarray<T> res;
+    res.resize(N);
+
+    for(int k=0; k<N; ++k){
+        res[k] = a[k]*b;
+    }
+
+    return res;
+}
+template <typename T> numarray<T> div(numarray<T> const& a, T const& b)
+{
+    int N= a.size();
+    numarray<T> res;
+    res.resize(N);
+
+    for(int k=0; k<N; ++k){
+        res[k] = a[k]/b;
+    }
+
+    return res;
+}
+
+template <typename T> numarray<T>  sub(T const& a, numarray<T> const& b)
+{
+    int N= a.size();
+    numarray<T> res;
+    res.resize(N);
+
+    for(int k=0; k<N; ++k){
+        res[k] = a-b[k];
+    }
+
+    return res;
+}
+template <typename T> numarray<T>  add(T const& a, numarray<T> const& b)
+{
+    int N= a.size();
+    numarray<T> res;
+    res.resize(N);
+
+    for(int k=0; k<N; ++k){
+        res[k] = a+b[k];
+    }
+
+    return res;
+}
+template <typename T> numarray<T>  mul(T const& a, numarray<T> const& b)
+{
+    int N= a.size();
+    numarray<T> res;
+    res.resize(N);
+
+    for(int k=0; k<N; ++k){
+        res[k] = a*b[k];
+    }
+
+    return res;
+}
+template <typename T> numarray<T>  div(T const& a, numarray<T> const& b)
+{
+    int N= a.size();
+    numarray<T> res;
+    res.resize(N);
+
+    for(int k=0; k<N; ++k){
+        res[k] = a/b[k];
+    }
+
+    return res;
+}
 
 
 }

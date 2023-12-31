@@ -268,14 +268,19 @@ void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, in
 void display_gui_default(scene_structure &scene)
 {
 	if(ImGui::CollapsingHeader("Window")) {
-		ImGui::Checkbox("Full Screen", &scene.window.is_full_screen);
+#ifndef __EMSCRIPTEN__
+		bool changed_screen_mode = ImGui::Checkbox("Full Screen", &scene.window.is_full_screen);
+		if(changed_screen_mode){	
+			if (scene.window.is_full_screen)
+				scene.window.set_full_screen();
+			else
+				scene.window.set_windowed_screen();
+		}
+#endif
 		ImGui::SliderFloat("Gui Scale", &project::gui_scale, 0.5f, 2.5f);
+		
+		ImGui::Spacing();ImGui::Separator();ImGui::Spacing();
 	}
-
-	if (scene.window.is_full_screen)
-		scene.window.set_full_screen();
-	else
-		scene.window.set_windowed_screen();
 }
 
 

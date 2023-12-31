@@ -138,6 +138,17 @@ namespace cgp
     template <typename T, int N> numarray_stack<T, N> clamp(numarray_stack<T, N> const& x, numarray_stack<T, N> const& p_min, numarray_stack<T, N> const& p_max);
 
 
+    // Allow componentwise operations
+    template <typename T, int N> numarray_stack<T, N>  sub(numarray_stack<T, N> const& a, T const& b);
+    template <typename T, int N> numarray_stack<T, N>  add(numarray_stack<T, N> const& a, T const& b);
+    template <typename T, int N> numarray_stack<T, N>  mul(numarray_stack<T, N> const& a, T const& b);
+    template <typename T, int N> numarray_stack<T, N>  div(numarray_stack<T, N> const& a, T const& b);
+
+    template <typename T, int N> numarray_stack<T, N>  sub(T const& a, numarray_stack<T, N> const& b);
+    template <typename T, int N> numarray_stack<T, N>  add(T const& a, numarray_stack<T, N> const& b);
+    template <typename T, int N> numarray_stack<T, N>  mul(T const& a, numarray_stack<T, N> const& b);
+    template <typename T, int N> numarray_stack<T, N>  div(T const& a, numarray_stack<T, N> const& b);
+
 }
 
 
@@ -573,5 +584,66 @@ namespace cgp
         for (int k = 0; k < N; ++k)
             element[k] = clamp(x[k], p_min[k], p_max[k]);
         return element;
+    }
+
+    // Allow componentwise operations
+    template <typename T, int N> numarray_stack<T, N>  sub(numarray_stack<T, N> const& a, T const& b)
+    {
+        numarray_stack<T, N> res;
+        for(int k=0; k<N; ++k)
+            res[k] = a[k]-b;
+        return res;
+    }
+    template <typename T, int N> numarray_stack<T, N>  add(numarray_stack<T, N> const& a, T const& b)
+    {
+        numarray_stack<T, N> res;
+        for(int k=0; k<N; ++k)
+            res[k] = a[k]+b;
+        return res;
+    }
+
+    template <typename T, int N> numarray_stack<T, N>  mul(numarray_stack<T, N> const& a, T const& b)
+    {
+        numarray_stack<T, N> res;
+        for(int k=0; k<N; ++k)
+            res[k] = a[k]*b;
+        return res;
+    }
+
+    template <typename T, int N> numarray_stack<T, N>  div(numarray_stack<T, N> const& a, T b)
+    {
+        numarray_stack<T, N> res;
+        for(int k=0; k<N; ++k)
+            res[k] = a[k]/b;
+        return res;
+    }
+
+    template <typename T, int N> numarray_stack<T, N>  sub(T const& a, numarray_stack<T, N> const& b)
+    {
+        numarray_stack<T, N> res;
+        for(int k=0; k<N; ++k)
+            res[k] = a-b[k];
+        return res;
+    }
+    template <typename T, int N> numarray_stack<T, N>  add(T const& a, numarray_stack<T, N> const& b)
+    {
+        numarray_stack<T, N> res;
+        for(int k=0; k<N; ++k)
+            res[k] = a+b[k];
+        return res;
+    }
+    template <typename T, int N> numarray_stack<T, N>  mul(T const& a, numarray_stack<T, N> const& b)
+    {
+        numarray_stack<T, N> res;
+        for(int k=0; k<N; ++k)
+            res[k] = a*b[k];
+        return res;
+    }
+    template <typename T, int N> numarray_stack<T, N>  div(T const& a, numarray_stack<T, N> const& b)
+    {
+        numarray_stack<T, N> res;
+        for(int k=0; k<N; ++k)
+            res[k] = a/b[k];
+        return res;
     }
 }

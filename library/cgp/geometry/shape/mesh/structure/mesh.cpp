@@ -226,37 +226,55 @@ namespace cgp
 		return *this;
 	}
 
-	mesh& mesh::apply_translation_to_position(vec3 const& t)
+	mesh& mesh::translate(vec3 const& t)
 	{
 		for (vec3& p : position)
 			p += t;
 		return *this;
 	}
-	mesh& mesh::apply_scaling_to_position(float s)
+	mesh& mesh::translate(float tx, float ty, float tz)
+	{
+		return translate({tx,ty,tz});
+	}
+	mesh& mesh::scale(float s)
 	{
 		for (vec3& p : position)
 			p *= s;
 		return *this;
 	}
-	mesh& mesh::apply_rotation_to_position(vec3 const& axis, float angle)
+	mesh& mesh::scale(float sx,float sy, float sz)
+	{
+		for (vec3& p : position){
+			p.x *= sx;
+			p.y *= sy;
+			p.z *= sz;
+		}
+		normal_update();
+		return *this;
+	}
+	mesh& mesh::rotate(vec3 const& axis, float angle)
 	{
 		rotation_transform R = rotation_transform::from_axis_angle(axis, angle);
 		for (vec3& p : position)
 			p = R*p;
+		for(vec3& n : normal)
+			n = R*n;
 		return *this;
 	}
-	mesh& mesh::apply_to_position(mat3 const& M)
+	mesh& mesh::apply_transform(mat3 const& M)
 	{
 		for (vec3& p : position)
 			p = M * p;
+		normal_update();
 		return *this;
 	}
-	mesh& mesh::apply_to_position(mat4 const& M)
+	mesh& mesh::apply_transform(mat4 const& M)
 	{
 		for (vec3& p : position) {
 			vec4 q = M * vec4(p, 1.0f);
 			p = q.xyz() / q.w;
 		}
+		normal_update();
 		return *this;
 	}
 
@@ -300,17 +318,17 @@ namespace cgp
 		}
 	}
 
-	mesh& mesh::apply_centering_to_position()
+	mesh& mesh::centered()
 	{
 		vec3 p_min, p_max;
 		get_bounding_box_position(p_min, p_max);
 		vec3 const center = (p_min + p_max) / 2.0f;
-		apply_translation_to_position(-center);
+		translate(-center);
 
 		return *this;
 	}
 	
-	mesh& mesh::apply_normalize_size_to_position()
+	mesh& mesh::normalize_size_to_position()
 	{
 		vec3 p_min, p_max;
 		get_bounding_box_position(p_min, p_max);
@@ -319,7 +337,7 @@ namespace cgp
 
 		assert_cgp( std::abs(L_max) > 1e-5f, "Mesh has a length that seems to be zero");
 
-		apply_scaling_to_position(1.0f / L_max);
+		scale(1.0f / L_max);
 		return *this;
 	}
 }

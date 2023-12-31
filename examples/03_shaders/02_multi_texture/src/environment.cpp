@@ -1,7 +1,7 @@
 #include "environment.hpp"
 
 std::string project::path = "";
-float project::gui_scale = 1.1f;
+float project::gui_scale = 1.0f;
 
 environment_structure::environment_structure()
 {

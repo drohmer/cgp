@@ -17,11 +17,15 @@ namespace cgp
 	float det(mat3 const& m);
 	float det(mat4 const& m);
 
-	// Copmpute inverse of mat (using determinants/Cramer rule)
+	// Compute inverse of mat (using determinants/Cramer rule)
 	mat2 inverse(mat2 const& m);
 	mat3 inverse(mat3 const& m);
 	mat4 inverse(mat4 const& m);
 
+	// Compute the matrix resulting from a * transpose(b)
+	mat2 tensor_product(vec2 const& a, vec2 const& b);
+	mat3 tensor_product(vec3 const& a, vec3 const& b);
+	mat4 tensor_product(vec4 const& a, vec4 const& b);
 
 }
 

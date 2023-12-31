@@ -6,3 +6,4 @@
 #include "intersection/intersection.hpp"
 #include "implicit/implicit.hpp"
 #include "spatial_domain/spatial_domain.hpp"
+#include "bounding_box/bounding_box.hpp"

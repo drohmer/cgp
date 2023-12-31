@@ -28,21 +28,26 @@ namespace cgp
 		mesh& normal_update();
 
 		/** Apply a translation to position. Shorthand for(vec3& p: position) { p += t; } */
-		mesh& apply_translation_to_position(vec3 const& t);
+		mesh& translate(vec3 const& t);
+		mesh& translate(float tx, float ty, float tz);
 		/** Apply a scaling to position. Shorthand for(vec3& p: position) { p *= s; } */
-		mesh& apply_scaling_to_position(float s);
-		/** Apply a rotation to position. Shorthand for(vec3& p: position) { p = R*p; }, with R the corresponding rotation.*/
-		mesh& apply_rotation_to_position(vec3 const& axis, float angle);
-
-		/** Apply transformation to position */
-		mesh& apply_to_position(mat3 const& M);
-		mesh& apply_to_position(mat4 const& M);
+		mesh& scale(float s);
+		/** Apply non homogenous scaling to position. Also update the normals. */
+		mesh& scale(float sx,float sy, float sz);
+		/** Apply a rotation to position. Shorthand for(vec3& p: position) { p = R*p; }, with R the corresponding rotation. Also update the normals.*/
+		mesh& rotate(vec3 const& axis, float angle);
+		
+		/** Apply 3x3 matrix transformation to position. Also update the normals. */
+		mesh& apply_transform(mat3 const& M);
+		/** Apply 4x4 matrix transformation to position. Also update the normals. */
+		mesh& apply_transform(mat4 const& M);
 
 		/** Center the mesh positions around 0*/
-		mesh& apply_centering_to_position();
-		/** Normalize the bounding box of the mesh element to fit in a unit cube*/
-		mesh& apply_normalize_size_to_position();
+		mesh& centered();
+		/** Normalize the bounding box of the mesh element to fit in a unit cube */
+		mesh& normalize_size_to_position();
 
+		/** Get the information from axis aligned bounding box. p_min and p_max are the two extreme corners. */
 		void get_bounding_box_position(vec3& p_min, vec3& p_max) const;
 	};
 
