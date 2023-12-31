@@ -14,6 +14,27 @@
 
 
 #include "cgp_parameters.hpp"
-#include "core/core.hpp"
-#include "geometry/geometry.hpp"
-#include "graphics/graphics.hpp"
+
+
+#include "01_base/base.hpp"
+#include "02_numarray/numarray.hpp"
+#include "03_files/files.hpp"
+#include "04_grid_container/grid_container.hpp"
+#include "05_vec/vec.hpp"
+#include "06_mat/mat.hpp"
+#include "07_image/image.hpp"
+#include "08_random_noise/random_noise.hpp"
+#include "09_geometric_transformation/geometric_transformation.hpp"
+#include "10_camera_model/camera_model.hpp"
+#include "11_mesh/mesh.hpp"
+#include "12_shape/shape.hpp"
+#include "13_opengl/opengl.hpp"
+#include "14_window/window.hpp"
+#include "15_input_devices/input_devices.hpp"
+#include "16_drawable/drawable.hpp"
+#include "17_timer/timer.hpp"
+#include "18_user_interactions/user_interactions.hpp"
+#include "19_camera_controller/camera_controller.hpp"
+#include "20_format_parser/format_parser.hpp"
+#include "21_scene_project_helper/scene_project_helper.hpp"
+

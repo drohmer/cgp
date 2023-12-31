@@ -46,7 +46,7 @@ void scene_structure::initialize()
 	// add a per-instance vertex attribute
 	numarray<vec3> instance_colors(gui.max_number_of_instances);
 	for(int i=0; i<instance_colors.size(); ++i)
-		instance_colors[i] = { rand_interval(), rand_interval(), 1.f };
+		instance_colors[i] = { rand_uniform(), rand_uniform(), 1.f };
 	grass.initialize_supplementary_data_on_gpu(instance_colors, /*location*/ 4, /*divisor: 1=per instance, 0=per vertex*/ 1);
 }
 

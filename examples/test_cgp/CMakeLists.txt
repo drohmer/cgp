@@ -48,6 +48,12 @@ add_definitions(-DSOLUTION)
 # Uncomment the following line to remove assertion checks from CGP library (for full efficiency)
 # add_definitions(-DCGP_NO_DEBUG)
 
+# Set the OpenGL Compatibility Version
+add_definitions(-DCGP_OPENGL_3_3)   # for OpenGL 3.3
+# add_definitions(-DCGP_OPENGL_4_1) # for OpenGL 4.1
+# add_definitions(-DCGP_OPENGL_4_3) # for OpenGL 4.3
+# add_definitions(-DCGP_OPENGL_4_6) # for OpenGL 4.6
+
 
 # Add all files to create executable
 #  @src_files: the local file for this project

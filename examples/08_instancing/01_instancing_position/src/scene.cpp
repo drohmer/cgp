@@ -38,7 +38,7 @@ void scene_structure::initialize()
 	
 	// Create two quads to display the blades of grass as impostors
 	mesh quad = mesh_primitive_quadrangle({ -0.5f,0.0f,0.0f }, { 0.5f,0.0f,0.0f }, { 0.5f,0.0f,1.0f }, { -0.5f,0.0f,1.0f });
-	mesh quad2 = quad; quad2.apply_rotation_to_position({ 0,0,1 }, Pi / 2.0f); // second quad is orthogonal to the first one
+	mesh quad2 = quad; quad2.rotate({ 0,0,1 }, Pi / 2.0f); // second quad is orthogonal to the first one
 	quad.push_back(quad2);
 	grass.initialize_data_on_gpu(quad);
 	grass.material.phong = { 1,0,0,1 };
@@ -53,7 +53,7 @@ void scene_structure::initialize()
 	// Add a per-instance vertex attribute for the position
 	numarray<vec3> instance_positions(N_instances);
 	for(int i=0; i< N_instances; ++i)
-		instance_positions[i] = { rand_interval(-L,L), rand_interval(-L,L), 0.f };
+		instance_positions[i] = { rand_uniform(-L,L), rand_uniform(-L,L), 0.f };
 	// Send these positions as a new buffer of data to the shader
 	grass.initialize_supplementary_data_on_gpu(instance_positions, /*location*/ 4, /*divisor: 1=per instance, 0=per vertex*/ 1);
 }
