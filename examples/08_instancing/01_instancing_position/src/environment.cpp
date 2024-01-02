@@ -2,6 +2,9 @@
 
 std::string project::path = "";
 float project::gui_scale = 1.0f;
+bool project::fps_limiting = true;
+float project::fps_max=60.0f;
+bool project::vsync=true;
 
 environment_structure::environment_structure()
 {

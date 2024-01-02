@@ -68,9 +68,17 @@ int main(int, char* argv[])
 	//  The following part is simply a loop that call the function "animation_loop"
 	//  (This call is different when we compile in standard mode with GLFW, than when we compile with emscripten to output the result in a webpage.)
 #ifndef __EMSCRIPTEN__
+    double lasttime = glfwGetTime();
 	// Default mode to run the animation/display loop with GLFW in C++
 	while (!glfwWindowShouldClose(scene.window.glfw_window)) {
+		// The real animation loop
 		animation_loop();
+
+		// FPS limitation
+		if(project::fps_limiting){
+			while (glfwGetTime() < lasttime + 1.0 / project::fps_max) {}
+        	lasttime = glfwGetTime();
+		}
 	}
 #else
 	// Specific loop if compiled for EMScripten
@@ -278,7 +286,19 @@ void display_gui_default(scene_structure &scene)
 		}
 #endif
 		ImGui::SliderFloat("Gui Scale", &project::gui_scale, 0.5f, 2.5f);
-		
+
+		if(ImGui::CollapsingHeader("Animation Loop FPS")){
+			std::string fps_txt = str(fps_record.fps)+" fps";
+			ImGui::Text( fps_txt.c_str(), "%s" );
+			ImGui::Checkbox("FPS limiting",&project::fps_limiting);
+			if(project::fps_limiting){
+				ImGui::SliderFloat("FPS limit",&project::fps_max, 1, 250);
+			}
+			if(ImGui::Checkbox("vsync (screen sync)",&project::vsync)){
+				project::vsync==true? glfwSwapInterval(1) : glfwSwapInterval(0); 
+			}
+		}
+
 		ImGui::Spacing();ImGui::Separator();ImGui::Spacing();
 	}
 }

@@ -10,7 +10,7 @@ namespace cgp
 	{
 	public:
 
-		timer_fps(float update_fps_period=3.0f);
+		timer_fps(float update_fps_period=1.5f);
 		float update();
 
 		int fps;

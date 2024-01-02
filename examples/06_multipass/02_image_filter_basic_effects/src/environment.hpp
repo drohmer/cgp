@@ -50,4 +50,8 @@ struct project {
 	//  Accessible via project::gui_scale
 	static float gui_scale;
 
+	static bool fps_limiting;
+	static float fps_max;
+	static bool vsync;
+
 };
