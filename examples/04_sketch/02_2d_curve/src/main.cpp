@@ -4,7 +4,8 @@
 #include "environment.hpp" // The general scene environment + project variable
 #include <iostream> 
 
-
+#include <chrono>
+#include <thread>
 
 // Custom scene of this code
 #include "scene.hpp"
@@ -76,7 +77,9 @@ int main(int, char* argv[])
 
 		// FPS limitation
 		if(project::fps_limiting){
-			while (glfwGetTime() < lasttime + 1.0 / project::fps_max) {}
+			while (glfwGetTime() < lasttime + 1.0 / project::fps_max) {
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			}
         	lasttime = glfwGetTime();
 		}
 	}
@@ -290,10 +293,12 @@ void display_gui_default(scene_structure &scene)
 		if(ImGui::CollapsingHeader("Animation Loop FPS")){
 			std::string fps_txt = str(fps_record.fps)+" fps";
 			ImGui::Text( fps_txt.c_str(), "%s" );
+#ifndef __EMSCRIPTEN__
 			ImGui::Checkbox("FPS limiting",&project::fps_limiting);
 			if(project::fps_limiting){
-				ImGui::SliderFloat("FPS limit",&project::fps_max, 1, 250);
+				ImGui::SliderFloat("FPS limit",&project::fps_max, 10, 250);
 			}
+#endif
 			if(ImGui::Checkbox("vsync (screen sync)",&project::vsync)){
 				project::vsync==true? glfwSwapInterval(1) : glfwSwapInterval(0); 
 			}
