@@ -28,7 +28,7 @@ scene_structure scene;
 window_structure standard_window_initialization(int width = 0, int height = 0);
 void initialize_default_shaders();
 void animation_loop();
-void display_gui_default(scene_structure& scene);
+void display_gui_default();
 
 timer_fps fps_record;
 
@@ -77,9 +77,7 @@ int main(int, char* argv[])
 
 		// FPS limitation
 		if(project::fps_limiting){
-			while (glfwGetTime() < lasttime + 1.0 / project::fps_max) {
-				std::this_thread::sleep_for(std::chrono::milliseconds(1));
-			}
+			while (glfwGetTime() < lasttime + 1.0 / project::fps_max) {	}
         	lasttime = glfwGetTime();
 		}
 	}
@@ -127,7 +125,7 @@ void animation_loop()
 
 
 	// Display the ImGUI interface (button, sliders, etc)
-	display_gui_default(scene);
+	display_gui_default();
 	scene.display_gui();
 
 	// Handle camera behavior in standard frame
@@ -276,7 +274,7 @@ void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, in
 
 }
 
-void display_gui_default(scene_structure &scene)
+void display_gui_default()
 {
 	if(ImGui::CollapsingHeader("Window")) {
 #ifndef __EMSCRIPTEN__
