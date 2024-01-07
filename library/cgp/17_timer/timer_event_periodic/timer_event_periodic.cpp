@@ -16,7 +16,10 @@ namespace cgp
         t_periodic += dt;
         if (t_periodic >= event_period)
         {
-            t_periodic=0;
+            t_periodic -= event_period;
+            if(t_periodic >= event_period)
+                t_periodic=0;
+                
             event = true;
         }
         else 

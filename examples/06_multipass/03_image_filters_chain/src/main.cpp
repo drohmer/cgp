@@ -56,6 +56,7 @@ int main(int, char* argv[])
 	std::cout << "Initialize data of the scene ..." << std::endl;
 	scene.initialize();
 	std::cout << "Initialization finished\n" << std::endl;
+	std::cout<<"\n\n"+scene.camera_control.doc_usage()<<std::endl;
 
 
 	// ************************ //
@@ -276,6 +277,8 @@ void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, in
 
 void display_gui_default()
 {
+	std::string fps_txt = str(fps_record.fps)+" fps";
+	ImGui::Text( fps_txt.c_str(), "%s" );
 	if(ImGui::CollapsingHeader("Window")) {
 #ifndef __EMSCRIPTEN__
 		bool changed_screen_mode = ImGui::Checkbox("Full Screen", &scene.window.is_full_screen);
@@ -288,19 +291,21 @@ void display_gui_default()
 #endif
 		ImGui::SliderFloat("Gui Scale", &project::gui_scale, 0.5f, 2.5f);
 
-		if(ImGui::CollapsingHeader("Animation Loop FPS")){
-			std::string fps_txt = str(fps_record.fps)+" fps";
-			ImGui::Text( fps_txt.c_str(), "%s" );
 #ifndef __EMSCRIPTEN__
-			ImGui::Checkbox("FPS limiting",&project::fps_limiting);
-			if(project::fps_limiting){
-				ImGui::SliderFloat("FPS limit",&project::fps_max, 10, 250);
-			}
-#endif
-			if(ImGui::Checkbox("vsync (screen sync)",&project::vsync)){
-				project::vsync==true? glfwSwapInterval(1) : glfwSwapInterval(0); 
-			}
+		// Arbitrary limits the refresh rate to a maximal frame per seconds.
+		//  This limits the risk of having different behaviors when you use different machine. 
+		ImGui::Checkbox("FPS limiting",&project::fps_limiting);
+		if(project::fps_limiting){
+			ImGui::SliderFloat("FPS limit",&project::fps_max, 10, 250);
 		}
+#endif
+		// vsync is the default synchronization of frame refresh with the screen frequency
+		//   vsync may or may not be enforced by your GPU driver and OS (on top of the GLFW request).
+		//   de-activating vsync may generate arbitrary large FPS depending on your GPU and scene.
+		if(ImGui::Checkbox("vsync (screen sync)",&project::vsync)){
+			project::vsync==true? glfwSwapInterval(1) : glfwSwapInterval(0); 
+		}
+
 
 		ImGui::Spacing();ImGui::Separator();ImGui::Spacing();
 	}

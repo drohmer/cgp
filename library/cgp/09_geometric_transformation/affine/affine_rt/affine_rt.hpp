@@ -18,6 +18,11 @@ namespace cgp
 		explicit affine_rt(rotation_transform const& rotation, vec3 const& translation);
 
 		mat4 matrix() const;
+
+		static affine_rt from_matrix(mat4 const& M);
+
+		affine_rt& set_translation(vec3 const& xyz);
+		affine_rt& set_rotation(rotation_transform const& r);
 	};
 
 	vec3 operator*(affine_rt const& T, vec3 const& p);
@@ -30,6 +35,12 @@ namespace cgp
 	affine_rt operator+(vec3 const& tr, affine_rt const& T);
 	affine_rt operator+(affine_rt const& T, vec3 const& tr);
 	affine_rt operator-(affine_rt const& T, vec3 const& tr);
+
+
+	mat4 operator*(affine_rt const& T1, mat4 const& T2);
+	mat4 operator*(mat4 const& T1, affine_rt const& T2);
+	mat4 operator*(affine_rt const& T1, mat3 const& T2);
+	mat4 operator*(mat3 const& T1, affine_rt const& T2);
 
 
 	affine_rt inverse(affine_rt const& T);

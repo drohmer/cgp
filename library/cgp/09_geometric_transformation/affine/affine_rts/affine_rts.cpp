@@ -146,4 +146,30 @@ namespace cgp
 		return affine_rts(T1.rotation * T2.rotation, T1.rotation * T2.translation + T1.translation, T2.scaling);
 	}
 
+	mat4 operator*(affine_rts const& T1, mat4 const& T2) {
+		return T1.matrix()*T2;
+	}
+	mat4 operator*(mat4 const& T1, affine_rts const& T2) {
+		return T1*T2.matrix();
+	}
+	mat4 operator*(affine_rts const& T1, mat3 const& T2) {
+		return T1.matrix()*mat4(T2);
+	}
+	mat4 operator*(mat3 const& T1, affine_rts const& T2) {
+		return mat4(T1)*T2.matrix();
+	}
+
+	affine_rts& affine_rts::set_scaling(float scaling_param) {
+		scaling = scaling_param;
+		return *this;
+	}
+	affine_rts& affine_rts::set_translation(vec3 const& translation_param) {
+		translation = translation_param;
+		return *this;
+	}
+	affine_rts& affine_rts::set_rotation(rotation_transform const& rotation_param) {
+		rotation = rotation_param;
+		return *this;
+	}
+
 }

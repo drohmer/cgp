@@ -20,7 +20,9 @@ endif()
 
 # Compile for Release with Debug Info
 set(CMAKE_BUILD_TYPE RelWithDebInfo) 
-set(CMAKE_CONFIGURATION_TYPES RelWithDebInfo; Release; Debug ) # default build as RelWithDebInfo
+set(CMAKE_CONFIGURATION_TYPES RelWithDebInfo) 
+# uncomment the following to activate the other possibilities (Debug, Release)
+#set(CMAKE_CONFIGURATION_TYPES RelWithDebInfo; Release; Debug )
 
 # List the files of the current local project 
 #    Default behavior: Automatically add all hpp and cpp files from src/ directory, and .glsl from shaders/

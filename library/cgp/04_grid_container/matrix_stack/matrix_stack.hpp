@@ -182,6 +182,9 @@ namespace cgp
 
     /** Componentwise norm : sqrt(sum_(i,j) a_ij^2) */
     template <typename T, int N1, int N2> T norm(matrix_stack<T,N1,N2> const& m);
+
+    template <typename T, int N1, int N2>
+	std::istream& read_from_stream(std::istream& stream, matrix_stack<T, N1, N2>& data);
 }
 
 
@@ -792,6 +795,17 @@ namespace cgp
             s += m(k, k);
         return s;
     }
+
+    template <typename T, int N1, int N2>
+	std::istream& read_from_stream(std::istream& stream, matrix_stack<T, N1, N2>& data)
+	{
+        for (int k1 = 0; k1 < N1 && stream.good(); ++k1){
+            for (int k2 = 0; k2 < N2 && stream.good(); ++k2){
+                read_from_stream(stream, data[k1][k2]);
+            }
+        }
+		return stream;
+	}
 
 }
 

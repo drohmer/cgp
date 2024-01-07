@@ -28,12 +28,16 @@ namespace cgp
 	std::string read_text_file(std::string const& filename);
 	template <typename T> void read_from_file(std::string const& filename, T& data);
 	template <typename T> void read_from_file(std::string const& filename, numarray<numarray<T>>& data);
+	template <typename T> void read_from_file(std::string const& filename, std::vector<std::vector<T>>& data);
 
 	template <typename T> std::istream& read_from_stream(std::istream& stream, T& data);
 	template <typename T, int N> std::istream& read_from_stream(std::istream& stream, numarray_stack<T,N>& data);
+	template <typename T, int N> std::istream& read_from_stream(std::istream& stream, std::array<T,N>& data);
 	template <typename T> std::istream& read_line_from_stream(std::istream& stream, T& data);
 	template <typename T> std::istream& read_from_stream(std::istream& stream, numarray<T>& data);
+	template <typename T> std::istream& read_from_stream(std::istream& stream, std::vector<T>& data);
 	template <typename T> std::istream& read_from_stream_per_line(std::istream& stream, numarray<T>& data);
+	template <typename T> std::istream& read_from_stream_per_line(std::istream& stream, std::vector<T>& data);
 }
 
 
@@ -48,6 +52,13 @@ namespace cgp
 
 	template <typename T, int N>
 	std::istream& read_from_stream(std::istream& stream, numarray_stack<T, N>& data)
+	{
+		for (int k = 0; k < N && stream.good(); ++k)
+			read_from_stream(stream, data[k]);
+		return stream;
+	}
+	template <typename T, int N>
+	std::istream& read_from_stream(std::istream& stream, std::array<T, N>& data)
 	{
 		for (int k = 0; k < N && stream.good(); ++k)
 			read_from_stream(stream, data[k]);
@@ -82,9 +93,33 @@ namespace cgp
 		
 		return stream;
 	}
+	template <typename T>
+	std::istream& read_from_stream(std::istream& stream, std::vector<T>& data)
+	{
+		while(stream.good()) {
+			T temp;
+			read_from_stream(stream, temp);
+			if(stream)
+				data.push_back(temp);
+		}
+		
+		return stream;
+	}
 
 	template <typename T>
 	std::istream& read_from_stream_per_line(std::istream& stream, numarray<T>& data)
+	{
+		while(stream.good()) {
+			T temp;
+			read_line_from_stream(stream, temp);
+			if(stream.good())
+				data.push_back(temp);
+		}
+
+		return stream;
+	}
+	template <typename T>
+	std::istream& read_from_stream_per_line(std::istream& stream, std::vector<T>& data)
 	{
 		while(stream.good()) {
 			T temp;
@@ -113,6 +148,20 @@ namespace cgp
 
 	template <typename T>
 	void read_from_file(std::string const& filename, numarray<numarray<T>>& data)
+	{
+		assert_file_exist(filename);
+
+		// Open file with pointer at last position
+		std::ifstream stream(filename);
+		assert_cgp_no_msg(stream.is_open());
+
+		read_from_stream_per_line(stream, data);
+
+		stream.close();
+		assert_cgp_no_msg(!stream.is_open());
+	}
+	template <typename T>
+	void read_from_file(std::string const& filename, std::vector<std::vector<T>>& data)
 	{
 		assert_file_exist(filename);
 

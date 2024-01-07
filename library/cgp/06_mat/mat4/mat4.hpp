@@ -109,6 +109,10 @@ namespace cgp
         // Build a matrix representing a rotation from a unit quaternion
         static mat4 build_rotation_from_quaternion(quaternion const& q);
 
+        // ******************************************************* //
+        //  Special manipulation as affine transform
+        // ******************************************************* //
+
         // Set the linear part of the matrix (3x3 top-left corner)
         mat4& set_linear(mat3 const& L);
         // Set the linear part of the matrix to be a scaling
@@ -126,6 +130,18 @@ namespace cgp
         vec3 get_translation() const;
         // Return the 3x3 matrix component out of the 4x4 matrix. Similar to the call mat3(M4x4).
         mat3 get_linear() const;
+
+        // ******************************************************* //
+        //  Apply internal transformation
+        // ******************************************************* //
+
+        mat4& apply_scaling_to_linear(float s);
+        mat4& apply_scaling_to_translation(float s);
+        mat4& apply_scaling(float s);
+
+        mat4& apply_translation(vec3 const& xyz);
+        // linear_part = T * linear_part
+        mat4& apply_linear_transform(mat3 const& T);
 
         // ******************************************************* //
         //  Size and fill
@@ -183,11 +199,11 @@ namespace cgp
 
         // Apply mat4 to a vec3 representing a 3D position:
         //  Similar to q = M*vec4(p,1.0); return q.xyz()/q.w()
-        vec3 apply_to_vec3_position(vec3 const& pos);
+        vec3 transform_position(vec3 const& pos_xyz1) const;
 
         // Apply mat4 to a vec3 representing a spatial vector:
         //  Similar to q = (M*vec4(p,0.0)).xyz();
-        vec3 apply_to_vec3_vector(vec3 const& vec);
+        vec3 transform_vector(vec3 const& vec_xyz0) const;
 
 
         matrix_stack<float, 3, 3> remove_row_column(int k1, int k2) const;
@@ -228,8 +244,15 @@ namespace cgp
 
 
 
+        // Compute the inverse of the mat4 structure assuming it is a rigid transform made of a rotation and translation part.
+        mat4 inverse_assuming_rigid_transform() const;
     };
 
+    mat4 operator*(mat4 const& a, mat4 const& b);
+    mat4 operator*(float s, mat4 const& M);
+    mat4& operator*=(mat4& a, mat4 const& b); // a = a*b
+    mat4& operator*=(mat4& M, float s);
+    mat4& operator+=(mat4& a, mat4 const& b);
 
 }
 
@@ -274,5 +297,9 @@ namespace cgp
     {
         return *(begin() + k2 + 4 * k1);
     }
+
+
+
+    
 
 }

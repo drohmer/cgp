@@ -30,7 +30,7 @@ namespace cgp
 
 	rotation_transform rotation_transform::from_matrix(mat3 const& M)
 	{
-		return rotation_transform(convert_matrix_to_quaternion(M));
+		return rotation_transform(normalize(convert_matrix_to_quaternion(M)));
 	}
 
 	mat3 rotation_transform::matrix() const
@@ -115,7 +115,10 @@ namespace cgp
 			}
 		}
 
-		assert_cgp(std::abs(norm(q) - 1.0f) < 1e-6f, "Non unit quaternion in function rotation_transform::matrix_to_quaternion - the input matrix may not be orthogonal");
+		if(std::abs(norm(q) - 1.0f) > 0.05f) {
+			warning_cgp("Non unit quaternion: ","In function [rotation_transform::matrix_to_quaternion] - the input matrix may not be orthogonal, norm(quaternion)="+str(norm(q)));
+		}
+		//assert_cgp(std::abs(norm(q) - 1.0f) < 1e-6f, "Non unit quaternion in function rotation_transform::matrix_to_quaternion - the input matrix may not be orthogonal");
 
 		return q;
 

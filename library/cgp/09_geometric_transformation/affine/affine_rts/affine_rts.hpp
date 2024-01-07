@@ -18,6 +18,9 @@ namespace cgp
 		affine_rts(affine_rt const& T);
 		explicit affine_rts(rotation_transform const& rotation, vec3 const& translation, float scaling);
 
+		affine_rts& set_scaling(float scaling);
+		affine_rts& set_translation(vec3 const& translation);
+		affine_rts& set_rotation(rotation_transform const& rotation);
 
 		mat4 matrix() const;
 	};
@@ -47,12 +50,19 @@ namespace cgp
 	affine_rts operator*(affine_rts const& T1, affine_rt const& T2);
 	affine_rts operator*(affine_rt const& T1, affine_rts const& T2);
 
+	mat4 operator*(affine_rts const& T1, mat4 const& T2);
+	mat4 operator*(mat4 const& T1, affine_rts const& T2);
+	mat4 operator*(affine_rts const& T1, mat3 const& T2);
+	mat4 operator*(mat3 const& T1, affine_rts const& T2);
+
 
 	affine_rts inverse(affine_rts const& T);
 
 	std::string type_str(affine_rts const& );
 	std::string str(affine_rts const& T);
 	std::ostream& operator<<(std::ostream& s, affine_rts const& T);
+
+
 
 
 	

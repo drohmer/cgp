@@ -42,6 +42,9 @@ namespace cgp
 		mesh& apply_transform(mat3 const& M);
 		/** Apply 4x4 matrix transformation to position. Also update the normals. */
 		mesh& apply_transform(mat4 const& M);
+		mesh& apply_transform(cgp::affine const& M);
+		mesh& apply_transform(cgp::affine_rt const& M);
+		mesh& apply_transform(cgp::affine_rts const& M);
 
 		/** Center the mesh positions around 0*/
 		mesh& centered();

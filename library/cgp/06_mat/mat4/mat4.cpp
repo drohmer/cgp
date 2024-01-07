@@ -347,7 +347,7 @@ namespace cgp
 
     vec3 mat4::get_translation() const
     {
-        return vec3{ data.w.x, data.w.y, data.w.z };
+        return vec3{ data.x.w, data.y.w, data.z.w };
     }
     mat3 mat4::get_linear() const
     {
@@ -360,7 +360,7 @@ namespace cgp
 
 
 
-    vec3 mat4::apply_to_vec3_position(vec3 const& pos)
+    vec3 mat4::transform_position(vec3 const& pos) const
     {
         float const x = data.x.x * pos.x + data.x.y * pos.y + data.x.z * pos.z + data.x.w;
         float const y = data.y.x * pos.x + data.y.y * pos.y + data.y.z * pos.z + data.y.w;
@@ -371,7 +371,7 @@ namespace cgp
     }
 
 
-    vec3 mat4::apply_to_vec3_vector(vec3 const& v)
+    vec3 mat4::transform_vector(vec3 const& v) const
     {
         return {
             data.x.x * v.x + data.x.y * v.y + data.x.z * v.z,
@@ -415,6 +415,136 @@ namespace cgp
     vec3 mat4::row_z_vec3() const { return data.z.xyz(); }
     vec3 mat4::row_w_vec3() const { return data.w.xyz(); }
 
+    mat4 matrix_stack<float, 4, 4>::inverse_assuming_rigid_transform() const {
+        float xx = at(0,0), xy=at(0,1), xz=at(0,2);
+        float yx = at(1,0), yy=at(1,1), yz=at(1,2);
+        float zx = at(2,0), zy=at(2,1), zz=at(2,2);
+        float tx = at(0,3);
+        float ty = at(1,3);
+        float tz = at(2,3);
+        // return (R^t t-R^t*t)
+        //        (  0     1  )
+        return matrix_stack<float, 4, 4> {
+            xx,yx,zx, tx-xx*tx-yx*ty-zx*tz,
+            xy,yy,zy, tx-xy*tx-yy*ty-zy*tz,
+            xz,yz,zz, tx-xz*tx-yz*ty-zz*tz,
+            0.0f, 0.0f, 0.0f, 1.0f,
+            };
+    }
 
+
+    mat4 operator*(mat4 const& a, mat4 const& b)
+    {
+        float const axx=get<0,0>(a), axy=get<0,1>(a), axz=get<0,2>(a), axw=get<0,3>(a);
+        float const ayx=get<1,0>(a), ayy=get<1,1>(a), ayz=get<1,2>(a), ayw=get<1,3>(a);
+        float const azx=get<2,0>(a), azy=get<2,1>(a), azz=get<2,2>(a), azw=get<2,3>(a);
+        float const awx=get<3,0>(a), awy=get<3,1>(a), awz=get<3,2>(a), aww=get<3,3>(a);
+
+        float const bxx=get<0,0>(b), bxy=get<0,1>(b), bxz=get<0,2>(b), bxw=get<0,3>(b);
+        float const byx=get<1,0>(b), byy=get<1,1>(b), byz=get<1,2>(b), byw=get<1,3>(b);
+        float const bzx=get<2,0>(b), bzy=get<2,1>(b), bzz=get<2,2>(b), bzw=get<2,3>(b);
+        float const bwx=get<3,0>(b), bwy=get<3,1>(b), bwz=get<3,2>(b), bww=get<3,3>(b);
+
+        return mat4{
+            axx*bxx+axy*byx+axz*bzx+axw*bwx, axx*bxy+axy*byy+axz*bzy+axw*bwy, axx*bxz+axy*byz+axz*bzz+axw*bwz, axx*bxw+axy*byw+axz*bzw+axw*bww,
+            ayx*bxx+ayy*byx+ayz*bzx+ayw*bwx, ayx*bxy+ayy*byy+ayz*bzy+ayw*bwy, ayx*bxz+ayy*byz+ayz*bzz+ayw*bwz, ayx*bxw+ayy*byw+ayz*bzw+ayw*bww,
+            azx*bxx+azy*byx+azz*bzx+azw*bwx, azx*bxy+azy*byy+azz*bzy+azw*bwy, azx*bxz+azy*byz+azz*bzz+azw*bwz, azx*bxw+azy*byw+azz*bzw+azw*bww,
+            awx*bxx+awy*byx+awz*bzx+aww*bwx, awx*bxy+awy*byy+awz*bzy+aww*bwy, awx*bxz+awy*byz+awz*bzz+aww*bwz, awx*bxw+awy*byw+awz*bzw+aww*bww
+        };
+    }
+    mat4 operator*(float s, mat4 const& M)
+    {
+        return mat4{
+            s*get<0,0>(M), s*get<0,1>(M), s*get<0,2>(M), s*get<0,3>(M),
+            s*get<1,0>(M), s*get<1,1>(M), s*get<1,2>(M), s*get<1,3>(M),
+            s*get<2,0>(M), s*get<2,1>(M), s*get<2,2>(M), s*get<2,3>(M),
+            s*get<3,0>(M), s*get<3,1>(M), s*get<3,2>(M), s*get<3,3>(M),
+        };
+    }
+    mat4& operator*=(mat4& a, mat4 const& b)
+    {
+        float* pa = a.begin();
+        float const* pb = b.begin();
+        float const axx = *(pa++); float const axy = *(pa++); float const axz = *(pa++); float const axw = *(pa++);
+        float const ayx = *(pa++); float const ayy = *(pa++); float const ayz = *(pa++); float const ayw = *(pa++);
+        float const azx = *(pa++); float const azy = *(pa++); float const azz = *(pa++); float const azw = *(pa++);
+        float const awx = *(pa++); float const awy = *(pa++); float const awz = *(pa++); float const aww = *(pa);
+
+        float const bxx = *(pb++); float const bxy = *(pb++); float const bxz = *(pb++); float const bxw = *(pb++);
+        float const byx = *(pb++); float const byy = *(pb++); float const byz = *(pb++); float const byw = *(pb++);
+        float const bzx = *(pb++); float const bzy = *(pb++); float const bzz = *(pb++); float const bzw = *(pb++);
+        float const bwx = *(pb++); float const bwy = *(pb++); float const bwz = *(pb++); float const bww = *(pb);
+
+        pa = a.begin();
+        *(pa++)=axx*bxx+axy*byx+axz*bzx+axw*bwx; 
+        *(pa++)=axx*bxy+axy*byy+axz*bzy+axw*bwy; 
+        *(pa++)=axx*bxz+axy*byz+axz*bzz+axw*bwz; 
+        *(pa++)=axx*bxw+axy*byw+axz*bzw+axw*bww;
+
+        *(pa++)=ayx*bxx+ayy*byx+ayz*bzx+ayw*bwx; 
+        *(pa++)=ayx*bxy+ayy*byy+ayz*bzy+ayw*bwy; 
+        *(pa++)=ayx*bxz+ayy*byz+ayz*bzz+ayw*bwz; 
+        *(pa++)=ayx*bxw+ayy*byw+ayz*bzw+ayw*bww;
+
+        *(pa++)=azx*bxx+azy*byx+azz*bzx+azw*bwx; 
+        *(pa++)=azx*bxy+azy*byy+azz*bzy+azw*bwy; 
+        *(pa++)=azx*bxz+azy*byz+azz*bzz+azw*bwz; 
+        *(pa++)=azx*bxw+azy*byw+azz*bzw+azw*bww;
+
+        *(pa++)=awx*bxx+awy*byx+awz*bzx+aww*bwx; 
+        *(pa++)=awx*bxy+awy*byy+awz*bzy+aww*bwy; 
+        *(pa++)=awx*bxz+awy*byz+awz*bzz+aww*bwz; 
+        *(pa)  =awx*bxw+awy*byw+awz*bzw+aww*bww;
+
+        return a;
+    }
+    mat4& operator*=(mat4& M, float s)
+    {
+        float* pM = M.begin();
+        for (int k = 0; k < 16; ++k) {
+            *pM *= s;
+            ++pM;
+        }
+        return M;
+    }
+    mat4& operator+=(mat4& a, mat4 const& b)
+    {
+        float* pa = a.begin();
+        float const* pb = b.cbegin();
+        for (int k = 0; k < 16; ++k) {
+            *pa += *pb;
+            ++pa;
+            ++pb;
+        }
+        return a;
+    }
+    mat4& mat4::apply_scaling_to_linear(float s) {
+        data.x.x *=s; data.x.y *=s; data.x.z *=s;
+        data.y.x *=s; data.y.y *=s; data.y.z *=s;
+        data.z.x *=s; data.z.y *=s; data.z.z *=s;
+        return *this;
+    }
+    mat4& mat4::apply_scaling_to_translation(float s) {
+        data.x.w *=s;
+        data.y.w *=s;
+        data.z.w *=s;
+        return *this;
+    }
+    mat4& mat4::apply_scaling(float s) {
+        data.x.x *=s; data.x.y *=s; data.x.z *=s; data.x.w *= s;
+        data.y.x *=s; data.y.y *=s; data.y.z *=s; data.y.w *= s;
+        data.z.x *=s; data.z.y *=s; data.z.z *=s; data.z.w *= s;
+        return *this;
+    }
+    mat4& mat4::apply_translation(vec3 const& xyz) {
+        data.x.w += xyz.x;
+        data.y.w += xyz.x;
+        data.z.w += xyz.x;
+        return *this;
+    }
+    mat4& mat4::apply_linear_transform(mat3 const& T) {
+        set_linear(T*get_linear());
+        return *this;
+    }
 
 }

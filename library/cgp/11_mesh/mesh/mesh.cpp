@@ -277,6 +277,31 @@ namespace cgp
 		normal_update();
 		return *this;
 	}
+	mesh& mesh::apply_transform(cgp::affine const& M) {
+		for (vec3& p : position)
+			p = M*p;
+		for(vec3& n : normal) {
+			n = M.rotation*n;
+		}
+		return *this;
+	}
+	mesh& mesh::apply_transform(cgp::affine_rt const& M) {
+		for (vec3& p : position)
+			p = M*p;
+		for(vec3& n : normal) {
+			n = M.rotation*n;
+		}
+		return *this;
+	}
+	mesh& mesh::apply_transform(cgp::affine_rts const& M)
+	{
+		for (vec3& p : position)
+			p = M*p;
+		for(vec3& n : normal) {
+			n = M.rotation*n;
+		}
+		return *this;
+	}
 
 
 	numarray<numarray<int> > connectivity_one_ring(numarray<uint3> const& connectivity)

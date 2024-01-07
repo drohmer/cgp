@@ -89,6 +89,39 @@ namespace cgp
 		return s;
 	}
 
+	affine affine::from_matrix(mat4 const& M)
+	{
+		affine a;
 
+		a.scaling = std::sqrt(M.data.x.x*M.data.x.x + M.data.x.y*M.data.x.y + M.data.x.z*M.data.x.z);
+		if(a.scaling>1e-5f){
+			mat3 R = M.get_linear()/a.scaling;
+			a.rotation = rotation_transform::from_matrix(R);
+		}
+		a.translation = M.get_translation();
+
+		return a;
+	}
+
+	mat4 operator*(affine const& T1, mat4 const& T2) {
+		return T1.matrix()*T2;
+	}
+	mat4 operator*(mat4 const& T1, affine const& T2)
+	{
+		return T1*T2.matrix();
+	}
+	mat4 operator*(affine const& T1, mat3 const& T2)
+	{
+		return T1.matrix()*mat4(T2);
+	}
+	mat4 operator*(mat3 const& T1, affine const& T2)
+	{
+		return mat4(T1)*T2.matrix();
+	}
+
+	affine& affine::set_scaling(float value) {scaling = value; return *this;}
+	affine& affine::set_scaling_xyz(vec3 const& xyz) {scaling_xyz = xyz; return *this;}
+	affine& affine::set_translation(vec3 const& xyz) {translation = xyz; return *this;}
+	affine& affine::set_rotation(rotation_transform const& r) {rotation = r; return *this;}
 
 }

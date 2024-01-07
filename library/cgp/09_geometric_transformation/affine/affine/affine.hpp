@@ -22,6 +22,13 @@ namespace cgp
 		explicit affine(rotation_transform const& rotation, vec3 const& translation=vec3{0,0,0}, float scaling = 1.0f, vec3 const& scaling_xyz = vec3{1,1,1});
 
 		mat4 matrix() const;
+
+		static affine from_matrix(mat4 const& M);
+
+		affine& set_scaling(float value);
+		affine& set_scaling_xyz(vec3 const& xyz);
+		affine& set_translation(vec3 const& xyz);
+		affine& set_rotation(rotation_transform const& r);
 	};
 
 	vec3 operator*(affine const& T, vec3 const& p);
@@ -29,6 +36,11 @@ namespace cgp
 
 	affine operator*(affine const& T1, affine_rts const& T2);
 	affine operator*(affine const& T1, affine_rt const& T2);
+	
+	mat4 operator*(affine const& T1, mat4 const& T2);
+	mat4 operator*(mat4 const& T1, affine const& T2);
+	mat4 operator*(affine const& T1, mat3 const& T2);
+	mat4 operator*(mat3 const& T1, affine const& T2);
 
 
 	affine inverse(affine const& T);
