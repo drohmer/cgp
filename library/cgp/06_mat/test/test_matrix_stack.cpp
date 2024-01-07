@@ -221,33 +221,33 @@ namespace cgp_test
 		{
 			using namespace cgp;
 			{
-				mat4 M = mat4::build_scaling(5, 3, 2).set_translation(1, 2, 3);
+				mat4 M = mat4::build_scaling(5, 3, 2).set_block_translation(1, 2, 3);
 				vec3 t = { 4,8,-1 };
 				vec3 res = M.transform_position(t);
 				assert_cgp_no_msg(is_equal(res, { 21,26,1 }));
 			}
 			{
-				mat4 M = mat4::build_scaling(5, 3, 2).set_translation(1, 2, 3);
+				mat4 M = mat4::build_scaling(5, 3, 2).set_block_translation(1, 2, 3);
 				vec3 t = { 4,8,-1 };
 				vec3 res = M.transform_vector(t);
 				assert_cgp_no_msg(is_equal(res, { 20,24,-2 }));
 			}
 			{
-				mat4 M = mat4::build_scaling(5, 3, 2).set_translation(1, 2, 3);
+				mat4 M = mat4::build_scaling(5, 3, 2).set_block_translation(1, 2, 3);
 				vec3 t = { 4,8,-1 };
 				vec4 res_tmp = M * vec4(t,1.0f);
 				vec3 res = res_tmp.xyz() / res_tmp.w;
 				assert_cgp_no_msg(is_equal(res, { 21,26,1 }));
 			}
 			{
-				mat4 M = mat4::build_scaling(5, 3, 2).set_translation(1, 2, 3);
+				mat4 M = mat4::build_scaling(5, 3, 2).set_block_translation(1, 2, 3);
 				vec3 t = { 4,8,-1 };
 				vec3 res = (M * vec4(t,0.0)).xyz();
 				assert_cgp_no_msg(is_equal(res, { 20,24,-2 }));
 			}
 
 			{
-				mat4 M = mat4::build_scaling(5, 3, 2).set_translation(1, 2, 3);
+				mat4 M = mat4::build_scaling(5, 3, 2).set_block_translation(1, 2, 3);
 				M(3, 3) = 2;
 				vec3 t = { 4,8,-1 };
 				vec3 res = M.transform_position(t);

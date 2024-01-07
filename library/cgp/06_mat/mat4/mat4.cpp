@@ -264,7 +264,7 @@ namespace cgp
     mat4 mat4::build_affine(mat3 const& linear, vec3 const& tr)
     {
         mat4 m(linear);
-        m.set_translation(tr);
+        m.set_block_translation(tr);
         return m;
     }
 
@@ -302,41 +302,41 @@ namespace cgp
         assert_cgp(cgp::abs(norm(q) - 1.0f) < 5e-2f, "Quaternion should have unit norm to represent rotation");
         return mat4(rotation_transform::from_quaternion(q).matrix());
     }
-    mat4& mat4::set_linear(mat3 const& L)
+    mat4& mat4::set_block_linear(mat3 const& L)
     {
         for (int k1 = 0; k1 < 3; ++k1)
             for (int k2 = 0; k2 < 3; ++k2)
                 at(k1, k2) = L.at(k1, k2);
         return *this;
     }
-    mat4& mat4::set_rotation_from_axis_angle(vec3 const& axis, float angle)
+    mat4& mat4::set_block_linear_as_rotation(vec3 const& axis, float angle)
     {
-        set_linear(rotation_transform::from_axis_angle(axis, angle).matrix());
+        set_block_linear(rotation_transform::from_axis_angle(axis, angle).matrix());
         return *this;
     }
-    mat4& mat4::set_scaling(vec3 const& s)
+    mat4& mat4::set_block_linear_as_scaling(vec3 const& s)
     {
-        return set_scaling(s.x, s.y, s.z);
+        return set_block_linear_as_scaling(s.x, s.y, s.z);
     }
-    mat4& mat4::set_scaling(float sx, float sy, float sz)
+    mat4& mat4::set_block_linear_as_scaling(float sx, float sy, float sz)
     {
         at(0, 0) = sx; at(0, 1) = 0; at(0, 2) = 0;
         at(1, 0) = 0; at(1, 1) = sy; at(1, 2) = 0;
         at(2, 0) = 0; at(2, 1) = 0; at(2, 2) = sz;
         return *this;
     }
-    mat4& mat4::set_scaling(float s)
+    mat4& mat4::set_block_linear_as_scaling(float s)
     {
-        return set_scaling(s, s, s);
+        return set_block_linear_as_scaling(s, s, s);
     }
-    mat4& mat4::set_translation(vec3 const& tr)
+    mat4& mat4::set_block_translation(vec3 const& tr)
     {
         data.x.w = tr.x;
         data.y.w = tr.y;
         data.z.w = tr.z;
         return *this;
     }
-    mat4& mat4::set_translation(float x, float y, float z)
+    mat4& mat4::set_block_translation(float x, float y, float z)
     {
         data.x.w = x;
         data.y.w = y;
@@ -345,11 +345,11 @@ namespace cgp
     }
 
 
-    vec3 mat4::get_translation() const
+    vec3 mat4::get_block_translation() const
     {
         return vec3{ data.x.w, data.y.w, data.z.w };
     }
-    mat3 mat4::get_linear() const
+    mat3 mat4::get_block_linear() const
     {
         return mat3{
             data.x.xyz(),
@@ -425,9 +425,9 @@ namespace cgp
         // return (R^t t-R^t*t)
         //        (  0     1  )
         return matrix_stack<float, 4, 4> {
-            xx,yx,zx, tx-xx*tx-yx*ty-zx*tz,
-            xy,yy,zy, tx-xy*tx-yy*ty-zy*tz,
-            xz,yz,zz, tx-xz*tx-yz*ty-zz*tz,
+            xx,yx,zx, -xx*tx-yx*ty-zx*tz,
+            xy,yy,zy, -xy*tx-yy*ty-zy*tz,
+            xz,yz,zz, -xz*tx-yz*ty-zz*tz,
             0.0f, 0.0f, 0.0f, 1.0f,
             };
     }
@@ -518,13 +518,13 @@ namespace cgp
         }
         return a;
     }
-    mat4& mat4::apply_scaling_to_linear(float s) {
+    mat4& mat4::apply_scaling_to_block_linear(float s) {
         data.x.x *=s; data.x.y *=s; data.x.z *=s;
         data.y.x *=s; data.y.y *=s; data.y.z *=s;
         data.z.x *=s; data.z.y *=s; data.z.z *=s;
         return *this;
     }
-    mat4& mat4::apply_scaling_to_translation(float s) {
+    mat4& mat4::apply_scaling_to_block_translation(float s) {
         data.x.w *=s;
         data.y.w *=s;
         data.z.w *=s;
@@ -543,7 +543,27 @@ namespace cgp
         return *this;
     }
     mat4& mat4::apply_linear_transform(mat3 const& T) {
-        set_linear(T*get_linear());
+        set_block_linear(T*get_block_linear());
+        return *this;
+    }
+
+    mat4& mat4::set_identity() {
+        (*this)=mat4::build_identity();
+        return *this;
+    }
+    mat4& mat4::set_zeros()
+    {
+        fill(0);
+        return *this;
+    }
+    mat4& mat4::set_diagonal(float value)
+    {
+        (*this)=mat4::build_diagonal(value);
+        return *this;
+    }
+    mat4& mat4::set_diagonal(float xx, float yy, float zz, float ww)
+    {
+        (*this)=mat4::build_diagonal(xx,yy,zz,ww);
         return *this;
     }
 

@@ -121,10 +121,10 @@ namespace cgp
 		affine_rt a;
 		float scaling = std::sqrt(M.data.x.x*M.data.x.x + M.data.x.y*M.data.x.y + M.data.x.z*M.data.x.z);
 		if(scaling>1e-5f){
-			mat3 R = M.get_linear()/scaling;
+			mat3 R = M.get_block_linear()/scaling;
 			a.rotation = rotation_transform::from_matrix(R);
 		}
-		a.translation = M.get_translation();
+		a.translation = M.get_block_translation();
 
 		return a;
 	}

@@ -110,33 +110,42 @@ namespace cgp
         static mat4 build_rotation_from_quaternion(quaternion const& q);
 
         // ******************************************************* //
+        //  Fill and set with special matrix form
+        // ******************************************************* //
+
+        mat4& set_identity();
+        mat4& set_zeros();
+        mat4& set_diagonal(float value);
+        mat4& set_diagonal(float xx, float yy, float zz, float ww);
+
+        // ******************************************************* //
         //  Special manipulation as affine transform
         // ******************************************************* //
 
         // Set the linear part of the matrix (3x3 top-left corner)
-        mat4& set_linear(mat3 const& L);
+        mat4& set_block_linear(mat3 const& L);
         // Set the linear part of the matrix to be a scaling
-        mat4& set_scaling(vec3 const& s);
-        mat4& set_scaling(float sx, float sy, float sz);
-        mat4& set_scaling(float s);
+        mat4& set_block_linear_as_scaling(vec3 const& s);
+        mat4& set_block_linear_as_scaling(float sx, float sy, float sz);
+        mat4& set_block_linear_as_scaling(float s);
         // Set the linear part of the matrix (3x3 top-left corner) to be a rotation parameterized by an axis and angle
-        mat4& set_rotation_from_axis_angle(vec3 const& axis, float angle);
+        mat4& set_block_linear_as_rotation(vec3 const& axis, float angle);
 
         // Set the translation part of the matrix (1x3 top-right corner)
-        mat4& set_translation(vec3 const& tr);
-        mat4& set_translation(float x, float y, float z);
+        mat4& set_block_translation(vec3 const& tr);
+        mat4& set_block_translation(float x, float y, float z);
 
         // Return the translation part of a 4x4 matrix vec3(m(2,0),m(2,1),m(2,2))
-        vec3 get_translation() const;
+        vec3 get_block_translation() const;
         // Return the 3x3 matrix component out of the 4x4 matrix. Similar to the call mat3(M4x4).
-        mat3 get_linear() const;
+        mat3 get_block_linear() const;
 
         // ******************************************************* //
         //  Apply internal transformation
         // ******************************************************* //
 
-        mat4& apply_scaling_to_linear(float s);
-        mat4& apply_scaling_to_translation(float s);
+        mat4& apply_scaling_to_block_linear(float s);
+        mat4& apply_scaling_to_block_translation(float s);
         mat4& apply_scaling(float s);
 
         mat4& apply_translation(vec3 const& xyz);
