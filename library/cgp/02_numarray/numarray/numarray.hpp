@@ -112,6 +112,7 @@ template <typename T> T min(numarray<T> const& v);
 
 /** Compute average value of all elements of the numarray.*/
 template <typename T> T average(numarray<T> const& a);
+template <typename T> T sum(numarray<T> const& a);
 
 
 /** Math operators
@@ -410,6 +411,16 @@ template <typename T> T average(numarray<T> const& a)
     for(int k=0; k<N; ++k)
         value += a[k];
     value /= float(N);
+
+    return value;
+}
+template <typename T> T sum(numarray<T> const& a) {
+    int const N = a.size();
+    assert_cgp(N>0, "Cannot compute sum on empty numarray");
+
+    T value = {}; // assume value start at zero
+    for(int k=0; k<N; ++k)
+        value += a[k];
 
     return value;
 }

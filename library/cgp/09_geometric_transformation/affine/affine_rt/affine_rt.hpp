@@ -23,6 +23,7 @@ namespace cgp
 
 		affine_rt& set_translation(vec3 const& xyz);
 		affine_rt& set_rotation(rotation_transform const& r);
+
 	};
 
 	vec3 operator*(affine_rt const& T, vec3 const& p);

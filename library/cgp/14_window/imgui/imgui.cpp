@@ -8,6 +8,7 @@ void imgui_init(GLFWwindow* window)
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
 
+
     ImGui_ImplGlfw_InitForOpenGL(window, true);
 #ifndef __EMSCRIPTEN__
     ImGui_ImplOpenGL3_Init("#version 150");

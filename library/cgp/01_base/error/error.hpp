@@ -54,3 +54,6 @@ struct cgp_warning {
 	#define warning_cgp(MESSAGE_ID, EXTRA) {}
 #endif
 
+namespace cgp{
+	template <typename T> void currently_unused(T const&) {}
+}

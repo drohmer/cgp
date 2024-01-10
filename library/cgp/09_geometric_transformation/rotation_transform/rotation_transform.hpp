@@ -44,7 +44,7 @@ namespace cgp
 
 
 		mat3 matrix() const;
-		quaternion const& quat() const;
+		quaternion const& get_quaternion() const;
 		void to_axis_angle(vec3& axis, float& angle) const;
 
 		vec3 matrix_row_x() const;

@@ -37,7 +37,7 @@ namespace cgp
 	{
 		return convert_quaternion_to_matrix(data);
 	}
-	quaternion const& rotation_transform::quat() const
+	quaternion const& rotation_transform::get_quaternion() const
 	{
 		return data;
 	}
