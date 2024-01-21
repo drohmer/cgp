@@ -150,7 +150,7 @@ namespace cgp
 
         mat4& apply_translation(vec3 const& xyz);
         // linear_part = T * linear_part
-        mat4& apply_linear_transform(mat3 const& T);
+        mat4& apply_transform_to_block_linear(mat3 const& T);
 
         // ******************************************************* //
         //  Size and fill

@@ -149,6 +149,8 @@ namespace cgp
     template <typename T, int N> numarray_stack<T, N>  mul(T const& a, numarray_stack<T, N> const& b);
     template <typename T, int N> numarray_stack<T, N>  div(T const& a, numarray_stack<T, N> const& b);
 
+    template <typename T, int N> numarray_stack<T, N>  mul(numarray_stack<T, N> const& a, numarray_stack<T, N> const& b);
+
 }
 
 
@@ -644,6 +646,14 @@ namespace cgp
         numarray_stack<T, N> res;
         for(int k=0; k<N; ++k)
             res[k] = a/b[k];
+        return res;
+    }
+
+    template <typename T, int N> numarray_stack<T, N>  mul(numarray_stack<T, N> const& a, numarray_stack<T, N> const& b)
+    {
+        numarray_stack<T, N> res;
+        for(int k=0; k<N; ++k)
+            res[k] = a[k]*b[k];
         return res;
     }
 }

@@ -538,11 +538,11 @@ namespace cgp
     }
     mat4& mat4::apply_translation(vec3 const& xyz) {
         data.x.w += xyz.x;
-        data.y.w += xyz.x;
-        data.z.w += xyz.x;
+        data.y.w += xyz.y;
+        data.z.w += xyz.z;
         return *this;
     }
-    mat4& mat4::apply_linear_transform(mat3 const& T) {
+    mat4& mat4::apply_transform_to_block_linear(mat3 const& T) {
         set_block_linear(T*get_block_linear());
         return *this;
     }
