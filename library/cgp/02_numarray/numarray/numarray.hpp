@@ -431,7 +431,7 @@ template <typename T> T max(numarray<T> const& v)
     int const N = v.size();
     assert_cgp(N>0, "Cannot get max on empty numarray");
 
-    T const& current_max = v[0];
+    T current_max = v[0];
     for (int k = 1; k < N; ++k) {
         T const& element = v[k];
         if(element>current_max) 
@@ -445,7 +445,7 @@ template <typename T> T min(numarray<T> const& v)
     int const N = v.size();
     assert_cgp(N>0, "Cannot get max on empty numarray");
 
-    T const& current_min = v[0];
+    T current_min = v[0];
     for (int k = 1; k < N; ++k) {
         T const& element = v[k];
         if(element<current_min) 

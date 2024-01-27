@@ -106,5 +106,13 @@ namespace cgp_test
 			assert_cgp_no_msg(cgp::is_equal(a[5], 8.2f));
 		}
 
+		// test operators min/max/sum
+		{
+			cgp::numarray<float> a = {4.5f, 8.2f, 6.1f, -3.6};
+			assert_cgp_no_msg(cgp::is_equal(min(a), -3.6f));
+			assert_cgp_no_msg(cgp::is_equal(max(a),  8.2f));
+			assert_cgp_no_msg(cgp::is_equal(sum(a),  4.5f+8.2f+6.1f-3.6));
+		}
+
 	}
 }

@@ -539,7 +539,7 @@ namespace cgp
     {
         static_assert(N > 0, "Cannot get max on empty numarray_stack");
 
-        T const& current_max = get<0>(v);
+        T current_max = get<0>(v);
         for (int k = 1; k < N; ++k) {
             T const& element = v.at_unsafe(k);
             if (element > current_max)
@@ -552,7 +552,7 @@ namespace cgp
     {
         static_assert(N > 0, "Cannot get min on empty numarray_stack");
 
-        T const& current_min = get<0>(v);
+        T current_min = get<0>(v);
         for (int k = 1; k < N; ++k) {
             T const& element = v.at_unsafe(k);
             if (element < current_min)
@@ -568,7 +568,7 @@ namespace cgp
     }
     template <typename T, int N> T sum(numarray_stack<T, N> const& v)
     {
-        T element; // assume element is initialized at 0
+        T element = T(); // assume element is initialized at 0
         for (int k = 0; k < N; ++k)
             element += v.at_unsafe(k);
         return element;
