@@ -3,7 +3,7 @@
 {
 	"folders": [
 		{
-			"name": "test_cgp",
+			"name": "Scene-test_cgp",
 			"path": "."
 		},
 		{
@@ -35,6 +35,11 @@
 				"trace": true
 			}
 		}]
-	  }
+	},
+	"settings": {
+		"files.associations": {
+			"initializer_list": "cpp"
+		}
+	}
 
 }

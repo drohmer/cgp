@@ -47,23 +47,62 @@ namespace cgp
         vec4(0, 0, 0, 1) })
     {}
 
+    mat4::matrix_stack(float value)
+        :data({
+        vec4(value,0,0,0),
+        vec4(0,value,0,0),
+        vec4(0,0,value,0),
+        vec4(0,0,0,value) })
+    {}
+
+    mat4::matrix_stack(float xx, float yy, float zz, float ww)
+        :data({
+        vec4(xx,0,0,0),
+        vec4(0,yy,0,0),
+        vec4(0,0,zz,0),
+        vec4(0,0,0,ww) })
+    {}
+
 
     mat4::matrix_stack(std::initializer_list<float> const& arg)
         :data()
     {
-        assert_cgp(arg.size() >= 16, "Insufficient size to initialize mat4");
-        auto it_arg = arg.begin();
+        if(arg.size()>=16) {
+            auto it_arg = arg.begin();
 
-        for (int k1 = 0; k1 < 4; ++k1) {
-            for (int k2 = 0; k2 < 4; ++k2) {
-                at(k1, k2) = *it_arg;
-                ++it_arg;
+            for (int k1 = 0; k1 < 4; ++k1) {
+                for (int k2 = 0; k2 < 4; ++k2) {
+                    at(k1, k2) = *it_arg;
+                    ++it_arg;
+                }
             }
         }
+        else if(arg.size()==1) {
+            *this=mat4(*arg.begin());
+        }
+        else if(arg.size()==3) {
+            auto it_arg = arg.begin();
+            float xx= *it_arg; it_arg++;
+            float yy= *it_arg; it_arg++;
+            float zz= *it_arg;
+            *this=mat4(xx, yy, zz);
+        }
+        else if(arg.size()==4) {
+            auto it_arg = arg.begin();
+            float xx= *it_arg; it_arg++;
+            float yy= *it_arg; it_arg++;
+            float zz= *it_arg; it_arg++;
+            float ww= *it_arg; 
+            *this=mat4(xx, yy, zz, ww);
+        }
+        else {
+            error_cgp("Incoherent size to initialize mat4 ("+str(arg.size())+")");
+        }
+ 
     }
     mat4::matrix_stack(std::initializer_list<vec4> const& arg)
     {
-        assert_cgp(arg.size() >= 4, "Insufficient size to initialize mat4");
+        assert_cgp(arg.size() >= 4, "Insufficient size to initialize mat4 with initialize_list<vec4>");
         auto it_arg = arg.begin();
         
         data.x = *it_arg; ++it_arg;

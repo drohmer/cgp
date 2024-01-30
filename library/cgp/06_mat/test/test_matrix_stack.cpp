@@ -265,6 +265,70 @@ namespace cgp_test
 			}
 		}
 
+		// test initialization
+		{
+			using namespace cgp;
+
+			mat4 M1(1.0f);
+			mat4 M2(2.0f);
+			mat4 M3(2.0f, 3.0f, 7.0f);
+			mat4 M4(2.0f, 3.0f, 7.0f, 2.0f);
+
+			assert_cgp_no_msg(is_equal(M1, mat4{ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 }));
+			assert_cgp_no_msg(is_equal(M2, mat4{ 2,0,0,0, 0,2,0,0, 0,0,2,0, 0,0,0,2 }));
+			assert_cgp_no_msg(is_equal(M3, mat4{ 2,0,0,0, 0,3,0,0, 0,0,7,0, 0,0,0,1 }));
+			assert_cgp_no_msg(is_equal(M4, mat4{ 2,0,0,0, 0,3,0,0, 0,0,7,0, 0,0,0,2 }));
+		}
+		// test initialization with initializer-list
+		{
+			using namespace cgp;
+
+			mat4 M1 = {1.0f};
+			mat4 M2 = {2.0f};
+			mat4 M3 = {2.0f, 3.0f, 7.0f};
+			mat4 M4 = {2.0f, 3.0f, 7.0f, 2.0f};
+
+			assert_cgp_no_msg(is_equal(M1, mat4{ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 }));
+			assert_cgp_no_msg(is_equal(M2, mat4{ 2,0,0,0, 0,2,0,0, 0,0,2,0, 0,0,0,2 }));
+			assert_cgp_no_msg(is_equal(M3, mat4{ 2,0,0,0, 0,3,0,0, 0,0,7,0, 0,0,0,1 }));
+			assert_cgp_no_msg(is_equal(M4, mat4{ 2,0,0,0, 0,3,0,0, 0,0,7,0, 0,0,0,2 }));
+		}
+		{
+			using namespace cgp;
+
+			mat3 M1(1.0f);
+			mat3 M2(2.0f);
+			mat3 M3(2.0f, 3.0f, 7.0f);
+			mat3 M1b = {1.0f};
+			mat3 M2b = {2.0f};
+			mat3 M3b = {2.0f, 3.0f, 7.0f};
+
+			assert_cgp_no_msg(is_equal(M1, mat3{ 1,0,0, 0,1,0, 0,0,1 }));
+			assert_cgp_no_msg(is_equal(M2, mat3{ 2,0,0, 0,2,0, 0,0,2 }));
+			assert_cgp_no_msg(is_equal(M3, mat3{ 2,0,0, 0,3,0, 0,0,7 }));
+
+			assert_cgp_no_msg(is_equal(M1b, mat3{ 1,0,0, 0,1,0, 0,0,1 }));
+			assert_cgp_no_msg(is_equal(M2b, mat3{ 2,0,0, 0,2,0, 0,0,2 }));
+			assert_cgp_no_msg(is_equal(M3b, mat3{ 2,0,0, 0,3,0, 0,0,7 }));
+		}
+		{
+			using namespace cgp;
+
+			mat2 M1(1.0f);
+			mat2 M2(2.0f);
+			mat2 M3(2.0f, 3.0f);
+			mat2 M1b = {1.0f};
+			mat2 M2b = {2.0f};
+			mat2 M3b = {2.0f, 3.0f};
+
+			assert_cgp_no_msg(is_equal(M1, mat2{ 1,0, 0,1 }));
+			assert_cgp_no_msg(is_equal(M2, mat2{ 2,0, 0,2 }));
+			assert_cgp_no_msg(is_equal(M3, mat2{ 2,0, 0,3 }));
+
+			assert_cgp_no_msg(is_equal(M1b, mat2{ 1,0, 0,1 }));
+			assert_cgp_no_msg(is_equal(M2b, mat2{ 2,0, 0,2 }));
+			assert_cgp_no_msg(is_equal(M3b, mat2{ 2,0, 0,3 }));
+		}
 
 
 	}

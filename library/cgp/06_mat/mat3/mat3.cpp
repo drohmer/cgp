@@ -28,21 +28,48 @@ namespace cgp
         : data({ vec3{xx,xy,xz},vec3{yx,yy,yz},vec3{zx,zy,zz} })
     {}
 
+    mat3::matrix_stack(float value)         
+        :data({
+        vec3(value,0,0),
+        vec3(0,value,0),
+        vec3(0,0,value) })
+    {}
+    mat3::matrix_stack(float xx, float yy, float zz) 
+        :data({
+        vec3(xx,0,0),
+        vec3(0,yy,0),
+        vec3(0,0,zz) })
+    {}
 
     mat3::matrix_stack(std::initializer_list<float> const& arg)
         :data()
     {
-        assert_cgp(arg.size() >= 9, "Insufficient size to initialize mat3");
-        auto it_arg = arg.begin();
+        if(arg.size()>=9) {
+            auto it_arg = arg.begin();
 
-        data.x.x = *it_arg; ++it_arg; data.x.y = *it_arg; ++it_arg; data.x.z = *it_arg; ++it_arg;
-        data.y.x = *it_arg; ++it_arg; data.y.y = *it_arg; ++it_arg; data.y.z = *it_arg; ++it_arg;
-        data.z.x = *it_arg; ++it_arg; data.z.y = *it_arg; ++it_arg; data.z.z = *it_arg;
+            data.x.x = *it_arg; ++it_arg; data.x.y = *it_arg; ++it_arg; data.x.z = *it_arg; ++it_arg;
+            data.y.x = *it_arg; ++it_arg; data.y.y = *it_arg; ++it_arg; data.y.z = *it_arg; ++it_arg;
+            data.z.x = *it_arg; ++it_arg; data.z.y = *it_arg; ++it_arg; data.z.z = *it_arg;
+        }
+        else if(arg.size()==1) {
+            *this=mat3(*arg.begin());
+        }
+        else if(arg.size()==3) {
+            auto it_arg = arg.begin();
+            float xx= *it_arg; it_arg++;
+            float yy= *it_arg; it_arg++;
+            float zz= *it_arg;
+            *this=mat3(xx, yy, zz);
+        }
+        else {
+            error_cgp("Incoherent size to initialize mat3 with initialize_list<float> ("+str(arg.size())+")");
+        }
+
     }
     mat3::matrix_stack(std::initializer_list<vec3> const& arg)
         :data()
     {
-        assert_cgp(arg.size() >= 3, "Insufficient size to initialize mat3");
+        assert_cgp(arg.size() >= 3, "Insufficient size to initialize mat3 with initialize_list<vec3>");
         auto it_arg = arg.begin();
 
         data.x = *it_arg; ++it_arg;

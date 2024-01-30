@@ -57,6 +57,10 @@ namespace cgp
         template <int N1_arg, int N2_arg>
         explicit matrix_stack(matrix_stack<float, N1_arg, N2_arg> const& M);
 
+        // Build as a diagonal matrix (glm compatibility)
+        explicit matrix_stack(float value);
+        explicit matrix_stack(float xx, float yy, float zz, float ww=1.0f);
+
         matrix_stack(std::initializer_list<float> const& arg);
         matrix_stack(std::initializer_list<numarray_stack<float, 4> > const& arg);
 
