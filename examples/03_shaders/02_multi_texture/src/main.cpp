@@ -25,7 +25,7 @@ scene_structure scene;
 // Start of the program
 // *************************** //
 
-window_structure standard_window_initialization(int width = 0, int height = 0);
+window_structure standard_window_initialization();
 void initialize_default_shaders();
 void animation_loop();
 void display_gui_default();
@@ -41,11 +41,11 @@ int main(int, char* argv[])
 	// ************************ //
 	//     INITIALISATION
 	// ************************ //
-
+	
 	// Standard Initialization of an OpenGL ready window
 	scene.window = standard_window_initialization();
 
-	// Initialize System Info
+	// Initialize default path for assets
 	project::path = cgp::project_path_find(argv[0], "shaders/");
 
 	// Initialize default shaders
@@ -175,12 +175,26 @@ void mouse_click_callback(GLFWwindow* window, int button, int action, int mods);
 void keyboard_callback(GLFWwindow* window, int key, int, int action, int mods);
 
 // Standard initialization procedure
-window_structure standard_window_initialization(int width_target, int height_target)
+window_structure standard_window_initialization()
 {
-	// Create the window using GLFW
+	// Initialize GLFW and create window
 	// ***************************************************** //
+
+	// First initialize GLFW
+	scene.window.initialize_glfw();
+
+	// Compute initial window width and height
+	int window_width = int(project::initial_window_size_width);
+	int window_height = int(project::initial_window_size_height);
+	if(project::initial_window_size_width<1)
+		window_width = project::initial_window_size_width * scene.window.monitor_width();
+	if(project::initial_window_size_height<1)
+		window_height = project::initial_window_size_height * scene.window.monitor_height();
+
+	// Create the window using GLFW
 	window_structure window;
-	window.initialize(width_target, height_target, "CGP Display", CGP_OPENGL_VERSION_MAJOR, CGP_OPENGL_VERSION_MINOR);
+	window.create_window(window_width, window_height, "CGP Display", CGP_OPENGL_VERSION_MAJOR, CGP_OPENGL_VERSION_MINOR);
+
 
 	// Display information
 	// ***************************************************** //
@@ -278,8 +292,15 @@ void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, in
 void display_gui_default()
 {
 	std::string fps_txt = str(fps_record.fps)+" fps";
+
+	if(scene.inputs.keyboard.ctrl)
+		fps_txt += " [ctrl]";
+	if(scene.inputs.keyboard.shift)
+		fps_txt += " [shift]";
+
 	ImGui::Text( fps_txt.c_str(), "%s" );
 	if(ImGui::CollapsingHeader("Window")) {
+		ImGui::Indent();
 #ifndef __EMSCRIPTEN__
 		bool changed_screen_mode = ImGui::Checkbox("Full Screen", &scene.window.is_full_screen);
 		if(changed_screen_mode){	
@@ -305,6 +326,11 @@ void display_gui_default()
 		if(ImGui::Checkbox("vsync (screen sync)",&project::vsync)){
 			project::vsync==true? glfwSwapInterval(1) : glfwSwapInterval(0); 
 		}
+
+		std::string window_size = "Window "+str(scene.window.width)+"px x "+str(scene.window.height)+"px";
+		ImGui::Text( window_size.c_str(), "%s" );
+
+		ImGui::Unindent();
 
 
 		ImGui::Spacing();ImGui::Separator();ImGui::Spacing();

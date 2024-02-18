@@ -14,7 +14,7 @@ using namespace cgp;
 struct environment_structure : environment_generic_structure
 {
 	// Color of the background of the scene
-	vec3 background_color; // Used in the main program
+	vec3 background_color = {1,1,1}; // Used in the main program
 
 	// The position/orientation of a camera that can rotates freely around a specific position
 	mat4 camera_view;
@@ -23,7 +23,7 @@ struct environment_structure : environment_generic_structure
 	mat4 camera_projection;
 
 	// The position of a light
-	vec3 light;
+	vec3 light = {1,1,1};
 
 	// Additional uniforms that can be attached to the environment if needed (empty by default)
 	uniform_generic_structure uniform_generic;
@@ -33,13 +33,14 @@ struct environment_structure : environment_generic_structure
 	//  The function is expected to send the uniform variables to the shader (e.g. camera, light)
 	void send_opengl_uniform(opengl_shader_structure const& shader, bool expected = true) const override;
 
-	environment_structure();
 
 };
 
 
 
+
 // Global variables storing general information on your project
+// Note: the default values are in the file environment.cpp
 struct project {
 
 	// Global variable storing the relative path to the root of the project (access to shaders/, assets/, etc)
@@ -47,11 +48,15 @@ struct project {
 	static std::string path;
 
 	// ImGui Window Scale: change this value (default=1) for larger/smaller gui window
-	//  Accessible via project::gui_scale
 	static float gui_scale;
 
-	static bool fps_limiting;
-	static float fps_max;
-	static bool vsync;
+	// Window refresh rate
+	static bool fps_limiting; // Is FPS limited automatically
+	static float fps_max; // Maximal default FPS (used only of fps_max is true)
+	static bool vsync; // Automatic synchronization of GLFW with the vertical-monitor refresh
+
+	// Initial window size: expressed as ratio of screen in [0,1], or absolute pixel value if > 1
+	static float initial_window_size_width;
+	static float initial_window_size_height;
 
 };

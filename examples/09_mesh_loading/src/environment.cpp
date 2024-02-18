@@ -1,16 +1,24 @@
 #include "environment.hpp"
 
-std::string project::path = "";
+// Change these global values to modify the default behavior
+// ************************************************************* //
+// The initial zoom factor on the GUI
 float project::gui_scale = 1.0f;
+// Is FPS limited automatically
 bool project::fps_limiting = true;
+// Maximal default FPS (used only of fps_max is true)
 float project::fps_max=60.0f;
-bool project::vsync=true;
+// Automatic synchronization of GLFW with the vertical-monitor refresh
+bool project::vsync=true;     
+// Initial dimension of the OpenGL window (ratio if in [0,1], and absolute pixel size if > 1)
+float project::initial_window_size_width  = 0.5f; 
+float project::initial_window_size_height = 0.5f;
+// ************************************************************* //
 
-environment_structure::environment_structure()
-{
-	background_color = { 1,1,1 };
-	light = { 1,1,1 };
-}
+
+// This path will be automatically filled when the program starts
+std::string project::path = ""; 
+
 
 
 

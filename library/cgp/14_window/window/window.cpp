@@ -19,6 +19,8 @@ namespace cgp
     static GLFWwindow* glfw_create_window(int width = 0, int height = 0, std::string const& window_title = "cgp Display", int opengl_version_major = 3, int opengl_version_minor = 3, GLFWmonitor* monitor = nullptr, GLFWwindow* share = nullptr);
 
 
+
+
     static std::string glfw_error_string(int error)
     {
         switch(error)
@@ -44,6 +46,7 @@ namespace cgp
         // return "IMPOSSIBLE GLFW ERROR! (Should never happen)";
     }
 
+
     static void glfw_error_callback(int error, const char* description)
     {
         std::cerr<<"Received GLFW error"<<std::endl;
@@ -53,17 +56,7 @@ namespace cgp
 
 	GLFWwindow* glfw_create_window(int width, int height, std::string const& window_title, int opengl_version_major, int opengl_version_minor, GLFWmonitor* monitor, GLFWwindow* share)
 	{
-        // Set GLFW callback to catch and display error
-        glfwSetErrorCallback(glfw_error_callback);
 
-        // Initialize GLFW
-        const int glfw_init_value = glfwInit();
-        if( glfw_init_value != GLFW_TRUE ) {
-            std::string s = "\nError: Failed to Initialize GLFW.\n";
-            s += "If you are using WSL or Linux without graphical server, you need to start a X-server\n";
-            std::cout<<s<<std::endl;
-            abort();
-        }
 
          // Set GLFW parameter before creating the window
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API); 
@@ -88,20 +81,6 @@ namespace cgp
         if (width == 0 || height == 0)
             emscripten_update_window_size(width, height); // Use the canvas size
 #endif
-
-        if (width == 0 || height == 0) {
-            // Set width/height automatically from monitor resolution
-            const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-            width = mode->width / 2;
-            height = mode->height / 2;
-        }
-
-        // In case of weird size
-        if (width==0 || height==0 || width > 10000 || height > 10000) {
-            std::cout<<"[Warning] Force Window to be 500x500 pixels"<<std::endl;
-            width = 500; height = 500;
-        }
-
 
         // Creation of the window
         GLFWwindow* window = glfwCreateWindow(width, height, window_title.c_str(), monitor, share);
@@ -136,7 +115,25 @@ namespace cgp
         return window;
 	}
 
-    void window_structure::initialize(int width_arg, int height_arg, std::string const& window_title, int opengl_version_major, int opengl_version_minor)
+
+    void window_structure::initialize_glfw() {
+
+        // Set GLFW callback to catch and display error
+        glfwSetErrorCallback(glfw_error_callback);
+
+        // Initialize GLFW
+        const int glfw_init_value = glfwInit();
+        if( glfw_init_value != GLFW_TRUE ) {
+            std::string s = "\nError: Failed to Initialize GLFW.\n";
+            s += "If you are using WSL or Linux without graphical server, you need to start a X-server\n";
+            std::cout<<s<<std::endl;
+            abort();
+        }
+        std::cout<<"\nGLFW initialized"<<std::endl;
+    }
+
+
+    void window_structure::create_window(int width_arg, int height_arg, std::string const& window_title, int opengl_version_major, int opengl_version_minor)
     {
         glfw_window = glfw_create_window(width_arg, height_arg, window_title, opengl_version_major, opengl_version_minor);
 
@@ -191,5 +188,11 @@ namespace cgp
         };
     }
 
+    int window_structure::monitor_width() const {
+        return glfwGetVideoMode(glfwGetPrimaryMonitor())->width;
+    }
+    int window_structure::monitor_height() const {
+        return glfwGetVideoMode(glfwGetPrimaryMonitor())->height;
+    }
 
 }
