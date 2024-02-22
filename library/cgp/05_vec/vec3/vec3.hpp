@@ -16,8 +16,6 @@ namespace cgp
 	//   struct vec3 { float x, y, z; }
 	//   (with additional functions handled as a buffer_stack)
 
-
-
 	inline vec3 operator*(vec3 const& a, float w);
 	inline vec3 operator*(float w, vec3 const& a);
 	inline vec3& operator*=(vec3& a, float w);
@@ -31,7 +29,10 @@ namespace cgp
 	inline float dot(vec3 const& a, vec3 const& b);
 	inline float norm(vec3 const& p);
 	inline vec3 cross(vec3 const& a, vec3 const& b);
+}
 
+namespace cgp
+{
 
 	inline vec3 operator*(vec3 const& a, float w) {
 		vec3 p = a;
