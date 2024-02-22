@@ -129,6 +129,9 @@ namespace cgp
     //   otherwise return default_zero_norm vector (without error)
     template <typename T, int N> numarray_stack<T, N> normalize(numarray_stack<T, N> const& v, numarray_stack<T, N> const& default_zero_norm);
 
+    // Return ||v|| in the standard norm
+    template <typename T, int N> T norm(numarray_stack<T, N> const& v);
+
     // Math operators applied to each component
     template <typename T, int N> T max(numarray_stack<T, N> const& v);
     template <typename T, int N> T min(numarray_stack<T, N> const& v);
