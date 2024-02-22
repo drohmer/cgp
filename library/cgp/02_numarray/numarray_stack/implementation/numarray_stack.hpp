@@ -131,6 +131,8 @@ namespace cgp
 
     // Return ||v|| in the standard norm
     template <typename T, int N> T norm(numarray_stack<T, N> const& v);
+    // Dot product between vectors
+    template <typename T, int N> T dot(numarray_stack<T, N> const& a, numarray_stack<T, N> const& b);
 
     // Math operators applied to each component
     template <typename T, int N> T max(numarray_stack<T, N> const& v);
