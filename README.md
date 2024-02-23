@@ -25,9 +25,9 @@ The main objective of CGP is to provide
 
 ### Additional documentation
 
-* **[CGP Webpage](https://imagecomputing.net/cgp/index.html)**
+* **[Library Webpage](https://imagecomputing.net/cgp/index.html)**
 
-* **[CGP Examples](https://imagecomputing.net/cgp/documentation/07_examples/index.html)**, [github-page](https://github.com/drohmer/cgp_examples)
+* **[Code Examples](https://imagecomputing.net/cgp/documentation/07_examples/index.html)**, [github-page](https://github.com/drohmer/cgp_examples)
 
 
 <a name="Compilation"></a>
