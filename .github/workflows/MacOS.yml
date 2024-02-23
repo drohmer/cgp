@@ -16,8 +16,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Configure CMake
-      working-directory: examples/00_empty_3D_scene
+      working-directory: examples/empty_3D_scene
       run: cmake -B build/ -DCMAKE_BUILD_TYPE=RelWithDebInfo -DMACOS_GLFW_PRECOMPILED=ON
     - name: Build
-      working-directory: examples/00_empty_3D_scene/build
+      working-directory: examples/empty_3D_scene/build
       run: make -j$(nproc)

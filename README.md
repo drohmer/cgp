@@ -25,9 +25,10 @@ The main objective of CGP is to provide
 
 ### Additional documentation
 
-[CGP Webpage](https://imagecomputing.net/cgp/index.html)
+* [CGP Webpage](https://imagecomputing.net/cgp/index.html)
 
-Examples of CGP-based codes can be found in [examples/](examples/)
+* [CGP Examples](https://imagecomputing.net/cgp/documentation/07_examples/index.html) [github-page](https://github.com/drohmer/cgp_examples)
+
 
 <a name="Compilation"></a>
 
@@ -51,45 +52,45 @@ sudo apt install build-essential pkg-config cmake
 sudo apt install libglfw3-dev
 ```
 
-Building examples/00_empty_3D_scene/ (via CMake)
+Building examples/example_compilation/ (via CMake)
 ```c++
-cd examples/00_empty_3D_scene/
+cd examples/example_compilation/
 cmake -B build/
 cd build/
 make -j$(nproc)
-./00_empty_3D_scene
+./example_compilation
 ```
 
-_Alternative_: Building examples/00_empty_3D_scene/ (via Makefile)
+_Alternative_: Building examples/example_compilation/ (via Makefile)
 ```c++
-cd examples/00_empty_3D_scene/
+cd examples/example_compilation/
 make -j$(nproc)
-./00_empty_3D_scene
+./example_compilation
 ```
 
 
 ### Windows
 
 **Method 1**. Create a Visual Studio project using CMake
-* You may use the following batch script: examples/00_empty_3D_scene/scripts/__windows_cmake_visual.bat__
+* You may use the following batch script: examples/example_compilation/scripts/__windows_cmake_visual.bat__
 
 _Once opened by Visual Studio, the project should be configured to compile and be executed directly without further setup. Make sure your Windows version is updated for Visual Studio to be able to compile correctly C++14._
 
 **Method 2**. Install MinGW from [MSYS2](https://www.msys2.org/). 
-* You may use the following batch script: examples/00_empty_3D_scene/scripts/__windows_compile_mingw.bat__
+* You may use the following batch script: examples/example_compilation/scripts/__windows_compile_mingw.bat__
 * You may build/edit the project using VS Code.
 
 
 
 ### MacOS
 
-Building examples/00_empty_3D_scene/ (via CMake)
+Building examples/example_compilation/ (via CMake)
 ```c++
-cd examples/00_empty_3D_scene/
+cd examples/example_compilation/
 cmake -B build/
 cd build/
 make -j$(nproc)
-./00_empty_3D_scene
+./example_compilation
 ```
 
 
@@ -105,9 +106,9 @@ A detailed tutorial on how to install and compile C++ code is available here if 
 
 CGP is set to be compatible with [Emscripten](https://emscripten.org/) compilation. A website template and compilation script is provided for Linux system (emscripten must be installed).
 
-Generating a website for examples/00_empty_3D_scene/
+Generating a website for examples/example_compilation/
 ```c++
-$ cd examples/00_empty_3D_scene/
+$ cd examples/example_compilation/
 $ python scripts/linux_compile_emscripten.py
 $ emrun index.html
 ```
