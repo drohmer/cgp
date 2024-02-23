@@ -3,7 +3,7 @@
 {
 	"folders": [
 		{
-			"name": "Scene-00_empty_3D_scene",
+			"name": "Scene-empty_3D_scene",
 			"path": "."
 		},
 		{
@@ -21,8 +21,8 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"name": "C++ Run",
-			"program": "${workspaceFolder:Scene-00_empty_3D_scene}/build/00_empty_3D_scene",
-			"cwd": "${workspaceFolder:Scene-00_empty_3D_scene}",
+			"program": "${workspaceFolder:Scene-empty_3D_scene}/build/empty_3D_scene",
+			"cwd": "${workspaceFolder:Scene-empty_3D_scene}",
 			"linux": {
 				"MIMode": "gdb"
 			},

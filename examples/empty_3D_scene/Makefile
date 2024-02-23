@@ -1,10 +1,10 @@
-# This Makefile will generate an executable file named 00_empty_3D_scene
+# This Makefile will generate an executable file named empty_3D_scene
 
 # This path should point to the CGP library depending on the current directory
 ## You may need to it in case you move the position of your directory
 PATH_TO_CGP = ../../library/
 
-TARGET ?= 00_empty_3D_scene #name of the executable
+TARGET ?= empty_3D_scene #name of the executable
 SRC_DIRS ?= src/ $(PATH_TO_CGP)
 CXX = g++ #Or clang++
 
