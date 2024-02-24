@@ -22,8 +22,6 @@ uniform mat4 model; // Model affine transform matrix associated to the current s
 uniform mat4 view;  // View matrix (rigid transform) of the camera
 uniform mat4 projection; // Projection (perspective or orthogonal) matrix of the camera
 
-uniform mat4 modelNormal; // Model without scaling used for the normal. modelNormal = transpose(inverse(model))
-
 
 
 void main()
@@ -32,6 +30,7 @@ void main()
 	vec4 position = model * vec4(vertex_position, 1.0);
 
 	// The normal of the vertex in the world space
+	mat4 modelNormal = transpose(inverse(model));
 	vec4 normal = modelNormal * vec4(vertex_normal, 0.0);
 
 	// The projected position of the vertex in the normalized device coordinates:

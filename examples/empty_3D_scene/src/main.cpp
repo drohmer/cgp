@@ -56,7 +56,6 @@ int main(int, char* argv[])
 	std::cout << "Initialize data of the scene ..." << std::endl;
 	scene.initialize();
 	std::cout << "Initialization finished\n" << std::endl;
-	std::cout<<"\n\n"+scene.camera_control.doc_usage()<<std::endl;
 
 
 	// ************************ //

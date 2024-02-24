@@ -41,6 +41,7 @@ namespace cgp
 			texture = texture_arg;
 		model = affine();
 		material = material_mesh_drawable_phong();
+		supplementary_model_matrix = mat4::build_identity();
 
 
 		// Send the data to the GPU
@@ -219,15 +220,10 @@ namespace cgp
 	void mesh_drawable::send_opengl_uniform(bool expected) const
 	{
 		// Final model matrix in the shader is: hierarchy_transform_model * model
-		mat4 const model_shader = hierarchy_transform_model.matrix() * model.matrix();
-
-		// The normal matrix is transpose( (hierarchy_transform_model * model)^{-1} )
-		mat4 const model_normal_shader = transpose(inverse(model).matrix() * inverse(hierarchy_transform_model).matrix());
-		
+		mat4 const model_shader = hierarchy_transform_model.matrix() * supplementary_model_matrix * model.matrix();
 
 		// set the Model matrix
 		opengl_uniform(shader, "model", model_shader, expected);
-		opengl_uniform(shader, "modelNormal", model_normal_shader, expected);
 
 		// set the material
 		material.send_opengl_uniform(shader, expected);
