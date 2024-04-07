@@ -195,5 +195,7 @@ namespace cgp_test
 			assert_cgp_no_msg(cgp::is_equal(sum(a),  8.2f+6.1f-3.6));
 		}
 
+		
+
 	}
 }

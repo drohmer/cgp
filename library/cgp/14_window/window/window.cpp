@@ -78,8 +78,7 @@ namespace cgp
         // specific case when compiling with EMScripten for WebGL Output: Force the use of OpenGL ES
 #ifdef __EMSCRIPTEN__
         emscripten_set_glfw_window_hint(); // re-write on top of the previous hints
-        if (width == 0 || height == 0)
-            emscripten_update_window_size(width, height); // Use the canvas size
+        emscripten_update_window_size(width, height); // Use the canvas size
 #endif
 
         // Creation of the window
