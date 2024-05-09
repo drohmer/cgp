@@ -11,8 +11,10 @@ namespace cgp
 		// Default environment contains nothing
 		//  Add the necessary variables in a derived class and send them using the functions opengl_uniform().
 
+		static bool default_expected_uniform;
+
 		// Override in the derived class the function send_opengl_uniform();
-		virtual void send_opengl_uniform(opengl_shader_structure const& shader, bool expected = true) const;
+		virtual void send_opengl_uniform(opengl_shader_structure const& shader, bool expected = default_expected_uniform) const;
 	};
 
 

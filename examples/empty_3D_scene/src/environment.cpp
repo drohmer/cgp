@@ -28,6 +28,6 @@ void environment_structure::send_opengl_uniform(opengl_shader_structure const& s
 	opengl_uniform(shader, "view", camera_view, expected);
 	opengl_uniform(shader, "light", light, false);
 
-	uniform_generic.send_opengl_uniform(shader, false);
+	uniform_generic.send_opengl_uniform(shader, expected);
 
 }

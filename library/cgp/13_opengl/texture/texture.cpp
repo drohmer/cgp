@@ -13,6 +13,8 @@ namespace cgp
             return GL_RGB;
         case GL_RGBA8:
             return GL_RGBA;
+        case GL_DEPTH_COMPONENT:
+            return GL_DEPTH_COMPONENT;
         default:
             error_cgp("Unknown format");
         }
@@ -26,6 +28,8 @@ namespace cgp
         case GL_RGBA8:
             return GL_UNSIGNED_BYTE;
         case GL_RGB32F:
+            return GL_FLOAT;
+        case GL_DEPTH_COMPONENT:
             return GL_FLOAT;
         default:
             error_cgp("Unknown format");

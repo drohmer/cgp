@@ -133,8 +133,9 @@ namespace cgp
 			opengl_uniform(shader, data.first, data.second, expected);
 		for (auto const& data : uniform_mat3)
 			opengl_uniform(shader, data.first, data.second, expected);
-		for (auto const& data : uniform_mat3)
+		for (auto const& data : uniform_mat4)
 			opengl_uniform(shader, data.first, data.second, expected);
+
 	}
 
 }

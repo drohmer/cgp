@@ -158,7 +158,7 @@ namespace cgp
 		// ********************************** //
 		glActiveTexture(GL_TEXTURE0); opengl_check;
 		drawable.texture.bind();
-		opengl_uniform(drawable.shader, "image_texture", 0);  opengl_check;
+		opengl_uniform(drawable.shader, "image_texture", 0, expected_uniforms);  opengl_check;
 
 		//Set any additional texture
 		int texture_count = 1;
@@ -173,6 +173,7 @@ namespace cgp
 
 			texture_count++;
 		}
+
 
 
 		// Prepare for draw call

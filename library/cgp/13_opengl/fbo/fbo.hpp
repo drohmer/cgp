@@ -26,8 +26,14 @@ namespace cgp {
 	// 
 	//  The result image is stored in the texture variable
 
+	enum class opengl_fbo_mode { image, depth };
 
 	struct opengl_fbo_structure {
+
+		// Mode of the FBO - image or depth
+		//  image = stores the output of the rendering in a RGB texture
+		//  depth = stores only depth of the rendering in a FLOAT texture
+		opengl_fbo_mode mode = opengl_fbo_mode::image; 
 		
 		// ID of the FBO
 		GLuint id; 

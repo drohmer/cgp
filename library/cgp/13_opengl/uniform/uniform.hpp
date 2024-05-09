@@ -24,6 +24,7 @@ namespace cgp
 		std::map<std::string, mat3> uniform_mat3;
 		std::map<std::string, mat4> uniform_mat4;
 
+
 		void send_opengl_uniform(opengl_shader_structure const& shader, bool expected = true) const;
 	};
 
