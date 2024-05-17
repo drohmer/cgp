@@ -34,7 +34,7 @@ namespace cgp{
 			// Initialize texture
 			texture.initialize_texture_2d_on_gpu(width, height, GL_DEPTH_COMPONENT, GL_TEXTURE_2D,GL_REPEAT,GL_REPEAT,GL_NEAREST,GL_NEAREST);
 			float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
-    		glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+			glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
 			// Create frame buffer
 			glGenFramebuffers(1, &id);
@@ -44,12 +44,12 @@ namespace cgp{
 
 			// No color buffer is used in depth mode
 			#ifdef __EMSCRIPTEN__
-            // associate the depth-buffer
+			// associate the depth-buffer
 			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depth_buffer_id);
-            #else
-            glDrawBuffer(GL_NONE);
-            glReadBuffer(GL_NONE);
-            #endif
+			#else
+			glDrawBuffer(GL_NONE);
+			glReadBuffer(GL_NONE);
+			#endif
 		}
 
 		// Reset the standard framebuffer to output on the screen
