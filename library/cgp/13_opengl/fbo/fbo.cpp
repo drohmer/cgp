@@ -43,10 +43,7 @@ namespace cgp{
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture.id, 0);
 
 			// No color buffer is used in depth mode
-			#ifdef __EMSCRIPTEN__
-			// associate the depth-buffer
-			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depth_buffer_id);
-			#else
+			#ifndef __EMSCRIPTEN__
 			glDrawBuffer(GL_NONE);
 			glReadBuffer(GL_NONE);
 			#endif
