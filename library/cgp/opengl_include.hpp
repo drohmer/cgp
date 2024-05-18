@@ -49,7 +49,7 @@
 // Special case for EMScripten (don't rely on glad)
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
-#include <GLES3/gl3.h> // OpenGL ES 3
+#include <GLES3/gl32.h> // OpenGL ES 3
 #endif
 
 
