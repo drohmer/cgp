@@ -22,6 +22,24 @@ namespace cgp
 
 
 
+#ifdef __EMSCRIPTEN__
+    static void replace_header_for_opengles(std::string& shader_txt)
+    {
+        std::string const target_string = "#version 330 core";
+
+        std::size_t const pos = shader_txt.find(target_string);
+        if (pos == std::string::npos) {
+            std::cout << "Warning, could not find [" << target_string << "] in the shader to compile for OpenGL ES" << std::endl;
+            return;
+        }
+
+        std::string const replacement_string = "#version 300 es\nprecision mediump float;";
+        shader_txt.replace(pos, target_string.size(), replacement_string);
+
+    }
+#endif
+
+
 
     void opengl_shader_structure::load(std::string const& vertex_shader_path, std::string const& fragment_shader_path, bool adapt_opengles)
     {
@@ -33,8 +51,15 @@ namespace cgp
         if (id != 0) {
             std::cout << " Warning: try to load a shader (" << vertex_shader_text << "," << fragment_shader_text << ") on a non empty shader_structure" << std::endl;
         }
-
+#ifndef __EMSCRIPTEN__
         id = opengl_load_shader_from_text(vertex_shader_text, fragment_shader_text, load_shader_ok);
+#else
+        std::string new_vertex_shader = vertex_shader_text;
+        std::string new_fragment_shader = fragment_shader_text;
+        replace_header_for_opengles(new_vertex_shader);
+        replace_header_for_opengles(new_fragment_shader);
+        id = opengl_load_shader_from_text(new_vertex_shader, new_fragment_shader, load_shader_ok);
+#endif
     }
 
 
@@ -172,22 +197,7 @@ namespace cgp
         return program_id;
 	}
 
-#ifdef __EMSCRIPTEN__
-    static void replace_header_for_opengles(std::string& shader_txt)
-    {
-        std::string const target_string = "#version 330 core";
 
-        std::size_t const pos = shader_txt.find(target_string);
-        if (pos == std::string::npos) {
-            std::cout << "Warning, could not find [" << target_string << "] in the shader to compile for OpenGL ES" << std::endl;
-            return;
-        }
-
-        std::string const replacement_string = "#version 300 es\nprecision mediump float;";
-        shader_txt.replace(pos, target_string.size(), replacement_string);
-
-    }
-#endif
 
 #ifdef __EMSCRIPTEN__
     GLuint opengl_load_shader(std::string const& vertex_shader_path, std::string const& fragment_shader_path, bool adapt_opengles)

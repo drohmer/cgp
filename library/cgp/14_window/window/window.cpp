@@ -103,6 +103,7 @@ namespace cgp
         }
 #endif
 
+
         // Allows RGB texture in simple format
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	    glPixelStorei(GL_PACK_ALIGNMENT, 1);

@@ -60,9 +60,5 @@ namespace cgp {
 		// Update the screen size (resize the texture if needed)
 		void update_screen_size(int window_width, int windows_height);
 
-
-		// Max size for the depth-map
-		static const int max_width = 3840;
-		static const int max_height = 2160;
 	};
 }

@@ -4,8 +4,7 @@
 
 namespace cgp {
 
-	static const std::string skybox_fragment_shader = R"(
-		#version 330 core
+	static const std::string skybox_fragment_shader = R"(#version 330 core
 		in struct fragment_data
 		{
 			vec3 position;
@@ -22,13 +21,12 @@ namespace cgp {
 		{
 			vec3 p = fragment.position;
 			vec4 texture_color = texture(image_skybox, skybox_rotation * p);
-			vec3 color_blend = (1-alpha_color_blending)*texture_color.rgb+alpha_color_blending*color_blending;
+			vec3 color_blend = (1.0-alpha_color_blending)*texture_color.rgb+alpha_color_blending*color_blending;
 			FragColor = vec4(color_blend, texture_color.a);
 		}
 		)";
 
-	static const std::string skybox_vertex_shader = R"(
-		#version 330 core
+	static const std::string skybox_vertex_shader = R"(#version 330 core
 		layout (location = 0) in vec3 position;
 
 		out struct fragment_data
