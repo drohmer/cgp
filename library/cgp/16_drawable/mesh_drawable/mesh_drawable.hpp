@@ -77,6 +77,10 @@ namespace cgp
 		// Additional method allowing to fill an additional VBO
 		template<typename T>
 		void initialize_supplementary_data_on_gpu(numarray<T> const& data, GLuint location_index, GLuint divisor = 0);
+		
+		// Additional method allowing to update an additional VBO
+		template<typename T>
+		void update_supplementary_data_on_gpu(numarray<T> const& data, GLuint location_index, int size_elements_update = -1);
 	};
 
 
