@@ -13,6 +13,7 @@ namespace cgp
 		vec2 const& p1 = inputs->mouse.position.current;
 		vec2 const& p0 = inputs->mouse.position.previous;
 		vec2 const dp = p1 - p0;
+		vec2 const angles = rotation_speed * dp;
 
 		bool const event_valid = !inputs->mouse.on_gui;
 		bool const click_left = inputs->mouse.click.left;
@@ -23,13 +24,13 @@ namespace cgp
 		if (event_valid) {
 			if (click_left || (is_cursor_trapped && !click_right) ) {
 				if(!ctrl)
-					camera_model.manipulator_rotate_roll_pitch_yaw(0, -dp.y, dp.x); // left drag => rotates
+					camera_model.manipulator_rotate_roll_pitch_yaw(0, -angles.y, angles.x); // left drag => rotates
 				else
-					camera_model.manipulator_rotate_roll_pitch_yaw(-dp.x, 0, 0); // left drag + Ctrl => twist
+					camera_model.manipulator_rotate_roll_pitch_yaw(-angles.x, 0, 0); // left drag + Ctrl => twist
 
 			}
 			else if (click_right)
-				camera_model.manipulator_translate_front((p1 - p0).y); // right draw => move front/back
+				camera_model.manipulator_translate_front(translation_speed * (p1 - p0).y); // right draw => move front/back
 
 		}
 
@@ -63,8 +64,8 @@ namespace cgp
 		assert_cgp_no_msg(window != nullptr);
 		if (!is_active) return;
 
-		float const magnitude = 2*inputs->time_interval;
-		float const angle_magnitude = 2*inputs->time_interval;
+		float const magnitude = 2 * translation_speed * inputs->time_interval;
+		float const angle_magnitude = 2 * rotation_speed * inputs->time_interval;
 
 
 		if (inputs->keyboard.up || inputs->keyboard.is_pressed(GLFW_KEY_W))
