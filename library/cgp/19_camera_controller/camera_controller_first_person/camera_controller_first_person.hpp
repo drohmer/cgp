@@ -10,6 +10,9 @@ namespace cgp
 	{
 		camera_first_person camera_model;
 
+		// Parameters to adjust camera speed
+		float translation_speed = 1;
+		float rotation_speed = 1;
 
 		void action_mouse_move(mat4& camera_matrix_view);
 
