@@ -5,10 +5,10 @@
 
 namespace cgp{
 
-	void opengl_fbo_structure::initialize() {
+	void opengl_fbo_structure::initialize(int w, int h) {
 
-		width = 800;
-		height = 800;
+		width = w;
+		height = h;
 
 		if(mode == opengl_fbo_mode::image) {
 

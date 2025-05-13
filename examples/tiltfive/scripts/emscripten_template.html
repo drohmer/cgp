@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            #canvas {
+                background-color: black;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <canvas id="canvas" width="600" height="600"  oncontextmenu="event.preventDefault()"></canvas>
+
+
+        <script type='text/javascript'>
+        var Module = {
+            canvas: (function() {
+                var canvas = document.getElementById('canvas');
+                canvas.addEventListener("webglcontextlost", function(e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+                return canvas;
+            })(),
+        };
+        </script>
+
+        <script async type="text/javascript" src="index.js"></script>
+
+        <script async type="text/javascript">
+            
+            resize();
+            window.addEventListener("resize", resize);
+            function resize()
+            {
+                canvas.width  = window.innerWidth-5;
+                canvas.height = window.innerHeight-5;
+            }
+
+        </script>
+
+    </body>
+</html>

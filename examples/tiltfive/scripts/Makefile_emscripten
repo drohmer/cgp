@@ -1,0 +1,34 @@
+# This Makefile can be called by emscripten to generate a webpage
+# Usage:
+# $ emmake -f Makefile_emscripten
+# $ emrun index.html
+
+# This path should point to the CGP library depending on the current directory
+## You may need to it in case you move the position of your directory
+PATH_TO_CGP = ../../library/
+
+TARGET ?= index.html 
+SRC_DIRS ?= src/ $(PATH_TO_CGP)
+CXX = emcc
+
+SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
+OBJS := $(addsuffix .o,$(basename $(SRCS)))
+DEPS := $(OBJS:.o=.d)
+
+INC_DIRS  := . $(PATH_TO_CGP)
+INC_FLAGS := $(addprefix -I,$(INC_DIRS))
+
+CPPFLAGS += $(INC_FLAGS) -MMD -MP -DIMGUI_IMPL_OPENGL_LOADER_GLAD -O2 -std=c++14 -Wall -Wextra -Wfatal-errors -Wno-sign-compare -Wno-type-limits -Wno-pragmas -DSOLUTION -DCGP_NO_DEBUG 
+
+LDLIBS += -ldl -lm -sMAX_WEBGL_VERSION=2 -s USE_GLFW=3 -s ALLOW_MEMORY_GROWTH=1 --preload-file shaders/ --preload-file assets/
+
+$(TARGET): $(OBJS)
+	echo $(CURDIR)
+	$(CXX) $(LDFLAGS) $(OBJS) -o $@ $(LOADLIBES) $(LDLIBS)
+	cp scripts/emscripten_template.html index.html
+
+.PHONY: clean
+clean:
+	$(RM) $(TARGET) $(OBJS) $(DEPS)
+
+-include $(DEPS)

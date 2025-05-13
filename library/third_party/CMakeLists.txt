@@ -52,3 +52,5 @@ if(WIN32)
 
 endif()
 
+set(T5_INCLUDE_DIRS "/usr/local/include/t5")
+set(T5_LIBRARIES "/usr/local/lib/libTiltFiveNative.so")

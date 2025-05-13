@@ -50,7 +50,7 @@ namespace cgp {
 
 		// Initialize the ids and the texture
 		//  This function must be called before any rendering pass
-		void initialize();
+		void initialize(int w = 800, int h = 800);
 
 		// Start the rendering pass where the output will be stored on the FBO
 		void bind() const;
