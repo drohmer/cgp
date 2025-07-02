@@ -14,6 +14,7 @@ add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GLAD)
 
 # GLFW
 #
+#  - With emscripten: we use the built-in implementation of GLFW
 #  - On Linux: expect user to install GLFW3 by its package manager
 #     ex. on Ubuntu: apt install libgflw3-dev
 #  - On MacOS: Provide pre-compiled library (otherwise can install glfw3 via brew)
@@ -21,7 +22,11 @@ add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GLAD)
 #     - Visual Studio (compatible VS 2019 and VS 2022)
 #     - MinGW64
 
-if(UNIX) 
+if(EMSCRIPTEN)
+    set(GLFW_INCLUDE_DIRS "$ENV{EMSDK}/upstream/emscripten/cache/sysroot/include")
+    include_directories(${GLFW_INCLUDE_DIRS})
+    set(GLFW_LIBRARIES "-sUSE_GLFW=3")
+elseif(UNIX)
     if(APPLE AND MACOS_GLFW_PRECOMPILED) # Precompiled library for Apple (comment these lines and use the generic UNIX package if you prefer to use your own version of GLFW3)
         message(STATUS "USE PRECOMPILED GLFW for MACOS")
         set(GLFW_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/precompiled/glfw/macos/include")
